@@ -38,7 +38,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .cube i:nth-child(9){background:var(--c-title)}
 .logo b{font-size:20px;font-weight:700;letter-spacing:-.03em}
 .btn-new{width:100%;height:42px;border-radius:9px;background:var(--ink);color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-new:hover{background:#000}
+@media (hover:hover){.btn-new:hover{background:#000}}
 .btn-new svg,.ico svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .find{margin-top:10px;height:38px;border-radius:9px;background:var(--paper);padding:0 12px;display:flex;align-items:center;gap:8px}
 .find svg{width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round;flex:none}
@@ -47,7 +47,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 
 .notes{flex:1;overflow-y:auto;min-height:0;border-top:1px solid var(--line-2)}
 .row{display:block;width:100%;text-align:left;padding:13px 20px 13px 17px;border-bottom:1px solid var(--line-2);border-left:3px solid transparent;position:relative}
-.row:hover{background:#f8f9fb}
+@media (hover:hover){.row:hover{background:#f8f9fb}}
 .row.on{background:var(--paper);border-left-color:var(--ink)}
 .row .t{font-weight:600;font-size:14.5px;line-height:1.35;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px}
 .row .t.none{color:var(--muted);font-weight:500}
@@ -56,7 +56,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 
 .rail-foot{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:6px}
 .rail-foot button{flex:1;height:34px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-2)}
-.rail-foot button:hover{background:var(--paper)}
+@media (hover:hover){.rail-foot button:hover{background:var(--paper)}}
 
 /* ---------- Main ---------- */
 .main{display:flex;flex-direction:column;min-width:0;min-height:0}
@@ -68,10 +68,10 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .saved.err i{background:var(--danger)}
 .top .sp{flex:1}
 .ico{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--muted);flex:none}
-.ico:hover{background:var(--paper);color:var(--ink)}
-.ico.danger:hover{background:var(--c-text-bg);color:var(--danger)}
+@media (hover:hover){.ico:hover{background:var(--paper);color:var(--ink)}}
+@media (hover:hover){.ico.danger:hover{background:var(--c-text-bg);color:var(--danger)}}
 .btn-line{height:34px;padding:0 14px;border-radius:8px;border:1px solid var(--line);font-weight:500;font-size:13.5px;background:var(--white)}
-.btn-line:hover{border-color:#c8ccd4}
+@media (hover:hover){.btn-line:hover{border-color:#c8ccd4}}
 
 .scroll{flex:1;overflow-y:auto;min-height:0;padding:28px 28px 90px}
 .stack{max-width:860px;margin:0 auto}
@@ -84,7 +84,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .sticker{width:14px;height:14px;border-radius:4px;flex:none}
 .kind input{width:100%;font-weight:600;font-size:13.5px;letter-spacing:-.005em;min-width:0;text-overflow:ellipsis}
 .tools{display:flex;gap:2px;margin-top:auto;opacity:0;transition:opacity .12s;margin-left:-6px}
-.block:hover .tools,.block:focus-within .tools{opacity:1}
+.block:focus-within .tools{opacity:1}@media (hover:hover){.block:hover .tools{opacity:1}}
 @media (hover:none){.tools{opacity:1}}
 .tools .ico{width:28px;height:28px}
 .tools .ico svg{width:15px;height:15px}
@@ -101,7 +101,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .tag{display:inline-flex;align-items:center;gap:2px;height:28px;padding:0 4px 0 11px;border-radius:7px;background:var(--c-tags-bg);color:#8a4f00;font-size:13.5px;font-weight:500;max-width:100%}
 .tag span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tag button{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;opacity:.55;flex:none}
-.tag button:hover{opacity:1;background:rgba(0,0,0,.08)}
+@media (hover:hover){.tag button:hover{opacity:1;background:rgba(0,0,0,.08)}}
 .tag svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round}
 .tag-in{flex:1;min-width:200px;height:28px;font-size:14px}
 .hint{font-size:12.5px;color:var(--muted);margin:-8px 0 0}
@@ -110,7 +110,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .adder{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:6px 0 0}
 .adder>span{font-size:13.5px;color:var(--muted);margin-right:4px}
 .add{height:36px;padding:0 14px 0 11px;border-radius:9px;border:1px dashed #c3c8d2;display:inline-flex;align-items:center;gap:9px;font-weight:500;font-size:13.5px;background:transparent}
-.add:hover{background:var(--white);border-style:solid;border-color:#c3c8d2}
+@media (hover:hover){.add:hover{background:var(--white);border-style:solid;border-color:#c3c8d2}}
 .add .sticker{width:12px;height:12px;border-radius:3px}
 
 /* ---------- Empty ---------- */
@@ -130,20 +130,20 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .b-danger{background:var(--danger);color:#fff}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:10px;padding:10px 12px 10px 16px;display:flex;align-items:center;gap:14px;font-size:14px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:calc(100vw - 32px)}
 .toast button{font-weight:600;color:#9db4ff;padding:4px 8px;border-radius:6px}
-.toast button:hover{background:rgba(255,255,255,.1)}
+@media (hover:hover){.toast button:hover{background:rgba(255,255,255,.1)}}
 
 /* ---------- Extras ---------- */
 .logo .ico{margin-left:0}
 .tb{display:flex;gap:6px;margin-top:10px}.tb .find{flex:1;margin-top:0}
 .row{cursor:pointer}.row .t,.row .m{padding-right:26px}
 .rdel{position:absolute;right:10px;top:50%;transform:translateY(-50%);opacity:0;width:28px!important;height:28px!important}
-.row:hover .rdel,.row:focus-within .rdel{opacity:1}
+.row:focus-within .rdel{opacity:1}@media (hover:hover){.row:hover .rdel{opacity:1}}
 @media (hover:none){.rdel{opacity:.6}}
 .row.sm{padding-left:46px}
 .chk{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;accent-color:var(--ink)}
 .selbar{display:flex;gap:6px;padding:8px 14px;border-top:1px solid var(--line-2)}
 .sbtn{height:38px;padding:0 14px;border-radius:9px;border:1px solid var(--line);font-weight:500;font-size:13.5px;background:var(--white)}
-.sbtn:hover{border-color:#c8ccd4}.sbtn.dng{color:var(--danger);border-color:#f0c6c3}
+@media (hover:hover){.sbtn:hover{border-color:#c8ccd4}}.sbtn.dng{color:var(--danger);border-color:#f0c6c3}
 .sbtn[disabled]{opacity:.4;pointer-events:none}
 .selbar .sbtn{flex:1;padding:0 6px;height:34px;font-size:13px}
 .stamp{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
@@ -153,7 +153,7 @@ input,textarea{font:inherit;color:inherit;border:0;outline:0;background:transpar
 .btns-l{display:flex;gap:8px;flex-wrap:wrap}
 
 .btn-new.alt{background:var(--white);color:var(--ink);border:1px solid var(--line);margin-top:8px}
-.btn-new.alt:hover{background:var(--paper)}
+@media (hover:hover){.btn-new.alt:hover{background:var(--paper)}}
 .block.plain{grid-template-columns:1fr}.block.plain .b-text{min-height:50vh;font-size:16px}
 /* ---------- Mobile ---------- */
 
@@ -170,7 +170,7 @@ input:focus-visible,textarea:focus-visible{outline:none}
 .rail{border-right:2px solid var(--ink)}.top{border-bottom:2px solid var(--ink)}
 .find{background:var(--white);border:2px solid var(--ink)}.find:focus-within{border-color:var(--focus)}
 .btn-new{border:2px solid var(--ink);box-shadow:3px 3px 0 #9aa0ab}
-.btn-new:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #9aa0ab}
+@media (hover:hover){.btn-new:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #9aa0ab}}
 .btn-new.alt{box-shadow:3px 3px 0 #d0d3d9}
 .sbtn,.btn-line{border:2px solid var(--ink)}.sbtn.dng{border-color:var(--danger)}
 .tag{border:2px solid #e3b25c}
@@ -194,19 +194,19 @@ body{background:var(--paper)}
 .rail{background:#f6f5fd}
 .top{background:#f6f5fd}
 .btn-new{background:var(--brand);border-color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
-.btn-new:hover{background:var(--brand-2)}
-.btn-new:active{box-shadow:1px 1px 0 var(--ink)}
+@media (hover:hover){.btn-new:hover{background:var(--brand-2)}}
+@media (hover:hover){.btn-new:active{box-shadow:1px 1px 0 var(--ink)}}
 .btn-new.alt{background:var(--white);color:var(--ink);box-shadow:3px 3px 0 var(--shadow)}
-.btn-new.alt:hover{background:#e4e1f8}
-.row:hover{background:#efedfb}
+@media (hover:hover){.btn-new.alt:hover{background:#e4e1f8}}
+@media (hover:hover){.row:hover{background:#efedfb}}
 .row.on{background:var(--paper);border-left-color:var(--brand)}
 .block:focus-within{border-color:var(--brand)}
 .find:focus-within{border-color:var(--brand)}
 .find{background:var(--white)}
-.add{border-color:var(--ink-2)}.add:hover{border-color:var(--ink);background:var(--white)}
-.btn-line:hover,.sbtn:hover{border-color:var(--brand)}
+.add{border-color:var(--ink-2)}@media (hover:hover){.add:hover{border-color:var(--ink);background:var(--white)}}
+@media (hover:hover){.btn-line:hover,.sbtn:hover{border-color:var(--brand)}}
 .b-title::placeholder,.b-desc::placeholder,.b-text::placeholder,.tag-in::placeholder{color:#9a97c8}
-.ico:hover{background:#e4e1f8}
+@media (hover:hover){.ico:hover{background:#e4e1f8}}
 .b-cancel{background:#e4e1f8}
 .overlay{background:rgba(37,31,99,.45)}
 .toast button{color:#c9c4ff}
@@ -246,12 +246,12 @@ b,strong,h1,h2,h3,button,input,textarea,.row .t,.kind input,.b-title,.btn-new,.t
 /* ---------- Режим перегляду ---------- */
 .rail .logo .ico + .ico{margin-left:0}
 .ico.on{background:var(--brand);color:#fff}
-.ico.on:hover{background:var(--brand-2);color:#fff}
+@media (hover:hover){.ico.on:hover{background:var(--brand-2);color:#fff}}
 .view-btn{width:auto;padding:0 12px;gap:8px;display:inline-flex;align-items:center;border:2px solid var(--ink);background:var(--white);color:var(--ink);height:34px;font-size:var(--fs)}
 .view-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.view-btn:hover{background:#e4e1f8;color:var(--ink)}
+@media (hover:hover){.view-btn:hover{background:#e4e1f8;color:var(--ink)}}
 .view-btn.on{background:var(--brand);color:#fff}
-.view-btn.on:hover{background:var(--brand-2);color:#fff}
+@media (hover:hover){.view-btn.on:hover{background:var(--brand-2);color:#fff}}
 .vblock{background:var(--white);border:2px solid var(--ink);margin-bottom:14px;padding:16px 20px 18px}
 .vlabel{display:flex;align-items:center;gap:9px;font-size:var(--fs);color:var(--muted);margin-bottom:10px}
 .vlabel .sticker{width:12px;height:12px}
@@ -275,7 +275,7 @@ body{line-height:var(--lb)}
 .selbar .sbtn{height:auto;min-height:38px;padding:4px 8px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .selbar .sbtn.dng{grid-column:1/-1;order:3}
 .sbtn.dng:not([disabled]){background:var(--danger);color:#fff;border-color:var(--ink)}
-.sbtn.dng:not([disabled]):hover{background:#b8322b}
+@media (hover:hover){.sbtn.dng:not([disabled]):hover{background:#b8322b}}
 .sbtn[disabled]{opacity:.45;pointer-events:none}
 .sbtn{max-width:100%}
 
@@ -299,17 +299,17 @@ body:not(.mobile) .tools .ico{width:26px;height:26px}
 .adder{position:sticky;top:0;z-index:6;background:var(--paper);padding:16px 0 12px;margin:0 0 14px;border-bottom:2px solid var(--ink)}
 
 .tclear{position:absolute;left:16px;bottom:6px;font-size:var(--fs);line-height:1;color:var(--muted);padding:3px 5px}
-.tclear:hover{color:var(--danger)}
+@media (hover:hover){.tclear:hover{color:var(--danger)}}
 .tag.sel{background:var(--brand);color:#fff;border-color:var(--ink)}
 .tabs{display:flex;border-top:2px solid var(--ink)}
 .tab{flex:1;height:40px;font-size:var(--fs);color:var(--ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tab+.tab{border-left:2px solid var(--ink)}
-.tab:hover{background:#efedfb}
+@media (hover:hover){.tab:hover{background:#efedfb}}
 .tab.on{background:var(--brand);color:#fff}
 .ico.pinned{color:#e8a100}
 .ico.pinned svg{fill:currentColor}
 .rpin{position:absolute;right:40px;top:50%;transform:translateY(-50%);opacity:0;width:28px!important;height:28px!important}
-.row:hover .rpin,.row:focus-within .rpin,.rpin.pinned{opacity:1}
+.row:focus-within .rpin,.rpin.pinned{opacity:1}@media (hover:hover){.row:hover .rpin{opacity:1}}
 @media (hover:none){.rpin{opacity:.6}.rpin.pinned{opacity:1}}
 .row .t,.row .m{padding-right:66px}
 
@@ -340,7 +340,7 @@ body:not(.mobile) .app{grid-template-columns:390px minmax(0,1fr)}
 .sws{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 22px}
 .sw{width:28px;height:28px;border:2px solid var(--ink)}
 .b-ok{background:var(--brand);color:#fff}
-.b-ok:hover{background:var(--brand-2)}
+@media (hover:hover){.b-ok:hover{background:var(--brand-2)}}
 
 html:not([data-theme=light]){color-scheme:dark;--ink:#ebe9ff;--ink-2:#c9c5f5;--muted:#9591cf;--paper:#100e1e;--white:#1a1730;--line:#3d3780;--line-2:#2a2557;--brand:#6a5cf0;--brand-2:#7d70ff;--focus:#ffa94d;--shadow:#000;--edge:#4a4291;--danger:#ff6b62}
 html:not([data-theme=light]) body{background:var(--paper)}
@@ -350,13 +350,13 @@ html:not([data-theme=light]) .btn-new{border-color:#9a8fff;box-shadow:3px 3px 0 
 html:not([data-theme=light]) .btn-new.alt{box-shadow:3px 3px 0 #05040c}
 html:not([data-theme=light]) .modal{box-shadow:6px 6px 0 #05040c}
 html:not([data-theme=light]) .block:focus-within,html:not([data-theme=light]) .find:focus-within{border-color:var(--brand-2)}
-html:not([data-theme=light]) .btn-new.alt:hover,html:not([data-theme=light]) .view-btn:hover,html:not([data-theme=light]) .b-cancel,html:not([data-theme=light]) .ico:hover,html:not([data-theme=light]) .tab:hover{background:#262150}
+html:not([data-theme=light]) .b-cancel{background:#262150}@media (hover:hover){html:not([data-theme=light]) .btn-new.alt:hover,html:not([data-theme=light]) .view-btn:hover,html:not([data-theme=light]) .ico:hover,html:not([data-theme=light]) .tab:hover{background:#262150}}
 html:not([data-theme=light]) .b-cancel{color:var(--ink)}
-html:not([data-theme=light]) .row:hover{background:#1f1b3d}
+@media (hover:hover){html:not([data-theme=light]) .row:hover{background:#1f1b3d}}
 html:not([data-theme=light]) .row.on{background:#241f4a}
-html:not([data-theme=light]) .ico.on:hover,html:not([data-theme=light]) .view-btn.on:hover{background:var(--brand-2);color:#fff}
-html:not([data-theme=light]) .tab.on,html:not([data-theme=light]) .tab.on:hover{background:var(--brand);color:#fff}
-html:not([data-theme=light]) .ico.danger:hover{background:#3a1a1c;color:var(--danger)}
+@media (hover:hover){html:not([data-theme=light]) .ico.on:hover,html:not([data-theme=light]) .view-btn.on:hover{background:var(--brand-2);color:#fff}}
+html:not([data-theme=light]) .tab.on{background:var(--brand);color:#fff}@media (hover:hover){html:not([data-theme=light]) .tab.on:hover{background:var(--brand);color:#fff}}
+@media (hover:hover){html:not([data-theme=light]) .ico.danger:hover{background:#3a1a1c;color:var(--danger)}}
 html:not([data-theme=light]) .sbtn.dng{border-color:var(--danger)}
 html:not([data-theme=light]) .tag{background:#3b2d10;color:#ffd27a;border-color:#a8741c}
 html:not([data-theme=light]) .tag.sel{background:var(--brand);color:#fff;border-color:var(--ink)}
@@ -371,7 +371,7 @@ html:not([data-theme=light]){--sb-thumb:#6a5cf0;--sb-thumb-h:#7d70ff;--sb-track:
 *::-webkit-scrollbar{width:12px;height:12px}
 *::-webkit-scrollbar-track{background:var(--sb-track);border-left:2px solid var(--sb-edge)}
 *::-webkit-scrollbar-thumb{background:var(--sb-thumb);border:2px solid var(--sb-edge);border-radius:0}
-*::-webkit-scrollbar-thumb:hover{background:var(--sb-thumb-h)}
+@media (hover:hover){*::-webkit-scrollbar-thumb:hover{background:var(--sb-thumb-h)}}
 *::-webkit-scrollbar-corner{background:var(--sb-track)}
 .sync-st{font-size:var(--fs);color:var(--muted);margin:6px 0 8px;word-break:break-word}
 .sync-st.err{color:var(--danger)}
@@ -389,11 +389,11 @@ html:not([data-theme=light]){--sb-thumb:#6a5cf0;--sb-thumb-h:#7d70ff;--sb-track:
 .block:focus-within .rtb{visibility:visible}
 @media (hover:none){.rtb{visibility:visible}}
 .rtbtn{min-width:34px;height:30px;padding:0 9px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font-size:var(--fs);line-height:1}
-.rtbtn:hover{background:var(--paper)}
+@media (hover:hover){.rtbtn:hover{background:var(--paper)}}
 .rtb-b{font-weight:800}
 .rtsws{display:inline-flex;align-items:center;gap:4px;padding:0 4px}
 .rtsw{width:22px;height:22px;padding:0;border:2px solid var(--ink)}
-.rtsw:hover{transform:translateY(-1px)}
+@media (hover:hover){.rtsw:hover{transform:translateY(-1px)}}
 .rtcp{width:28px;height:26px;padding:0;border:2px solid var(--ink);background:var(--white);cursor:pointer}
 
 /* ---------- v9: вкладка «Готове» + мобільна шухляда ---------- */
@@ -411,10 +411,10 @@ button,.row,.tab,.add,.sbtn{touch-action:manipulation;-webkit-tap-highlight-colo
 .tab.on .cnt{opacity:.9}
 
 /* «Готове» */
-.ico.doneon,.ico.doneon:hover{color:var(--c-desc)}
+.ico.doneon{color:var(--c-desc)}@media (hover:hover){.ico.doneon:hover{color:var(--c-desc)}}
 .ico.doneon svg{stroke-width:2.6}
 .rdone{position:absolute;right:70px;top:50%;transform:translateY(-50%);opacity:0;width:28px!important;height:28px!important}
-.row:hover .rdone,.row:focus-within .rdone,.rdone.doneon{opacity:1}
+.row:focus-within .rdone,.rdone.doneon{opacity:1}@media (hover:hover){.row:hover .rdone{opacity:1}}
 @media (hover:none){.rdone{opacity:.6}.rdone.doneon{opacity:1}}
 .row .t,.row .m{padding-right:100px}
 .row.done .t{opacity:.6}
@@ -485,7 +485,7 @@ body.mobile .toast{bottom:calc(20px + env(safe-area-inset-bottom))}
 .mode{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--edge,var(--ink));margin:0 0 12px;background:var(--white)}
 .mode button{height:40px;font-size:var(--fs);color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
 .mode button+button{border-left:2px solid var(--edge,var(--ink))}
-.mode button:hover{background:var(--paper)}
+@media (hover:hover){.mode button:hover{background:var(--paper)}}
 .mode button.on{background:var(--brand);color:#fff}
 .mode svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 body.mobile .mode button{height:46px}
@@ -493,7 +493,7 @@ body.mobile .mode button{height:46px}
 .main.enter,#music.enter{animation:mIn .2s steps(4)}
 .dot{width:14px;height:14px;flex:none;display:inline-block}
 .ib{width:44px;height:44px;border:2px solid var(--edge,var(--ink));background:var(--white);color:var(--ink);display:grid;place-items:center;flex:none}
-.ib:hover{background:var(--paper)}
+@media (hover:hover){.ib:hover{background:var(--paper)}}
 .ib.big{width:58px;height:58px;background:var(--brand);color:#fff;box-shadow:3px 3px 0 var(--edge,var(--ink))}
 .ib svg{width:21px;height:21px;fill:currentColor}
 .ib:disabled{opacity:.35}
@@ -531,7 +531,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 #music .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:14px}
 #music select{background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));padding:8px;font:inherit;font-size:var(--fs);width:100%}
 #music .dl{background:var(--brand);color:#fff;border:2px solid var(--edge,var(--ink));box-shadow:3px 3px 0 var(--edge,var(--ink));padding:10px 18px;font-size:var(--fb)}
-#music .dl:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--edge,var(--ink))}
+@media (hover:hover){#music .dl:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--edge,var(--ink))}}
 #music .dl:disabled{opacity:.45}
 #st{font-size:var(--fs);line-height:var(--lb);color:var(--muted);margin-top:12px;min-height:1.3em;word-break:break-word}
 #st.done{color:var(--c-desc)}
@@ -539,7 +539,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 #music .bar.on{display:block}#music .bar i{display:block;height:100%;width:0;background:var(--brand)}
 #music .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin-bottom:14px}
 #music .chip{border:2px solid var(--edge,var(--ink));background:var(--white);padding:3px 12px;font-size:var(--fs);color:var(--ink-2)}
-#music .chip:hover{background:var(--paper)}#music .chip.on{background:var(--brand);color:#fff}
+@media (hover:hover){#music .chip:hover{background:var(--paper)}}#music .chip.on{background:var(--brand);color:#fff}
 #music .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 #music .genreTitle{font-size:var(--fs);color:var(--muted);margin:22px 0 8px;display:flex;align-items:center;gap:8px}
 #music .genreCount{border:2px solid var(--edge,var(--ink));padding:0 8px}
@@ -557,7 +557,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 @keyframes e{from{height:3px}to{height:15px}}
 #music .save{width:38px;height:38px;border:2px solid var(--edge,var(--ink));background:var(--paper);display:grid;place-items:center;flex:none;color:var(--muted)}
 #music .save svg{width:16px;height:16px;fill:currentColor}
-#music .save:hover{color:var(--brand);border-color:var(--brand)}
+@media (hover:hover){#music .save:hover{color:var(--brand);border-color:var(--brand)}}
 @media (prefers-reduced-motion:reduce){#music .eq i{animation:none;height:9px}.main.enter,#music.enter{animation:none}}
 
 /* ===== v10: музика з тією ж бічною панеллю, плеєр закріплено внизу ===== */
@@ -646,9 +646,9 @@ body.mobile .modal.wide{max-height:calc(100vh - 24px);max-height:calc(100dvh - 2
 .v-ta::placeholder{color:var(--muted);opacity:.7}
 .vctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .vbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font-size:var(--fs);line-height:1}
-.vbtn:hover{border-color:var(--brand);color:var(--brand)}
+@media (hover:hover){.vbtn:hover{border-color:var(--brand);color:var(--brand)}}
 .vbtn.go{background:var(--brand);border-color:var(--ink);color:#fff}
-.vbtn.go:hover{background:var(--brand-2);color:#fff}
+@media (hover:hover){.vbtn.go:hover{background:var(--brand-2);color:#fff}}
 .vbtn[disabled]{opacity:.4;pointer-events:none}
 .vbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .vsel{height:36px;max-width:100%;padding:0 6px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font:inherit;font-size:14px}
@@ -673,8 +673,8 @@ body.mobile .modal.wide{max-height:calc(100vh - 24px);max-height:calc(100dvh - 2
 :root{--ease:cubic-bezier(.22,.7,.2,1)}
 button,.ico,.vbtn,.tab,.row,.mode button,.btn-new,.view-btn,.sbtn,.btn-line,.find,.tin,.vsel,.ib,.adder,.sw,.chip,.tg,.aboutbtn,.kbd,select,input,textarea{
   transition:background-color .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease),box-shadow .18s var(--ease),transform .12s var(--ease),opacity .18s var(--ease)}
-.ico:active,.vbtn:active,.mode button:active,.btn-new:active,.view-btn:active,.ib:active,.tab:active{transform:scale(.94)}
-.row:active{transform:scale(.99)}
+@media (hover:hover){.ico:active,.vbtn:active,.mode button:active,.btn-new:active,.view-btn:active,.ib:active,.tab:active{transform:scale(.94)}}
+@media (hover:hover){.row:active{transform:scale(.99)}}
 
 @keyframes fxUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes fxIn{from{opacity:0}to{opacity:1}}
@@ -716,7 +716,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .logo b{margin-right:0;min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .logo .aboutmini{margin-right:auto;flex:none;display:inline-grid;place-items:center;width:24px;height:24px;padding:0;
   border:2px solid currentColor;border-radius:50%;background:transparent;color:var(--muted);font-size:13px;line-height:1;font-weight:700}
-.logo .aboutmini:hover{color:var(--brand);background:var(--paper)}
+@media (hover:hover){.logo .aboutmini:hover{color:var(--brand);background:var(--paper)}}
 body.mobile .logo{gap:4px}
 body.mobile .logo .aboutmini{width:26px;height:26px;margin-left:2px}
 body.mobile .logo .ico{width:34px;height:34px}
@@ -754,6 +754,34 @@ body.mobile .pb-ctl{grid-column:1;justify-self:center;gap:14px}
 body.mobile #pbar .ib{width:46px;height:46px}
 body.mobile #pbar .ib.big{width:54px;height:54px}
 body.mobile .mscroll{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+
+/* ===== v13: без «залипання» на дотик, компактний плеєр, плеєр не під бічною панеллю ===== */
+*{-webkit-tap-highlight-color:transparent}
+@media (hover:none){
+  .ico,.vbtn,.tab,.row,.mode button,.btn-new,.view-btn,.sbtn,.btn-line,.ib,.add,.sw,.chip,.tg,.aboutmini,.rtbtn,.card .hit,.save{transition:none}
+}
+
+/* ПК: бічна панель на всю висоту, плеєр лише під основною частиною */
+body:not(.mobile) .rail{grid-row:1 / span 2}
+body:not(.mobile) .main,body:not(.mobile) #music{grid-column:2}
+body:not(.mobile) .pbar{grid-column:2;grid-row:2}
+
+/* телефон: плеєр в один рядок — назва зліва, кнопки справа */
+body.mobile .pbar{grid-template-columns:minmax(0,1fr) auto;justify-items:stretch;align-items:center;gap:10px;
+  padding:6px max(12px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+body.mobile .pb-np{grid-column:1;justify-self:start;justify-content:flex-start;width:auto;max-width:100%;text-align:left;gap:8px}
+body.mobile .pb-t{align-items:flex-start;min-width:0;max-width:100%}
+body.mobile #pbar #npT{font-size:var(--fs);line-height:1.25}
+body.mobile #pbar #npM{font-size:13px;line-height:1.2}
+body.mobile .pb-ctl{grid-column:2;justify-self:end;gap:8px}
+body.mobile #pbar .ib{width:40px;height:40px}
+body.mobile #pbar .ib.big{width:44px;height:44px;box-shadow:2px 2px 0 var(--edge,var(--ink))}
+body.mobile #pbar .ib svg{width:19px;height:19px}
+body.mobile .mscroll{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+body.mobile .mtop .mtitle{margin-left:6px}
+body.mobile .mtop{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));gap:4px}
+body.mobile .mctl{margin-left:0}
+@media (max-width:380px){body.mobile .mtop .mtitle{display:none}}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -795,10 +823,11 @@ body.mobile .mscroll{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
   <main class="main">
     <div class="top" id="top">
       <button class="ico back" id="back" title="Список нотаток" aria-label="Відкрити меню зі списком нотаток" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <button class="ico" id="tomusic" title="Музика (Alt+M)" aria-label="Музика"></button>
       <div class="saved" id="saved"></div>
       <div class="stamp" id="stamp"></div>
       <div class="sp"></div>
-      <button class="ico" id="tomusic" title="Музика (Alt+M)" aria-label="Музика"></button><button class="view-btn" id="viewtop"></button>
+      <button class="view-btn" id="viewtop"></button>
       <button class="ico" id="pinnote" title="Закріпити як важливу" aria-label="Закріпити як важливу"></button>
       <button class="ico" id="donenote" title="Позначити як готове" aria-label="Позначити як готове"></button>
       <button class="ico danger" id="delnote" title="Видалити нотатку" aria-label="Видалити нотатку"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
@@ -806,7 +835,7 @@ body.mobile .mscroll{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
     <div class="scroll" id="scroll"><div class="stack" id="stack"></div></div>
   </main>
 <section id="music" aria-label="Музика">
-<div class="mtop"><button class="ico mback" id="mback" title="Меню" aria-label="Відкрити бічну панель"></button><b class="mtitle">Музика</b>
+<div class="mtop"><button class="ico mback" id="mback" title="Меню" aria-label="Відкрити бічну панель"></button><button class="ico" id="tonotes" title="Нотатки (Alt+M)" aria-label="Нотатки"></button><b class="mtitle">Музика</b>
 <div class="mctl" id="mctl">
 <div class="pop"><button type="button" class="ico" id="volBtn" title="Гучність" aria-label="Гучність" aria-haspopup="true" aria-expanded="false"></button>
 <div class="pop-panel" id="volPanel" role="group" aria-label="Гучність"><span class="pl">Гучність</span><input type="range" id="vol" aria-label="Гучність" min="0" max="100" value="70"><span class="pv" id="volV">70%</span></div></div>
@@ -814,7 +843,7 @@ body.mobile .mscroll{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 <div class="pop-panel" id="spdPanel" role="group" aria-label="Темп"><span class="pl">Темп</span><input type="range" id="spd" aria-label="Темп" min="80" max="125" value="100"><span class="pv" id="spdV2">100%</span></div></div>
 <button type="button" class="ico" id="auto" title="Авто-зміна треку: увімк." aria-label="Авто-зміна треку" aria-pressed="true"></button>
 </div>
-<span class="sp"></span><span class="mt">Alt+M — перемкнути</span><button class="ico" id="tonotes" title="Нотатки (Alt+M)" aria-label="Нотатки"></button></div>
+<span class="sp"></span><span class="mt">Alt+M — перемкнути</span></div>
 <div class="mscroll"><div class="wrap">
 <h1>BrainCube <span>Beats</span></h1>
 
