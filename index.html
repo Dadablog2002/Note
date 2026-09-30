@@ -782,6 +782,12 @@ body.mobile .mtop .mtitle{margin-left:6px}
 body.mobile .mtop{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));gap:4px}
 body.mobile .mctl{margin-left:0}
 @media (max-width:380px){body.mobile .mtop .mtitle{display:none}}
+
+/* кнопка перезавантаження */
+@keyframes spinR{to{transform:rotate(360deg)}}
+#reloadapp.spin svg{animation:spinR .6s linear infinite}
+body.mobile .logo .ico{width:32px;height:32px}
+body.mobile .logo{gap:2px}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -802,7 +808,7 @@ body.mobile .mctl{margin-left:0}
         <b>Нотатник</b>
         <button type="button" class="aboutmini" id="about" title="Про додаток" aria-label="Про додаток">i</button>
         <button class="ico" id="viewmode" title="Режим перегляду" aria-label="Режим перегляду"></button>
-        <button class="ico" id="settings" title="Налаштування" aria-label="Налаштування"></button>
+        <button class="ico" id="reloadapp" title="Перезавантажити" aria-label="Перезавантажити додаток"></button><button class="ico" id="settings" title="Налаштування" aria-label="Налаштування"></button>
         <button class="ico navclose" id="closenav" title="Закрити меню" aria-label="Закрити меню"></button>
       </div>
       <div class="mode" role="group" aria-label="Режим"><button type="button" data-mode="notes" class="on"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>Нотатки</button><button type="button" data-mode="music"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>Музика</button></div><button class="btn-new" id="new"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Нова нотатка</button>
@@ -1364,6 +1370,7 @@ body.mobile .mctl{margin-left:0}
     Sync.setHandler(function(){if(syncBox.isConnected)drawSync()});
     drawSync();
     kids.push(h('h3',{text:'Синхронізація між пристроями'}),syncBox);
+    kids.push(h('h3',{text:'Оновлення'}),h('div',{class:'btns-l'},[h('button',{class:'sbtn',text:'Перезавантажити додаток',onclick:function(){if(window.__reloadApp)window.__reloadApp()}})]));
     kids.push(h('h3',{text:'Копія даних'}),h('div',{class:'btns-l'},[
       h('button',{class:'sbtn',text:'Зберегти копію',onclick:exportData}),
       h('button',{class:'sbtn',text:'Відновити з копії',onclick:function(){$('file').click()}})]));
@@ -2181,6 +2188,23 @@ body.mobile .mctl{margin-left:0}
     if(save!==false)try{localStorage.setItem(K,m)}catch(e){}
   }
   window.__setMode=set;
+  var rb=document.getElementById('reloadapp');
+  rb.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/></svg>';
+  var reloading=false;
+  window.__reloadApp=function(){
+    if(reloading)return;reloading=true;
+    rb.classList.add('spin');
+    try{if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}catch(e){}
+    var go=function(){location.reload()},done=false;
+    var once=function(){if(done)return;done=true;go()};
+    setTimeout(once,1200);
+    try{
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistration().then(function(r){return r?r.update():0}).catch(function(){}).then(function(){setTimeout(once,250)});
+      }else setTimeout(once,250);
+    }catch(e){once()}
+  };
+  rb.addEventListener('click',window.__reloadApp);
   document.querySelectorAll('.mode button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.mode)})});
   var tm=document.getElementById('tomusic');
   tm.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>';
