@@ -501,8 +501,7 @@ body.mobile .mode button{height:46px}
 .mini.hidden{display:none!important}
 .mini .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--fs);cursor:pointer}
 .mini .ib{width:38px;height:38px}
-body.music-mode .rail,body.music-mode .main{display:none!important}
-body.music-mode .app{grid-template-columns:minmax(0,1fr)!important}
+body.music-mode .main{display:none!important}
 #music{display:none;flex-direction:column;min-width:0;min-height:0;height:100%}
 body.music-mode #music{display:flex}
 .mtop{height:56px;flex:none;display:flex;align-items:center;gap:16px;padding:0 28px;border-bottom:2px solid var(--edge,var(--ink));background:#f6f5fd}
@@ -560,6 +559,201 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 #music .save svg{width:16px;height:16px;fill:currentColor}
 #music .save:hover{color:var(--brand);border-color:var(--brand)}
 @media (prefers-reduced-motion:reduce){#music .eq i{animation:none;height:9px}.main.enter,#music.enter{animation:none}}
+
+/* ===== v10: музика з тією ж бічною панеллю, плеєр закріплено внизу ===== */
+.app{grid-template-rows:minmax(0,1fr) auto}
+.rail,.main,#music{grid-row:1}
+.mnav{display:none;flex:1;overflow-y:auto;min-height:0;border-top:1px solid var(--line-2)}
+body.music-mode .mnav{display:block}
+body.music-mode #new,body.music-mode #newplain,body.music-mode #viewmode,body.music-mode .rail .tb,
+body.music-mode #tabs,body.music-mode #selbar,body.music-mode #notes,body.music-mode #keys,body.music-mode #mini{display:none!important}
+.mnav .row .t,.mnav .row .m,body.mobile .mnav .row .t,body.mobile .mnav .row .m{padding-right:0}
+.mnav-h{padding:14px 20px 6px;font-size:var(--fs);color:var(--muted)}
+body.music-mode .rail-top{padding-bottom:12px}
+body.music-mode .rail-top .mode{margin-bottom:0}
+
+.mtop .mback{display:none}
+body.mobile .mtop .mback{display:grid}
+.mtop .mtitle{font-size:var(--fb);font-weight:400}
+#music #chips{display:none}
+
+
+/* ===== v11: гучність / темп / авто-зміна — кнопки в шапці біля «Музика» ===== */
+.mtop{gap:10px}
+.mtop .sp{flex:1}
+.mctl{display:flex;align-items:center;gap:6px;margin-left:6px}
+.mtop .ico{position:relative}
+.mtop .ico.wide{width:auto;padding:0 8px;gap:6px;display:inline-flex;align-items:center}
+.mtop .ico.wide .bv{font-size:var(--fs);color:inherit}
+.mtop .ico .gi{display:grid;place-items:center}
+.mtop .ico[aria-expanded=true]{background:var(--brand);color:#fff}
+.pop{position:relative;display:flex}
+.pop-panel{display:none;position:absolute;top:calc(100% + 8px);left:0;z-index:60;align-items:center;gap:10px;background:var(--white);border:2px solid var(--edge,var(--ink));box-shadow:4px 4px 0 var(--shadow,#a9a3e6);padding:10px 14px;white-space:nowrap}
+.pop-panel.open{display:flex}
+.pop-panel .pl,.pop-panel .pv{font-size:var(--fs);color:var(--muted)}
+.pop-panel .pv{min-width:4ch;text-align:right}
+.pop-panel input[type=range]{accent-color:var(--brand);width:140px}
+html:not([data-theme=light]) .pop-panel{background:#151228}
+body.mobile .mctl{gap:2px;margin-left:2px}
+body.mobile .mtop{gap:2px}
+body.mobile .mtop .ico.wide{height:40px;padding:0 6px}
+body.mobile .pop{position:static}
+body.mobile .pop-panel{position:fixed;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));top:calc(56px + env(safe-area-inset-top) + 8px)}
+body.mobile .pop-panel input[type=range]{flex:1;width:auto;min-width:0}
+
+/* нижній плеєр */
+.pbar{display:none;grid-column:1/-1;grid-row:2;align-items:center;gap:10px 18px;flex-wrap:wrap;padding:10px 20px;background:var(--white);border-top:2px solid var(--edge,var(--ink));z-index:30}
+body.music-mode .pbar{display:flex}
+.pb-np{display:flex;align-items:center;gap:12px;flex:1 1 220px;min-width:0}
+.pb-t{display:flex;flex-direction:column;min-width:0}
+#pbar #npT{font-size:var(--fb);line-height:var(--lb);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pbar #npM{font-size:var(--fs);line-height:var(--lb);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb-ctl{display:flex;align-items:center;gap:10px;flex:none}
+.pb-opt{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-left:auto}
+#pbar .sl{display:flex;align-items:center;gap:8px;font-size:var(--fs);color:var(--muted)}
+#pbar input[type=range]{accent-color:var(--brand);width:100px}
+#pbar .tg{border:2px solid var(--edge,var(--ink));background:var(--white);padding:6px 12px;font-size:var(--fs);color:var(--muted)}
+#pbar .tg.on{background:var(--brand);color:#fff}
+#pbar .ib.big{width:52px;height:52px}
+body.mobile .pbar{position:fixed;left:0;right:0;bottom:0;padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));gap:8px 12px}
+body.mobile .pb-np{flex:1 1 0}
+body.mobile .pb-opt{width:100%;margin-left:0;gap:8px 14px}
+body.mobile #pbar input[type=range]{width:80px}
+body.mobile #pbar .ib{width:46px;height:46px}
+body.mobile #pbar .ib.big{width:52px;height:52px}
+body.mobile .mscroll{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+body.mobile .pb-opt{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+body.mobile #pbar .sl{font-size:0;gap:0;flex:none}
+body.mobile #pbar .sl #spdV{font-size:var(--fs);margin-left:6px}
+body.mobile #pbar .tg{flex:none;white-space:nowrap}
+@media (max-width:420px){body.mobile #pbar .tg{padding:6px 8px}}
+
+/* налаштування: заголовок і кнопка «Закрити» завжди на місці, гортається лише середина */
+.modal.wide,body.mobile .modal.wide{display:flex;flex-direction:column;overflow:hidden;padding:0;max-height:90vh}
+body.mobile .modal.wide{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
+.modal.wide>h2{flex:none;margin:0;padding:16px 24px 12px;border-bottom:2px solid var(--line)}
+.modal.wide>.set{flex:1 1 auto;min-height:0;overflow-y:auto;padding:0 24px 16px;overscroll-behavior:contain}
+.modal.wide>.btns{flex:none;margin:0!important;padding:12px 24px;border-top:2px solid var(--line);background:var(--white)}
+.modal.wide>.btns button{width:100%}
+
+/* ---------- Голос: два блоки (укр / англ) + Про додаток ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.vpanel{border:2px solid var(--ink);background:var(--paper);padding:12px 12px 12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.vpanel:focus-within{border-color:var(--focus)}
+.vhead{display:flex;align-items:center;gap:8px;font-size:var(--fs);color:var(--ink)}
+.vhead .lg{display:inline-grid;place-items:center;min-width:34px;height:24px;padding:0 6px;border:2px solid var(--ink);background:var(--brand);color:#fff;font-size:14px;line-height:1}
+.v-ta{width:100%;display:block;resize:none;overflow:hidden;min-height:calc(var(--lb,27px)*3);font-size:var(--fb);line-height:var(--lb,27px);color:var(--ink-2)}
+.v-ta::placeholder{color:var(--muted);opacity:.7}
+.vctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.vbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font-size:var(--fs);line-height:1}
+.vbtn:hover{border-color:var(--brand);color:var(--brand)}
+.vbtn.go{background:var(--brand);border-color:var(--ink);color:#fff}
+.vbtn.go:hover{background:var(--brand-2);color:#fff}
+.vbtn[disabled]{opacity:.4;pointer-events:none}
+.vbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.vsel{height:36px;max-width:100%;padding:0 6px;border:2px solid var(--ink);background:var(--white);color:var(--ink);font:inherit;font-size:14px}
+.vsel.hidden{display:none}
+.vstat{flex:1 1 100%;font-size:14px;color:var(--muted);min-height:1.3em}
+.vstat.err{color:var(--danger)}
+.vview{margin-bottom:14px}.vview:last-child{margin-bottom:0}
+.vview .vhead{margin-bottom:6px}
+.vview .vtext{margin:0 0 10px}
+.about h3{font-size:var(--fs);margin:18px 0 6px;color:var(--brand)}
+.about p{margin:0 0 8px;color:var(--ink-2);font-size:var(--fs);line-height:1.5}
+.about ul{margin:0 0 8px;padding-left:22px;color:var(--ink-2);font-size:var(--fs);line-height:1.5}
+.about .ver{color:var(--muted);font-size:14px}
+
+/* ===== v11: компактні кнопки голосу, вирівняна шестірня, плавні анімації ===== */
+.logo b{margin-right:auto}
+.vctl{gap:6px}
+.vbtn{width:32px;height:32px;padding:0;gap:0;justify-content:center}
+.vbtn svg{width:14px;height:14px}
+.vctl .vsel{height:32px}
+
+:root{--ease:cubic-bezier(.22,.7,.2,1)}
+button,.ico,.vbtn,.tab,.row,.mode button,.btn-new,.view-btn,.sbtn,.btn-line,.find,.tin,.vsel,.ib,.adder,.sw,.chip,.tg,.aboutbtn,.kbd,select,input,textarea{
+  transition:background-color .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease),box-shadow .18s var(--ease),transform .12s var(--ease),opacity .18s var(--ease)}
+.ico:active,.vbtn:active,.mode button:active,.btn-new:active,.view-btn:active,.ib:active,.tab:active{transform:scale(.94)}
+.row:active{transform:scale(.99)}
+
+@keyframes fxUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fxIn{from{opacity:0}to{opacity:1}}
+@keyframes fxPop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fxSlide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes fxToast{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+
+/* перемикання Нотатки ↔ Музика */
+.main.enter,#music.enter{animation:fxUp .32s var(--ease) backwards}
+#new,#newplain,.rail .tb,#tabs,#notes,.mnav,#viewmode{animation:fxSlide .28s var(--ease) backwards}
+.mnav{animation-name:fxUp}
+#notes{animation-name:fxIn}
+
+/* блоки нотатки */
+.stack>*{animation:fxUp .26s var(--ease) backwards}
+.vpanel,.vview{animation:fxIn .3s var(--ease) backwards}
+
+/* вікна, тости */
+.overlay{animation:fxIn .18s ease backwards}
+.overlay.out{opacity:0;pointer-events:none;transition:opacity .16s ease}
+.overlay .modal{animation:fxPop .24s var(--ease) backwards}
+.overlay.out .modal{transform:translateY(8px) scale(.97);opacity:0;transition:transform .16s ease,opacity .16s ease}
+.toast{animation:fxToast .24s var(--ease) backwards}
+
+/* плавніше висування бічної панелі на мобільному */
+body.mobile .rail{transition:transform .3s var(--ease),visibility 0s .3s}
+body.mobile.nav-open .rail{transition:transform .3s var(--ease),visibility 0s}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  .main.enter,#music.enter,#new,#newplain,.rail .tb,#tabs,#notes,.mnav,#viewmode,.stack>*,.vpanel,.vview,.overlay,.overlay .modal,.toast{animation:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* ===== v12: виправлення розтягування екрана, плеєра і кнопки «Про додаток» ===== */
+html,body{max-width:100%;overflow-x:hidden}
+
+/* маленька кнопка «i» біля назви */
+.logo b{margin-right:0;min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logo .aboutmini{margin-right:auto;flex:none;display:inline-grid;place-items:center;width:24px;height:24px;padding:0;
+  border:2px solid currentColor;border-radius:50%;background:transparent;color:var(--muted);font-size:13px;line-height:1;font-weight:700}
+.logo .aboutmini:hover{color:var(--brand);background:var(--paper)}
+body.mobile .logo{gap:4px}
+body.mobile .logo .aboutmini{width:26px;height:26px;margin-left:2px}
+body.mobile .logo .ico{width:34px;height:34px}
+body.mobile .logo b{margin-left:4px}
+
+/* шапка «Музика» не може бути ширшою за екран */
+.mtop .mtitle{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtop .mctl{flex:none}
+.mtop .ico{flex:none}
+.mtop .sp{min-width:0}
+body.mobile .mtop{overflow:hidden;max-width:100%}
+.mscroll{overflow-x:hidden}
+#music .wrap{min-width:0}
+#music .grid{grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
+#music .note,#music .sub,#music .card .ct b{overflow-wrap:anywhere}
+
+/* плеєр: кнопки по центру */
+.pbar{flex-wrap:nowrap;gap:12px 18px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+body.music-mode .pbar{display:grid}
+.pb-np{grid-column:1;flex:none;min-width:0;justify-self:start;max-width:100%}
+.pb-ctl{grid-column:2;justify-self:center;justify-content:center}
+.pbar::after{content:"";grid-column:3}
+
+/* мобільний: без position:fixed — плеєр завжди внизу екрана, окремим рядком */
+body.mobile .app{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%;max-width:100vw;overflow:hidden;position:relative}
+body.mobile .main,body.mobile #music{flex:1 1 0;height:auto;min-height:0;width:100%;max-width:100%}
+body.mobile .pbar{position:static;flex:none;width:100%;grid-template-columns:minmax(0,1fr);justify-items:center;gap:4px;
+  padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+body.mobile .pbar::after{display:none}
+body.mobile .pb-np{grid-column:1;justify-self:center;justify-content:center;width:100%;gap:10px;text-align:center}
+body.mobile .pb-t{align-items:center;min-width:0;max-width:100%}
+body.mobile #pbar #npT{line-height:1.3;max-width:100%}
+body.mobile #pbar #npM{line-height:1.3;font-size:14px;max-width:100%}
+body.mobile .pb-ctl{grid-column:1;justify-self:center;gap:14px}
+body.mobile #pbar .ib{width:46px;height:46px}
+body.mobile #pbar .ib.big{width:54px;height:54px}
+body.mobile .mscroll{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -578,7 +772,8 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
       <div class="logo">
         <div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <b>Нотатник</b>
-        <button class="ico" id="viewmode" title="Режим перегляду" aria-label="Режим перегляду" style="margin-left:auto"></button>
+        <button type="button" class="aboutmini" id="about" title="Про додаток" aria-label="Про додаток">i</button>
+        <button class="ico" id="viewmode" title="Режим перегляду" aria-label="Режим перегляду"></button>
         <button class="ico" id="settings" title="Налаштування" aria-label="Налаштування"></button>
         <button class="ico navclose" id="closenav" title="Закрити меню" aria-label="Закрити меню"></button>
       </div>
@@ -593,6 +788,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     <div class="tabs" id="tabs"></div>
     <div class="selbar hidden" id="selbar"></div>
     <div class="notes" id="notes"></div>
+    <nav class="mnav" id="mnav" aria-label="Жанри"></nav>
     <div class="mini hidden" id="mini"><i class="dot" id="miD"></i><span class="t" id="miT" title="Відкрити музику"></span><button type="button" class="ib" id="miP" aria-label="Грати або пауза"></button></div><div class="keys" id="keys"><span><kbd class="kbd" id="kn"></kbd>нова нотатка</span><span><kbd class="kbd" id="kf"></kbd>пошук</span></div>
   </aside>
 
@@ -610,21 +806,19 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     <div class="scroll" id="scroll"><div class="stack" id="stack"></div></div>
   </main>
 <section id="music" aria-label="Музика">
-<div class="mtop"><div class="mode" role="group" aria-label="Режим"><button type="button" data-mode="notes" class="on"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>Нотатки</button><button type="button" data-mode="music"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>Музика</button></div><span class="mt">Alt+M — перемкнути</span></div>
+<div class="mtop"><button class="ico mback" id="mback" title="Меню" aria-label="Відкрити бічну панель"></button><b class="mtitle">Музика</b>
+<div class="mctl" id="mctl">
+<div class="pop"><button type="button" class="ico" id="volBtn" title="Гучність" aria-label="Гучність" aria-haspopup="true" aria-expanded="false"></button>
+<div class="pop-panel" id="volPanel" role="group" aria-label="Гучність"><span class="pl">Гучність</span><input type="range" id="vol" aria-label="Гучність" min="0" max="100" value="70"><span class="pv" id="volV">70%</span></div></div>
+<div class="pop"><button type="button" class="ico wide" id="spdBtn" title="Темп" aria-label="Темп" aria-haspopup="true" aria-expanded="false"><span class="gi"></span><span class="bv" id="spdV">100%</span></button>
+<div class="pop-panel" id="spdPanel" role="group" aria-label="Темп"><span class="pl">Темп</span><input type="range" id="spd" aria-label="Темп" min="80" max="125" value="100"><span class="pv" id="spdV2">100%</span></div></div>
+<button type="button" class="ico" id="auto" title="Авто-зміна треку: увімк." aria-label="Авто-зміна треку" aria-pressed="true"></button>
+</div>
+<span class="sp"></span><span class="mt">Alt+M — перемкнути</span><button class="ico" id="tonotes" title="Нотатки (Alt+M)" aria-label="Нотатки"></button></div>
 <div class="mscroll"><div class="wrap">
 <h1>BrainCube <span>Beats</span></h1>
-<p class="sub">Тридцять треків у різних енергійних жанрах, розбитих по категоріях, які синтезуються прямо тут, у браузері. Їх пише код, тому їх можна вільно класти на фон відео. Обери жанр, послухай і збережи WAV для монтажу. Музика не зупиняється, коли переходиш до нотаток.</p>
-<section class="panel">
-<div class="np"><span class="dot" id="npD"></span><span><span id="npT"></span><br><span id="npM"></span></span></div>
-<div class="ctl">
-<button class="ib" id="prev" aria-label="Попередній трек"></button>
-<button class="ib big" id="play" aria-label="Грати або пауза"></button>
-<button class="ib" id="next" aria-label="Наступний трек"></button>
-<label class="sl">Гучність <input type="range" id="vol" min="0" max="100" value="70"></label>
-<label class="sl">Темп <input type="range" id="spd" min="80" max="125" value="100"><span id="spdV">100%</span></label>
-<button class="tg" id="auto">Авто-зміна: увімк.</button>
-</div></section>
-<h2>Зберегти у WAV</h2>
+
+<h2 id="wavsec">Зберегти у WAV</h2>
 <section class="panel">
 <div class="fields">
 <label class="f">Довжина запису<select id="dur"><option value="30">30 секунд</option><option value="60">1 хвилина</option><option value="120">2 хвилини</option><option value="180" selected>3 хвилини</option><option value="300">5 хвилин</option><option value="600">10 хвилин</option></select></label>
@@ -644,6 +838,14 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 <div id="grid"></div>
 <p class="note">Кожен трек розгортається як пісня: вступ, куплет, приспів, брейк, фінал — а після повного кола змінюється тональність. Мелодія генерується наново при кожному запуску. <b>Стрілка біля назви</b> зберігає трек одразу з поточними налаштуваннями.</p>
 </div></div></section>
+<div class="pbar" id="pbar" role="region" aria-label="Плеєр">
+<div class="pb-np"><span class="dot" id="npD"></span><span class="pb-t"><span id="npT"></span><span id="npM"></span></span></div>
+<div class="pb-ctl">
+<button class="ib" id="prev" aria-label="Попередній трек"></button>
+<button class="ib big" id="play" aria-label="Грати або пауза"></button>
+<button class="ib" id="next" aria-label="Наступний трек"></button>
+</div>
+</div>
 </div>
 <div class="scrim" id="scrim"></div>
 <div id="layer"></div>
@@ -836,6 +1038,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
           var o={id:String(b.id||uid()),type:b.type,label:typeof b.label==='string'?b.label:'',
             value:b.type==='tags'?(Array.isArray(b.value)?b.value.map(String):[]):(typeof b.value==='string'?b.value:'')};
           if(b.type!=='tags'&&b.type!=='title'&&typeof b.html==='string'){o.html=sanitizeHTML(b.html);o.value=htmlToText(o.html)}
+          if(b.type==='voice'){delete o.html;o.en=typeof b.en==='string'?b.en:''}
           return o;
         })
       };
@@ -1006,10 +1209,11 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     layer.appendChild(t);
     clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.remove();undo=null},actionLabel?7000:2600);
   }
+  function closeOv(o){if(!o||o.__c)return;o.__c=1;o.classList.add('out');setTimeout(function(){o.remove()},170)}
   function topOverlay(){var a=$('layer').querySelectorAll('.overlay');return a[a.length-1]||null}
   function dialog(title,text,okLabel,fn){
     var ov,ok=h('button',{class:'b-danger',text:okLabel}),no=h('button',{class:'b-cancel',text:'Скасувати'});
-    function close(){ov.remove()}
+    function close(){closeOv(ov)}
     ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close()}},[
       h('div',{class:'modal',role:'dialog','aria-modal':'true'},[
         h('h2',{text:title}),h('p',{text:text}),
@@ -1054,7 +1258,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     pick.addEventListener('input',function(){color=pick.value});
     SW.forEach(function(c){sws.appendChild(h('button',{type:'button',class:'sw',style:'background:'+c,title:c,'aria-label':c,onclick:function(){setC(c)}}))});
     var ov,ok=h('button',{class:'b-ok',text:'Створити'}),no=h('button',{class:'b-cancel',text:'Скасувати'});
-    function close(){ov.remove()}
+    function close(){closeOv(ov)}
     function create(){
       var nm=name.value.trim();if(!nm){name.focus();return}
       var t={id:'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:nm.slice(0,24),color:color};
@@ -1073,7 +1277,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     $('layer').appendChild(ov);name.focus();
   }
   function openSettings(){
-    function close(){ov.remove()}
+    function close(){closeOv(ov)}
     function opt(text,on,fn){var cb=h('input',{type:'checkbox'});cb.checked=on;cb.addEventListener('change',function(){fn(cb.checked)});return h('label',{class:'opt'},[cb,h('span',{text:text})])}
     var dbox=h('div'),tbox=h('div');
     function drawTypes(){
@@ -1146,11 +1350,188 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     $('layer').appendChild(ov);
   }
 
+
+  /* ---------- Озвучування (Web Speech API): укр / англ ---------- */
+  var TTS=(function(){
+    var ok='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;
+    var PK='notatnyk:tts:v1',pref={uk:'',en:'',rate:1},voices=[],subs=[],cur=null;
+    try{var x=JSON.parse(localStorage.getItem(PK));if(x){if(typeof x.uk==='string')pref.uk=x.uk;if(typeof x.en==='string')pref.en=x.en;if(+x.rate>=.5&&+x.rate<=2)pref.rate=+x.rate}}catch(e){}
+    function save(){try{localStorage.setItem(PK,JSON.stringify(pref))}catch(e){}}
+    function load(){if(!ok)return;voices=speechSynthesis.getVoices()||[];subs=subs.filter(function(f){return f.alive()});subs.forEach(function(f){f.fn()})}
+    if(ok){load();try{speechSynthesis.addEventListener('voiceschanged',load)}catch(e){speechSynthesis.onvoiceschanged=load}}
+    function forLang(l){return voices.filter(function(v){return v.lang&&String(v.lang).toLowerCase().replace('_','-').indexOf(l)===0})}
+    function pick(l){
+      var list=forLang(l);if(!list.length)return null;
+      for(var i=0;i<list.length;i++)if(list[i].voiceURI===pref[l]||list[i].name===pref[l])return list[i];
+      for(var k=0;k<list.length;k++)if(list[k].default)return list[k];
+      return list[0];
+    }
+    // текст → короткі фрагменти (Chrome обриває довгі фрази; так ще й пауза працює скрізь)
+    function chunk(text){
+      var out=[];
+      String(text).split(/\n+/).forEach(function(line){
+        var m=line.replace(/\s+/g,' ').trim().match(/[^.!?…]+[.!?…]*\s*/g)||[];
+        m.forEach(function(sn){
+          sn=sn.trim();
+          while(sn.length>180){
+            var cut=Math.max(sn.lastIndexOf(', ',180),sn.lastIndexOf('; ',180),sn.lastIndexOf(': ',180));
+            if(cut<60)cut=sn.lastIndexOf(' ',180);
+            if(cut<40)cut=180;
+            out.push(sn.slice(0,cut+1).trim());sn=sn.slice(cut+1).trim();
+          }
+          if(sn)out.push(sn);
+        });
+      });
+      return out.filter(function(t){return /[\wА-Яа-яІіЇїЄєҐґ]/.test(t)});
+    }
+    function Player(lang,getText,anchor,onState){
+      var me={state:'idle',q:[],i:0,gen:0,err:''};
+      function set(st,err){me.state=st;me.err=err||'';onState(me)}
+      function say(){
+        if(!anchor.isConnected){me.stop();return}
+        if(me.i>=me.q.length){me.i=0;set('idle');if(cur===me)cur=null;return}
+        var g=me.gen,u=new SpeechSynthesisUtterance(me.q[me.i]),v=pick(lang);
+        u.lang=lang==='uk'?'uk-UA':'en-US';if(v){u.voice=v;u.lang=v.lang}
+        u.rate=pref.rate;
+        u.onstart=function(){if(g===me.gen)onState(me)};
+        u.onend=function(){if(g!==me.gen||me.state!=='playing')return;me.i++;say()};
+        u.onerror=function(e){
+          if(g!==me.gen||e.error==='canceled'||e.error==='interrupted')return;
+          me.gen++;me.i=0;set('idle',e.error==='language-unavailable'||e.error==='voice-unavailable'?'Для цієї мови немає голосу в браузері.':'Не вдалося озвучити.');
+        };
+        speechSynthesis.speak(u);
+      }
+      function start(){var g=++me.gen;speechSynthesis.cancel();set('playing');setTimeout(function(){if(g===me.gen&&me.state==='playing')say()},60)}
+      me.play=function(){
+        if(!ok)return;
+        if(cur&&cur!==me)cur.stop();cur=me;
+        if(me.state==='paused'){start();return}
+        var t=String(getText()||'').trim();if(!t)return;
+        me.q=chunk(t);me.i=0;if(!me.q.length)return;
+        start();
+      };
+      me.pause=function(){if(me.state!=='playing')return;me.gen++;speechSynthesis.cancel();set('paused')};
+      me.stop=function(){if(!ok)return;var was=me.state;me.gen++;if(was!=='idle'||cur===me)speechSynthesis.cancel();me.i=0;if(cur===me)cur=null;if(was!=='idle'||me.err)set('idle')};
+      me.toggle=function(){if(me.state==='playing')me.pause();else me.play()};
+      return me;
+    }
+    return {ok:ok,pref:pref,save:save,forLang:forLang,pick:pick,Player:Player,
+      watch:function(anchor,fn){subs.push({alive:function(){return anchor.isConnected},fn:fn})}};
+  })();
+  var VI={play:'M7 4.5v15l12-7.5z',pause:'M8 5v14|M16 5v14',stop:'M6 6h12v12H6z'};
+  var VLANG={uk:{code:'UA',name:'Українська',ph:'Введіть текст українською…'},en:{code:'EN',name:'English',ph:'Type the text in English…'}};
+
+  // кнопки «Слухати / Пауза / Стоп» + вибір голосу та швидкості
+  function voiceControls(lang,getText,anchor){
+    var box=h('div',{class:'vctl'});
+    var go=h('button',{type:'button',class:'vbtn go'}),st=h('button',{type:'button',class:'vbtn',title:'Зупинити і почати спочатку','aria-label':'Стоп'});
+    st.appendChild(icon(VI.stop));
+    var vsel=h('select',{class:'vsel hidden','aria-label':'Голос ('+VLANG[lang].name+')'});
+    var rsel=h('select',{class:'vsel','aria-label':'Швидкість озвучування'});
+    [[.75,'0.75×'],[1,'1×'],[1.25,'1.25×'],[1.5,'1.5×']].forEach(function(r){rsel.appendChild(h('option',{value:String(r[0]),text:r[1]}))});
+    rsel.value=String(TTS.pref.rate);if(rsel.value!==String(TTS.pref.rate))rsel.value='1';
+    var stat=h('div',{class:'vstat',role:'status','aria-live':'polite'});
+    function drawGo(){
+      var pl=P.state==='playing';
+      go.textContent='';go.appendChild(icon(pl?VI.pause:VI.play));
+      var lbl=pl?'Пауза':(P.state==='paused'?'Продовжити':'Слухати');
+      go.setAttribute('aria-label',lbl);go.title=lbl;
+      st.disabled=P.state==='idle';
+    }
+    function drawStat(){
+      var t='',bad=false;
+      if(!TTS.ok){t='Цей браузер не вміє озвучувати текст.';bad=true}
+      else if(P.err){t=P.err;bad=true}
+      else if(P.state==='playing')t='Говорить… '+(P.i+1)+' з '+P.q.length;
+      else if(P.state==='paused')t='Пауза · '+(P.i+1)+' з '+P.q.length;
+      else if(!TTS.forLang(lang==='uk'?'uk':'en').length&&TTS.ok){t='Голос для цієї мови не знайдено — додайте його в налаштуваннях системи (мова / озвучування).'}
+      stat.textContent=t;stat.className='vstat'+(bad?' err':'');
+    }
+    var P=TTS.Player(lang,getText,anchor,function(){drawGo();drawStat()});
+    go.addEventListener('click',function(){
+      if(!String(getText()||'').trim()&&P.state==='idle'){toast('Спершу введіть текст');return}
+      P.toggle();
+    });
+    st.addEventListener('click',function(){P.stop()});
+    rsel.addEventListener('change',function(){TTS.pref.rate=+rsel.value;TTS.save()});
+    vsel.addEventListener('change',function(){TTS.pref[lang]=vsel.value;TTS.save()});
+    function drawVoices(){
+      var l=lang==='uk'?'uk':'en',list=TTS.forLang(l);
+      vsel.textContent='';
+      list.forEach(function(v){vsel.appendChild(h('option',{value:v.voiceURI||v.name,text:v.name}))});
+      var cv=TTS.pick(l);if(cv)vsel.value=cv.voiceURI||cv.name;
+      vsel.classList.toggle('hidden',list.length<2);
+      drawStat();
+    }
+    if(TTS.ok)TTS.watch(anchor,drawVoices);
+    if(!TTS.ok){go.disabled=true;rsel.classList.add('hidden')}
+    box.appendChild(go);box.appendChild(st);box.appendChild(rsel);box.appendChild(vsel);box.appendChild(stat);
+    drawGo();
+    // drawVoices потребує, щоб anchor уже був у документі — викликаємо на наступному кадрі
+    requestAnimationFrame(drawVoices);
+    return box;
+  }
+
+  // Блок «Голос» у редакторі: два підблоки — українська та English
+  function buildVoice(b,body){
+    if(typeof b.en!=='string')b.en='';
+    var grid=h('div',{class:'vgrid'});
+    ['uk','en'].forEach(function(lang){
+      var key=lang==='uk'?'value':'en',L=VLANG[lang];
+      var ta=h('textarea',{class:'v-ta',rows:'3',placeholder:L.ph,lang:lang,'aria-label':'Текст: '+L.name,spellcheck:'true'});
+      ta.value=b[key]||'';
+      var panel=h('div',{class:'vpanel','data-lang':lang},[
+        h('div',{class:'vhead'},[h('span',{class:'lg',text:L.code}),h('span',{text:L.name})]),
+        ta
+      ]);
+      ta.addEventListener('input',function(){b[key]=ta.value;if(b.html)delete b.html;autosize(ta);queueSave();refreshRow()});
+      if(lang==='en')panel.appendChild(voiceControls(lang,function(){return ta.value},panel));
+      grid.appendChild(panel);
+      requestAnimationFrame(function(){autosize(ta)});
+    });
+    body.appendChild(grid);
+  }
+
+  // Режим перегляду для «Голос»
+  function viewVoice(b){
+    var wrap=h('div');
+    [['uk',b.value],['en',b.en]].forEach(function(p){
+      var txt=String(p[1]||'');if(!txt.trim())return;
+      var L=VLANG[p[0]],sec=h('div',{class:'vview'});
+      sec.appendChild(h('div',{class:'vhead'},[h('span',{class:'lg',text:L.code}),h('span',{text:L.name})]));
+      sec.appendChild(h('p',{class:'vtext',text:txt}));
+      if(p[0]==='en')sec.appendChild(voiceControls(p[0],function(){return txt},sec));
+      wrap.appendChild(sec);
+    });
+    return wrap;
+  }
+
+  /* ---------- Про додаток ---------- */
+  function openAbout(){
+    var ov;function close(){closeOv(ov)}
+    function sec(t,kids){return [h('h3',{text:t})].concat(kids)}
+    function ul(items){return h('ul',null,items.map(function(t){return h('li',{text:t})}))}
+    var kids=[].concat(
+      [h('p',{class:'ver',text:'Нотатник + BrainCube Beats'})],
+      sec('Нотатки',[h('p',{text:'Нотатки зі змінними блоками: заголовок, опис, теги, екран, голос, звук, кадр і звичайний текст. Можна створювати власні типи блоків, закріплювати важливі нотатки та позначати готові.'}),
+        ul(['Видалені нотатки 30 днів лежать у Кошику.','Дані зберігаються в браузері, а копію можна зберегти у файл.','За бажанням нотатки синхронізуються між пристроями через приватний GitHub Gist.','Додаток встановлюється як PWA й відкривається без мережі.'])]),
+      sec('Голос',[h('p',{text:'Блок «Голос» має два окремі поля — українське й англійське. Англійський текст озвучується голосом браузера, як у перекладачі: компактні кнопки відтворення/паузи та стоп, вибір швидкості, а якщо в системі кілька голосів — ще й вибір голосу. Українське поле — лише для тексту.'})]),
+      sec('Музика (BrainCube Beats)',[h('p',{text:'Тридцять треків у різних енергійних жанрах, розбитих по категоріях, які синтезуються прямо тут, у браузері. Їх пише код, тому їх можна вільно класти на фон відео. Обери жанр, послухай і збережи WAV для монтажу. Музика не зупиняється, коли переходиш до нотаток.'})])
+    );
+    ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close()}},[
+      h('div',{class:'modal wide',role:'dialog','aria-modal':'true','aria-label':'Про додаток'},[
+        h('h2',{text:'Про додаток'}),h('div',{class:'set about'},kids),
+        h('div',{class:'btns',style:'margin-top:22px'},[h('button',{class:'b-cancel',text:'Закрити',onclick:close})])
+      ])
+    ]);
+    $('layer').appendChild(ov);
+  }
+
   /* ---------- Actions ---------- */
   function addNote(kind){
     var n=newNote(kind);
     if(settings.view){settings.view=false;saveSettings();syncView()}
-    state.notes.unshift(n);activeId=n.id;tab='all';query='';selMode=false;sel={};$('q').value='';
+    state.notes.unshift(n);activeId=n.id;(function(sc){if(sc)sc.scrollTop=0})($('scroll'));tab='all';query='';selMode=false;sel={};$('q').value='';
     flush();renderAll();
     closeNav();
     var t=document.querySelector('.b-title');if(t)t.focus();
@@ -1208,7 +1589,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
       navigator.clipboard.writeText(text).then(function(){toast(okMsg)},fallback);
     }else fallback();
   }
-  function blockText(b){return b.type==='tags'?b.value.join(', '):b.value}
+  function blockText(b){if(b.type==='tags')return b.value.join(', ');if(b.type==='voice')return [b.value,b.en].filter(function(x){return x&&String(x).trim()}).join('\n\n');return b.value}
 
   /* ---------- Кошик ---------- */
   function trashPeek(){for(var i=0;i<state.trash.length;i++)if(state.trash[i].id===peekId)return state.trash[i];return null}
@@ -1373,7 +1754,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
       var row=h('div',{class:'row'+(n.id===activeId&&!selMode?' on':'')+(n.done?' done':'')+(selMode?' sm':''),tabindex:'0',role:'button','data-nid':n.id},kids);
       function open(){
         if(selMode){if(sel[n.id])delete sel[n.id];else sel[n.id]=1;renderList();return}
-        activeId=n.id;renderList();renderStack();closeNav();
+        var sw=activeId!==n.id;activeId=n.id;renderList();renderStack();if(sw){var sc=$('scroll');if(sc)sc.scrollTop=0}closeNav();
       }
       row.addEventListener('click',open);
       row.addEventListener('keydown',function(e){if(e.target===row&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}});
@@ -1442,6 +1823,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
       var cp=iconBtn('','Скопіювати',ICON.copy,function(){copyText(txt,b.type==='tags'?'Теги скопійовано':'Скопійовано')});
       var body;
       if(b.type==='title')body=h('h1',{class:'vtitle',text:txt});
+      else if(b.type==='voice')body=viewVoice(b);
       else if(b.type==='tags'){
         body=h('div',{class:'vchips'},b.value.map(function(t){return h('span',{class:'tag'},[h('span',{text:t})])}));
       }else if(typeof b.html==='string'&&b.html){body=h('div',{class:'vtext vrich'});body.innerHTML=sanitizeHTML(b.html)}
@@ -1471,6 +1853,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
     var body=h('div',{class:'body'});
     if(b.type==='title')buildTitle(b,body);
     else if(b.type==='tags')buildTags(b,body);
+    else if(b.type==='voice')buildVoice(b,body);
     else buildText(b,body);
     return h('section',{class:'block','data-bid':b.id},[gut,body]);
   }
@@ -1725,6 +2108,7 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
   $('viewmode').addEventListener('click',function(){setView(!settings.view)});
   $('viewtop').addEventListener('click',function(){setView(!settings.view)});$('sel').appendChild(icon(ICON.check));
   $('settings').addEventListener('click',openSettings);
+  $('about').addEventListener('click',function(){closeNav();openAbout()});
   $('pinnote').appendChild(icon(ICON.star));$('pinnote').addEventListener('click',function(){var n=active();if(n)togglePin(n)});
   $('sel').addEventListener('click',function(){selMode=!selMode;sel={};renderList()});
   $('file').addEventListener('change',function(e){var f=e.target.files[0];if(f)importData(f);e.target.value=''});
@@ -1760,8 +2144,10 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
   var K='notatnyk:mode',B=document.body;
   function set(m,save){
     var mu=m==='music';
-    B.classList.toggle('music-mode',mu);B.classList.remove('nav-open');
+    B.classList.toggle('music-mode',mu);B.classList.remove('nav-open');document.querySelectorAll('.pop-panel.open').forEach(function(x){x.classList.remove('open')});
     document.querySelectorAll('.mode button').forEach(function(b){var on=b.dataset.mode===m;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+    ['.mscroll','#scroll','#notes','#mnav'].forEach(function(q){var e=document.querySelector(q);if(e)e.scrollTop=0});
+    window.scrollTo(0,0);
     [document.querySelector('.main'),document.getElementById('music')].forEach(function(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')});
     if(save!==false)try{localStorage.setItem(K,m)}catch(e){}
   }
@@ -1770,6 +2156,22 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
   var tm=document.getElementById('tomusic');
   tm.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>';
   tm.addEventListener('click',function(){set('music')});
+  var tn=document.getElementById('tonotes');
+  tn.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>';
+  tn.addEventListener('click',function(){set('notes')});
+  var SV='<svg viewBox="0 0 24 24">';
+  document.getElementById('volBtn').innerHTML=SV+'<path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  document.querySelector('#spdBtn .gi').innerHTML=SV+'<path d="M12 3 7 21h10zM12 14l4-8M9.5 17h5"/></svg>';
+  document.getElementById('auto').innerHTML=SV+'<path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg>';
+  var pops=[['volBtn','volPanel'],['spdBtn','spdPanel']];
+  function closePops(except){pops.forEach(function(p){if(p[0]===except)return;document.getElementById(p[1]).classList.remove('open');document.getElementById(p[0]).setAttribute('aria-expanded','false')})}
+  pops.forEach(function(p){document.getElementById(p[0]).addEventListener('click',function(e){e.stopPropagation();closePops(p[0]);var pn=document.getElementById(p[1]),o=!pn.classList.contains('open');pn.classList.toggle('open',o);this.setAttribute('aria-expanded',o)})});
+  document.addEventListener('click',function(e){if(!e.target.closest('.pop'))closePops()});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape')closePops()});
+  document.getElementById('spdPanel').addEventListener('input',function(){var v=document.getElementById('spd').value+'%';document.getElementById('spdV2').textContent=v});
+  var mb=document.getElementById('mback');
+  mb.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+  mb.addEventListener('click',function(){B.classList.add('nav-open')});
   try{if(localStorage.getItem(K)==='music')set('music',false)}catch(e){}
   window.addEventListener('keydown',function(e){
     var mu=B.classList.contains('music-mode'),mod=e.ctrlKey||e.metaKey;
@@ -2063,13 +2465,13 @@ function grid(){
   ui();
 }
 function chips(){$('chips').innerHTML='<button class="chip'+(flt==='all'?' on':'')+'" onclick="MUS.setF(\'all\')">Усі</button>'+
-  genres().map(g=>'<button class="chip'+(flt===g?' on':'')+'" onclick="MUS.setF(\''+g.replace(/'/g,"\\'")+'\')">'+g+'</button>').join('')}
+  genres().map(g=>'<button class="chip'+(flt===g?' on':'')+'" onclick="MUS.setF(\''+g.replace(/'/g,"\\'")+'\')">'+g+'</button>').join('');side()}
 $('prev').innerHTML=IC.prev;$('next').innerHTML=IC.next;
 $('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
 $('play').onclick=()=>playing?stop():start();
-$('vol').oninput=e=>{vol=e.target.value/100;if(playing)E.mast.gain.setTargetAtTime(vol*.8,ctx.currentTime,.03)};
-$('spd').oninput=e=>{speed=e.target.value/100;$('spdV').textContent=e.target.value+'%';ui()};
-$('auto').onclick=()=>{auto=!auto;$('auto').classList.toggle('on',auto);$('auto').textContent='Авто-зміна: '+(auto?'увімк.':'вимк.')};
+$('vol').oninput=e=>{vol=e.target.value/100;document.getElementById('volV').textContent=e.target.value+'%';if(playing)E.mast.gain.setTargetAtTime(vol*.8,ctx.currentTime,.03)};
+$('spd').oninput=e=>{speed=e.target.value/100;$('spdV').textContent=e.target.value+'%';const v2=document.getElementById('spdV2');if(v2)v2.textContent=e.target.value+'%';ui()};
+$('auto').onclick=()=>{auto=!auto;const a=$('auto');a.classList.toggle('on',auto);a.setAttribute('aria-pressed',auto);a.title='Авто-зміна треку: '+(auto?'увімк.':'вимк.')};
 $('dl').onclick=()=>save(cur);
 document.addEventListener('keydown',e=>{
   if(!document.body.classList.contains('music-mode')||e.target.closest('input,select,textarea,button,[contenteditable]'))return;
@@ -2078,6 +2480,19 @@ document.addEventListener('keydown',e=>{
   if(e.code==='ArrowLeft')go(-1);
 });
 window.MUS={card:clickCard,save:save,setF:k=>{flt=k;chips();grid()}};
+function plural(n){const a=n%10,b=n%100;return b>10&&b<15?'треків':a===1?'трек':a>1&&a<5?'треки':'треків'}
+function side(){
+  const cnt=k=>k==='all'?T.length:T.filter(t=>t.cat===k).length;
+  const it=k=>'<button type="button" class="row'+(flt===k?' on':'')+'" data-k="'+k+'"><div class="t">'+(k==='all'?'Усі треки':k)+'</div><div class="m">'+cnt(k)+' '+plural(cnt(k))+'</div></button>';
+  $('mnav').innerHTML='<div class="mnav-h">Жанри</div>'+it('all')+genres().map(it).join('')+
+    '<div class="mnav-h">Інструменти</div><button type="button" class="row" data-act="wav"><div class="t">Зберегти у WAV</div><div class="m">довжина, якість, файл</div></button>';
+}
+$('mnav').addEventListener('click',e=>{
+  const b=e.target.closest('.row');if(!b)return;
+  document.body.classList.remove('nav-open');
+  if(b.dataset.act==='wav'){$('wavsec').scrollIntoView({behavior:'smooth',block:'start'});return}
+  MUS.setF(b.dataset.k);document.querySelector('.mscroll').scrollTop=0;
+});
 chips();grid();$('auto').classList.add('on');
 
 
