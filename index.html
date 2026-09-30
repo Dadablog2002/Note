@@ -561,6 +561,14 @@ body.mobile .mscroll{padding:16px max(12px,env(safe-area-inset-right)) calc(90px
 #music .save:hover{color:var(--brand);border-color:var(--brand)}
 @media (prefers-reduced-motion:reduce){#music .eq i{animation:none;height:9px}.main.enter,#music.enter{animation:none}}
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Нотатник">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
 </head>
 <body>
 <script>document.body.classList.toggle('mobile',window.matchMedia('(max-width:900px), (hover:none) and (pointer:coarse) and (max-width:1200px)').matches)</script>
@@ -2079,5 +2087,8 @@ $('miP').onclick=()=>playing?stop():start();
 $('miT').onclick=()=>window.__setMode('music');
 
 })();</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+</script>
 </body>
 </html>
