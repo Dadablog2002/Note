@@ -800,6 +800,18 @@ body.mobile .vtitle{font-size:var(--fb)}
 .onum{min-width:2.4ch;color:var(--muted);text-align:right;flex:none}
 .orow .sticker{width:14px;height:14px;flex:none}
 .ico[disabled]{opacity:.25;pointer-events:none}
+
+/* ===== v13: ручний порядок нотаток ===== */
+.row.hg{padding-left:40px}
+.rgrip{position:absolute;left:6px;top:50%;transform:translateY(-50%);width:28px!important;height:28px!important;cursor:grab;touch-action:none;opacity:.55}
+.row:hover .rgrip,.rgrip:focus-visible{opacity:1}
+.rgrip svg{stroke-width:3.2}
+.row.dragging{opacity:.55;background:var(--paper)}
+.row.drop-above{box-shadow:inset 0 3px 0 var(--brand)}
+.row.drop-below{box-shadow:inset 0 -3px 0 var(--brand)}
+.dragmode,.dragmode *{user-select:none;-webkit-user-select:none;cursor:grabbing!important}
+body.mobile .rgrip{width:36px!important;height:36px!important;left:2px;opacity:.8}
+body.mobile .row.hg{padding-left:44px}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -846,6 +858,7 @@ body.mobile .vtitle{font-size:var(--fb)}
       <div class="stamp" id="stamp"></div>
       <div class="sp"></div>
       <button class="view-btn" id="viewtop"></button>
+      <button class="ico" id="topnote" title="Поставити нагору списку" aria-label="Поставити нагору списку"></button>
       <button class="ico" id="pinnote" title="Закріпити як важливу" aria-label="Закріпити як важливу"></button>
       <button class="ico" id="donenote" title="Позначити як готове" aria-label="Позначити як готове"></button>
       <button class="ico danger" id="delnote" title="Видалити нотатку" aria-label="Видалити нотатку"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
@@ -918,9 +931,11 @@ body.mobile .vtitle{font-size:var(--fb)}
   var MAC=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent), MOD=MAC?'Cmd':'Ctrl';
   var SKEY='notatnyk:settings:v1', ORDER=['title','description','tags','screen','voice','sound','frame','text'];
   var DEF=['title','description','tags','screen','voice','sound','frame'];
-  var settings={defaults:DEF.slice(),order:ORDER.slice(),h24:true,view:false,theme:'dark',mig:2}, selMode=false, sel={};
+  var TABDEF=['todo','done','pinned','trash'],TABNAME={todo:'Не готове',done:'Готове',pinned:'Важливі',trash:'Кошик'};
+  var settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2}, selMode=false, sel={};
   function loadSettings(){try{var x=JSON.parse(localStorage.getItem(SKEY));if(x){
     if(Array.isArray(x.defaults))settings.defaults=x.defaults.filter(function(t){return TYPES[t]});
+    if(Array.isArray(x.tabs)){var tt=x.tabs.filter(function(t,i){return TABDEF.indexOf(t)>=0&&x.tabs.indexOf(t)===i});TABDEF.forEach(function(t){if(tt.indexOf(t)<0)tt.push(t)});settings.tabs=tt}
     if(Array.isArray(x.order))settings.order=x.order.filter(function(t){return typeof t==='string'&&TYPES[t]});
     if(typeof x.h24==='boolean')settings.h24=x.h24;
     if(typeof x.view==='boolean')settings.view=x.view;
@@ -972,6 +987,8 @@ body.mobile .vtitle{font-size:var(--fb)}
     gear:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z|M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'
   };
   ICON.done='M22 11.1V12a10 10 0 1 1-5.9-9.1|M22 4 12 14l-3-3';
+  ICON.top='M5 4h14|M12 20V9|m6 14 6-6 6 6';
+  ICON.grip='M9 6h.01|M9 12h.01|M9 18h.01|M15 6h.01|M15 12h.01|M15 18h.01';
   function iconBtn(cls,title,d,fn){
     var b=h('button',{class:'ico '+(cls||''),title:title,'aria-label':title,onclick:fn});
     b.appendChild(icon(d));return b;
@@ -1106,7 +1123,7 @@ body.mobile .vtitle{font-size:var(--fb)}
     function ok(n){return n&&n.id&&Array.isArray(n.blocks)}
     function nn(n){
       return {
-        id:String(n.id),kind:n.kind==='plain'?'plain':'block',pinned:!!n.pinned,done:!!n.done,createdAt:n.createdAt||Date.now(),updatedAt:n.updatedAt||Date.now(),
+        id:String(n.id),rank:(typeof n.rank==='number'&&isFinite(n.rank))?n.rank:undefined,kind:n.kind==='plain'?'plain':'block',pinned:!!n.pinned,done:!!n.done,createdAt:n.createdAt||Date.now(),updatedAt:n.updatedAt||Date.now(),
         blocks:n.blocks.filter(function(b){return b&&TYPES[b.type]}).map(function(b){
           var o={id:String(b.id||uid()),type:b.type,label:typeof b.label==='string'?b.label:'',
             value:b.type==='tags'?(Array.isArray(b.value)?b.value.map(String):[]):(typeof b.value==='string'?b.value:'')};
@@ -1399,13 +1416,25 @@ body.mobile .vtitle{font-size:var(--fb)}
       });
       if(!state.types.length)tbox.appendChild(h('p',{class:'hint',text:'Своїх типів ще немає.'}));
     }
-    var kids=[h('h3',{text:'Блоки нової нотатки'}),h('p',{class:'hint',style:'margin:0 0 8px',text:'Галочка — додавати блок у нову нотатку. Стрілками ↑ ↓ задається порядок: саме так блоки йтимуть у новій нотатці.'}),dbox,h('h3',{text:'Мої типи блоків'}),tbox,
+    var tabbox=h('div');
+    function drawTabsOrder(fk,fcls){
+      tabbox.textContent='';
+      settings.tabs.forEach(function(k,i){
+        function mv(d){var j=i+d;if(j<0||j>=settings.tabs.length)return;var a=settings.tabs;var x=a[i];a[i]=a[j];a[j]=x;saveSettings();drawTabsOrder(k,d<0?'mu':'md');renderList()}
+        var up=iconBtn('mu','Вище',ICON.up,function(){mv(-1)}),dn=iconBtn('md','Нижче',ICON.down,function(){mv(1)});
+        if(i===0)up.disabled=true;if(i===settings.tabs.length-1)dn.disabled=true;
+        tabbox.appendChild(h('div',{class:'orow','data-k':k},[h('div',{class:'opt'},[h('span',{class:'onum',text:(i+1)+'.'}),h('span',{text:TABNAME[k]})]),up,dn]));
+      });
+      if(fk){var row=tabbox.querySelector('.orow[data-k="'+fk+'"]');var f=row&&(row.querySelector('.'+fcls+':not([disabled])')||row.querySelector('.mu:not([disabled]),.md:not([disabled])'));if(f)f.focus()}
+    }
+    drawTabsOrder();
+    var kids=[h('h3',{text:'Блоки нової нотатки'}),h('p',{class:'hint',style:'margin:0 0 8px',text:'Галочка — додавати блок у нову нотатку. Стрілками ↑ ↓ задається порядок: саме так блоки йтимуть у новій нотатці.'}),dbox,h('h3',{text:'Порядок вкладок'}),h('p',{class:'hint',style:'margin:0 0 8px',text:'Стрілками ↑ ↓ задайте, у якому порядку йдуть вкладки: Не готове, Готове, Важливі, Кошик.'}),tabbox,h('h3',{text:'Мої типи блоків'}),tbox,
       h('button',{class:'sbtn',text:'+ Додати тип',onclick:function(){typeDialog(drawTypes)}}),
       h('h3',{text:'Тема'}),opt('Темна піксельна тема',settings.theme!=='light',function(on){settings.theme=on?'dark':'light';saveSettings();applyTheme()})];
     drawTypes();
     kids.push(h('h3',{text:'Час'}),opt('24-годинний формат',settings.h24,function(on){settings.h24=on;saveSettings();renderAll()}));
     kids.push(h('h3',{text:'Гарячі клавіші'}));
-    [[MOD+'+N або Alt+N','Нова нотатка'],[MOD+'+F','Пошук по нотатках'],['Delete','Видалити відкриту нотатку (у Кошик)'],[MOD+'+A, потім Delete','У полі тегів: видалити всі теги']].forEach(function(r){
+    [[MOD+'+N або Alt+N','Нова нотатка'],[MOD+'+F','Пошук по нотатках'],['Delete','Видалити відкриту нотатку (у Кошик)'],['Alt+↑ / Alt+↓','Пересунути нотатку в списку (клавіатура на рядку)'],[MOD+'+A, потім Delete','У полі тегів: видалити всі теги']].forEach(function(r){
       kids.push(h('div',{class:'keyrow'},[h('kbd',{class:'kbd',text:r[0]}),h('span',{text:r[1]})]));
     });
     kids.push(h('p',{class:'hint',style:'margin:8px 0 0',text:'Якщо браузер на '+MOD+'+N відкриває нове вікно — це його власний захист, користуйтеся Alt+N.'}));
@@ -1438,7 +1467,7 @@ body.mobile .vtitle{font-size:var(--fb)}
       h('button',{class:'sbtn',text:'Відновити з копії',onclick:function(){$('file').click()}})]));
     kids.push(h('h3',{text:'Небезпечна зона'}),h('div',{class:'btns-l'},[
       h('button',{class:'sbtn dng',text:'Видалити всі нотатки ('+state.notes.length+')',onclick:deleteAll}),
-      h('button',{class:'sbtn',text:'Скинути налаштування',onclick:function(){settings={defaults:DEF.slice(),order:ORDER.slice(),h24:true,view:false,theme:'dark',mig:2};saveSettings();applyTheme();close();syncView();renderAll();toast('Налаштування скинуто')}})]));
+      h('button',{class:'sbtn',text:'Скинути налаштування',onclick:function(){settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2};saveSettings();applyTheme();close();syncView();renderAll();toast('Налаштування скинуто')}})]));
     var ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close()}},[
       h('div',{class:'modal wide',role:'dialog','aria-modal':'true'},[
         h('h2',{text:'Налаштування'}),h('div',{class:'set'},kids),
@@ -1737,7 +1766,7 @@ body.mobile .vtitle{font-size:var(--fb)}
   }
   function renderTrashView(){
     var stack=$('stack'),n=trashPeek();
-    $('delnote').classList.add('hidden');syncPin(null);syncDone(null);
+    $('delnote').classList.add('hidden');$('topnote').classList.add('hidden');syncPin(null);syncDone(null);
     var sv=$('saved');sv.textContent='';sv.className='saved';$('stamp').textContent='';$('stamp').title='';
     if(!n){
       stack.appendChild(h('div',{class:'empty'},[h('div',null,[h('h2',{text:'Кошик'}),h('p',{text:'Виберіть нотатку зліва, щоб переглянути її. Звідси її можна відновити.'})])]));
@@ -1785,7 +1814,8 @@ body.mobile .vtitle{font-size:var(--fb)}
     var bar=$('tabs');bar.textContent='';
     var pc=state.notes.filter(function(n){return n.pinned}).length,dc=state.notes.filter(function(n){return n.done}).length;
     $('sel').classList.toggle('hidden',tab==='trash');
-    [['todo','Не готове',state.notes.filter(function(n){return !n.done&&!n.pinned}).length],['done','Готове',dc],['pinned','Важливі',pc],['trash','Кошик',state.trash.length]].forEach(function(t){
+    var cnt={todo:state.notes.filter(function(n){return !n.done&&!n.pinned}).length,done:dc,pinned:pc,trash:state.trash.length};
+    settings.tabs.map(function(k){return [k,TABNAME[k],cnt[k]]}).forEach(function(t){
       bar.appendChild(h('button',{class:'tab'+(tab===t[0]?' on':''),'aria-pressed':tab===t[0]?'true':'false',onclick:function(){if(tab===t[0])return;tab=t[0];sel={};selMode=false;renderList();renderStack();saveUI()}},[
         h('span',{text:t[1]}),h('span',{class:'cnt',text:String(t[2])})]));
     });
@@ -1815,6 +1845,65 @@ body.mobile .vtitle{font-size:var(--fb)}
   function rowMeta(n){return (n.done?'Готове · ':'')+fmtDate(n.updatedAt)+' · '+noteSub(n)}
 
   /* ---------- Render: list ---------- */
+  /* ---------- Ручний порядок нотаток ---------- */
+  // нотатки без rank (нові) стоять зверху; з rank — у порядку, який задав користувач
+  function byOrder(a,b){
+    var ra=typeof a.rank==='number'?a.rank:-Infinity,rb=typeof b.rank==='number'?b.rank:-Infinity;
+    if(ra===rb)return b.updatedAt-a.updatedAt;
+    return ra<rb?-1:1;
+  }
+  function applyOrder(ids){
+    ids.forEach(function(id,i){var n=state.notes.find(function(x){return x.id===id});if(n)n.rank=i});
+    state.rev=Date.now();flush();renderList();
+  }
+  function moveNote(id,mode){
+    if(tab==='trash')return;
+    var ids=filtered().map(function(n){return n.id}),i=ids.indexOf(id);
+    if(i<0){toast('Ця нотатка зараз не в цьому списку');return}
+    ids.splice(i,1);
+    var j=mode==='top'?0:mode==='up'?Math.max(0,i-1):Math.min(ids.length,i+1);
+    ids.splice(j,0,id);applyOrder(ids);
+    var box=$('notes');if(mode==='top')box.scrollTop=0;
+    if(mode==='top')toast('Нотатку поставлено нагору');
+    return j;
+  }
+  // перетягування за ручку (миша і дотик)
+  function attachDrag(grip,row,box){
+    grip.addEventListener('click',function(e){e.stopPropagation()});
+    grip.addEventListener('pointerdown',function(e){
+      if(e.pointerType==='mouse'&&e.button!==0)return;
+      e.preventDefault();e.stopPropagation();
+      var rows=[].slice.call(box.querySelectorAll('.row[data-nid]')),from=rows.indexOf(row),to=from,y=e.clientY,raf=0,done=false;
+      if(from<0||rows.length<2)return;
+      try{grip.setPointerCapture(e.pointerId)}catch(_){}
+      row.classList.add('dragging');box.classList.add('dragmode');
+      function mark(){
+        var k=rows.length-1;
+        for(var i=0;i<rows.length;i++){var r=rows[i].getBoundingClientRect();if(y<r.bottom){k=i;break}}
+        to=k;
+        rows.forEach(function(r,i){r.classList.toggle('drop-above',i===to&&to<from);r.classList.toggle('drop-below',i===to&&to>from)});
+      }
+      function loop(){
+        if(done)return;
+        var br=box.getBoundingClientRect();
+        if(y<br.top+44)box.scrollTop-=Math.min(14,(br.top+44-y)/3+2);
+        else if(y>br.bottom-44)box.scrollTop+=Math.min(14,(y-(br.bottom-44))/3+2);
+        mark();raf=requestAnimationFrame(loop);
+      }
+      function move(ev){y=ev.clientY}
+      function end(ev){
+        if(done)return;done=true;cancelAnimationFrame(raf);
+        grip.removeEventListener('pointermove',move);grip.removeEventListener('pointerup',end);grip.removeEventListener('pointercancel',end);
+        rows.forEach(function(r){r.classList.remove('dragging','drop-above','drop-below')});box.classList.remove('dragmode');
+        if(ev.type!=='pointercancel'&&to!==from){
+          var ids=rows.map(function(r){return r.getAttribute('data-nid')});
+          var id=ids.splice(from,1)[0];ids.splice(to,0,id);applyOrder(ids);
+        }
+      }
+      grip.addEventListener('pointermove',move);grip.addEventListener('pointerup',end);grip.addEventListener('pointercancel',end);
+      loop();
+    });
+  }
   function filtered(){
     var q=query.trim().toLowerCase();
     return (tab==='trash'?state.trash:state.notes).filter(function(n){
@@ -1823,7 +1912,7 @@ body.mobile .vtitle{font-size:var(--fb)}
       if(tab==='done'&&!n.done)return false;
       if(!q)return true;
       return n.blocks.map(function(b){return b.label+' '+blockText(b)}).join(' ').toLowerCase().indexOf(q)>=0;
-    }).sort(function(a,b){return tab==='trash'?(b.deletedAt-a.deletedAt):((b.pinned?1:0)-(a.pinned?1:0)||b.updatedAt-a.updatedAt)});
+    }).sort(function(a,b){return tab==='trash'?(b.deletedAt-a.deletedAt):byOrder(a,b)});
   }
   function drawSelbar(){
     var bar=$('selbar');bar.textContent='';bar.classList.toggle('hidden',!selMode);
@@ -1850,13 +1939,18 @@ body.mobile .vtitle{font-size:var(--fb)}
       if(!selMode)kids.push(iconBtn('rdone'+(n.done?' doneon':''),n.done?'Зняти позначку «Готове»':'Позначити як готове',ICON.done,function(e){e.stopPropagation();toggleDone(n)}));
       if(!selMode)kids.push(iconBtn('rpin'+(n.pinned?' pinned':''),n.pinned?'Відкріпити':'Закріпити як важливу',ICON.star,function(e){e.stopPropagation();togglePin(n)}));
       if(!selMode)kids.push(iconBtn('rdel danger','Видалити нотатку',ICON.del,function(e){e.stopPropagation();confirmDeleteNote(n)}));
-      var row=h('div',{class:'row'+(n.id===activeId&&!selMode?' on':'')+(n.done?' done':'')+(selMode?' sm':''),tabindex:'0',role:'button','data-nid':n.id},kids);
+      var row=h('div',{class:'row'+(n.id===activeId&&!selMode?' on':'')+(n.done?' done':'')+(selMode?' sm':' hg'),tabindex:'0',role:'button','data-nid':n.id},kids);
+      if(!selMode){var grip=iconBtn('rgrip','Перетягніть, щоб змінити порядок (або Alt+↑ / Alt+↓)',ICON.grip,function(){});grip.setAttribute('tabindex','-1');row.appendChild(grip);attachDrag(grip,row,box)}
       function open(){
         if(selMode){if(sel[n.id])delete sel[n.id];else sel[n.id]=1;renderList();return}
         var sw=activeId!==n.id;activeId=n.id;renderList();renderStack();saveUI();if(sw){var sc=$('scroll');if(sc)sc.scrollTop=0}closeNav();
       }
       row.addEventListener('click',open);
-      row.addEventListener('keydown',function(e){if(e.target===row&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}});
+      row.addEventListener('keydown',function(e){
+        if(e.target===row&&e.altKey&&!selMode&&(e.key==='ArrowUp'||e.key==='ArrowDown')){
+          e.preventDefault();moveNote(n.id,e.key==='ArrowUp'?'up':'down');
+          var again=box.querySelector('.row[data-nid="'+n.id+'"]');if(again){again.focus();again.scrollIntoView({block:'nearest'})}return}
+        if(e.target===row&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}});
       box.appendChild(row);
     });
     box.scrollTop=st;
@@ -1875,7 +1969,7 @@ body.mobile .vtitle{font-size:var(--fb)}
   function renderStack(){
     var stack=$('stack');stack.textContent='';stack.className='stack';$('viewtop').classList.toggle('hidden',tab==='trash');if(tab==='trash'){renderTrashView();return}
     var n=active();
-    $('delnote').classList.toggle('hidden',!n);syncPin(n);syncDone(n);
+    $('delnote').classList.toggle('hidden',!n);$('topnote').classList.toggle('hidden',!n);syncPin(n);syncDone(n);
     drawSaved();
     if(!n){
       stack.appendChild(h('div',{class:'empty'},[h('div',null,[
@@ -2262,6 +2356,7 @@ body.mobile .vtitle{font-size:var(--fb)}
   $('viewtop').addEventListener('click',function(){setView(!settings.view)});$('sel').appendChild(icon(ICON.check));
   $('settings').addEventListener('click',openSettings);
   $('about').addEventListener('click',function(){closeNav();openAbout()});
+  $('topnote').appendChild(icon(ICON.top));$('topnote').addEventListener('click',function(){if(activeId)moveNote(activeId,'top')});
   $('pinnote').appendChild(icon(ICON.star));$('pinnote').addEventListener('click',function(){var n=active();if(n)togglePin(n)});
   $('sel').addEventListener('click',function(){selMode=!selMode;sel={};renderList()});
   $('file').addEventListener('change',function(e){var f=e.target.files[0];if(f)importData(f);e.target.value=''});
