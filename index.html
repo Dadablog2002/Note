@@ -1785,7 +1785,7 @@ body.mobile .vtitle{font-size:var(--fb)}
     var bar=$('tabs');bar.textContent='';
     var pc=state.notes.filter(function(n){return n.pinned}).length,dc=state.notes.filter(function(n){return n.done}).length;
     $('sel').classList.toggle('hidden',tab==='trash');
-    [['todo','Не готове',state.notes.length-dc],['done','Готове',dc],['pinned','Важливі',pc],['trash','Кошик',state.trash.length]].forEach(function(t){
+    [['todo','Не готове',state.notes.filter(function(n){return !n.done&&!n.pinned}).length],['done','Готове',dc],['pinned','Важливі',pc],['trash','Кошик',state.trash.length]].forEach(function(t){
       bar.appendChild(h('button',{class:'tab'+(tab===t[0]?' on':''),'aria-pressed':tab===t[0]?'true':'false',onclick:function(){if(tab===t[0])return;tab=t[0];sel={};selMode=false;renderList();renderStack();saveUI()}},[
         h('span',{text:t[1]}),h('span',{class:'cnt',text:String(t[2])})]));
     });
@@ -1818,7 +1818,7 @@ body.mobile .vtitle{font-size:var(--fb)}
   function filtered(){
     var q=query.trim().toLowerCase();
     return (tab==='trash'?state.trash:state.notes).filter(function(n){
-      if(tab==='todo'&&n.done)return false;
+      if(tab==='todo'&&(n.done||n.pinned))return false;
       if(tab==='pinned'&&!n.pinned)return false;
       if(tab==='done'&&!n.done)return false;
       if(!q)return true;
@@ -1840,7 +1840,7 @@ body.mobile .vtitle{font-size:var(--fb)}
     drawSelbar();
     var list=filtered();
     if(!list.length){
-      box.appendChild(h('div',{class:'none-yet',text:query.trim()?'Нічого не знайдено.':tab==='pinned'?'Важливих нотаток ще немає. Натисніть зірочку біля нотатки, щоб закріпити її.':tab==='done'?'Готових нотаток ще немає. Натисніть галочку біля нотатки, щоб позначити її готовою.':state.notes.length?'Усі нотатки готові. Натисніть «Нова нотатка», щоб додати ще.':'Нотаток ще немає. Натисніть «Нова нотатка».'}));
+      box.appendChild(h('div',{class:'none-yet',text:query.trim()?'Нічого не знайдено.':tab==='pinned'?'Важливих нотаток ще немає. Натисніть зірочку біля нотатки, щоб закріпити її.':tab==='done'?'Готових нотаток ще немає. Натисніть галочку біля нотатки, щоб позначити її готовою.':state.notes.length?'Тут порожньо: решта нотаток у «Готове» чи «Важливі». Натисніть «Нова нотатка», щоб додати ще.':'Нотаток ще немає. Натисніть «Нова нотатка».'}));
       return;
     }
     list.forEach(function(n){
@@ -2289,7 +2289,7 @@ body.mobile .vtitle{font-size:var(--fb)}
   load();loadSettings();applyTheme();applyMode();syncView();
   if(Sync.on()){Sync.start();setTimeout(function(){Sync.run(false)},400)}
   var restored=restoreUI();
-  if(!restored&&!state.notes.some(function(n){return !n.done})&&state.notes.some(function(n){return n.done}))tab='done';
+  if(!restored&&state.notes.length&&!filtered().length)tab=state.notes.some(function(n){return n.pinned})?'pinned':'done';
   if(!active()&&tab!=='trash'){var first=filtered()[0];if(first)activeId=first.id}
   renderAll();
 })();
