@@ -1,4 +1,4 @@
-const CACHE = 'notatnyk-v17';
+const CACHE = 'notatnyk-v18';
 const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
