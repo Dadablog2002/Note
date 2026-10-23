@@ -1,4 +1,4 @@
-const CACHE = 'notatnyk-v18';
+const CACHE = 'notatnyk-v19';
 const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -27,5 +27,22 @@ self.addEventListener('fetch', e => {
         return res;
       })
       .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const d = e.notification.data || {};
+  const act = e.action === 'done' || e.action === 'snooze' ? e.action : 'open';
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      if (list.length) {
+        const c = list.find(x => x.focused) || list[0];
+        c.postMessage({ type: 'rem', action: act, id: d.id });
+        return c.focus ? c.focus() : undefined;
+      }
+      const q = act === 'open' ? './' : './?rem=' + act + ':' + encodeURIComponent(d.id || '');
+      return self.clients.openWindow(q);
+    })
   );
 });
