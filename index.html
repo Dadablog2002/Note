@@ -856,6 +856,16 @@ body.mobile .tdck{width:32px;height:32px;margin-top:calc((var(--lb) - 32px)/2)}
 body.mobile .tdck svg{width:20px;height:20px}
 body.mobile .tdx{width:38px!important;height:38px!important;margin-top:calc((var(--lb) - 38px)/2)}
 
+/* ===== v20: категорії налаштувань ===== */
+.set h2.cat{font-size:var(--fb);line-height:var(--lb);font-weight:400;color:var(--brand);margin:30px 0 4px;padding-bottom:6px;border-bottom:2px solid var(--edge,var(--ink))}
+.set h2.cat:first-child{margin-top:4px}
+.rset{display:flex;flex-direction:column;gap:12px;font-size:var(--fs)}
+.rset .rl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rset .rl>.k{color:var(--muted);min-width:120px}
+.rset select{background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));padding:7px 8px;font:inherit;font-size:var(--fs);min-width:0;border-radius:0}
+.rset input[type=range]{accent-color:var(--brand);width:150px}
+.rset .ok{color:#2f9e44}.rset .bad{color:#e03131}
+.rset .hint{margin:0}
 /* ===== v19: режим «Нагадування» ===== */
 body.mobile #rem .fields{grid-template-columns:1fr 1fr}
 body.mobile #rem input[type=date],body.mobile #rem input[type=time]{font-size:13px;padding:9px 4px}
@@ -1025,8 +1035,7 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 <section id="rem" aria-label="Нагадування">
 <div class="mtop"><button class="ico mback" id="rback" title="Меню" aria-label="Відкрити бічну панель"></button><button class="ico" id="rnotes" title="Нотатки (Alt+M)" aria-label="Нотатки"></button><b class="mtitle">Нагадування</b><span class="sp"></span><span class="mt">Alt+M — перемкнути</span></div>
 <div class="mscroll"><div class="wrap">
-<h1>Нагадування <span>і дзвінок</span></h1>
-<p class="sub">Вкажи що зробити, дату і час. Поки додаток відкритий (навіть у фоновій вкладці) — він задзвонить і покаже сповіщення.</p>
+<h1>Нагадування</h1>
 <section class="panel" id="rform">
 <label class="f">Що зробити<input type="text" id="rText" maxlength="200" placeholder="Наприклад: подзвонити клієнту" autocomplete="off"></label>
 <div class="fields">
@@ -1039,14 +1048,7 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 <div class="msg" id="rMsg" role="status"></div>
 </section>
 <div id="rList"></div>
-<h2>Дзвінок і сповіщення</h2>
-<section class="panel"><div class="st">
-<div><span class="k">Сповіщення</span><span id="rsN"></span><button type="button" class="tg" id="rbN">Дозволити</button></div>
-<div><span class="k">Звук</span><span id="rsS"></span><button type="button" class="tg" id="rbS">Перевірити звук</button></div>
-<div><label class="mchk"><input type="checkbox" id="rKeep" checked>Не давати вкладці «засинати» у фоні (майже нечутний тон, поки є активні нагадування)</label></div>
-<div id="rIos" class="hidden"><span style="color:var(--muted)">iPhone: щоб дзвеніло й сповіщало — «Поділитися» → «На початковий екран» і відкривай додаток звідти.</span></div>
-</div></section>
-<p class="note">Важливо: дзвінок працює, поки вкладка/додаток відкриті. Якщо закрити вкладку повністю або телефон «заморозить» сторінку — браузер не дасть їй задзвонити. Для надійного сигналу в такому разі натисни «У календар» біля нагадування: календар телефону/ПК нагадає сам.</p>
+
 </div></div></section>
 <div class="pbar" id="pbar" role="region" aria-label="Плеєр">
 <div class="pb-np"><span class="dot" id="npD"></span><span class="pb-t"><span id="npT"></span><span id="npM"></span></span></div>
@@ -1731,6 +1733,20 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
     kids.push(h('h3',{text:'Небезпечна зона'}),h('div',{class:'btns-l'},[
       h('button',{class:'sbtn dng',text:'Видалити всі нотатки ('+state.notes.length+')',onclick:deleteAll}),
       h('button',{class:'sbtn',text:'Скинути налаштування',onclick:function(){settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2};saveSettings();applyTheme();close();syncView();renderAll();toast('Налаштування скинуто')}})]));
+    (function(){
+      var groups=[],cur=null;
+      kids.forEach(function(k){if(k.tagName==='H3'||!cur){cur={t:k.textContent||'',els:[]};groups.push(cur)}cur.els.push(k)});
+      var NOTES=['Блоки нової нотатки','Мої типи блоків','Порядок вкладок','Гарячі клавіші'];
+      function isN(g){return NOTES.some(function(x){return g.t.indexOf(x)===0})}
+      var out=[h('h2',{class:'cat',text:'Нотатки'})];
+      groups.filter(isN).forEach(function(g){out=out.concat(g.els)});
+      out.push(h('h2',{class:'cat',text:'Музика'}),h('p',{class:'hint',style:'margin:6px 0 0',text:'Гучність, темп і автозміна треків — у верхній панелі режиму «Музика».'}));
+      out.push(h('h2',{class:'cat',text:'Нагадування'}));
+      if(window.__remSettings)out.push(window.__remSettings());
+      out.push(h('h2',{class:'cat',text:'Загальні'}));
+      groups.filter(function(g){return !isN(g)}).forEach(function(g){out=out.concat(g.els)});
+      kids=out;
+    })();
     var ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close()}},[
       h('div',{class:'modal wide',role:'dialog','aria-modal':'true'},[
         h('h2',{text:'Налаштування'}),h('div',{class:'set'},kids),
@@ -1906,7 +1922,9 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
       sec('Нотатки',[h('p',{text:'Нотатки зі змінними блоками: заголовок, опис, теги, екран, голос, звук, кадр і звичайний текст. Можна створювати власні типи блоків, закріплювати важливі нотатки та позначати готові.'}),
         ul(['Видалені нотатки 30 днів лежать у Кошику.','Дані зберігаються в браузері, а копію можна зберегти у файл.','За бажанням нотатки синхронізуються між пристроями через приватний GitHub Gist.','Додаток встановлюється як PWA й відкривається без мережі.'])]),
       sec('Голос',[h('p',{text:'Блок «Голос» має два окремі поля — українське й англійське. Англійський текст озвучується голосом браузера, як у перекладачі: компактні кнопки відтворення/паузи та стоп, вибір швидкості, а якщо в системі кілька голосів — ще й вибір голосу. Українське поле — лише для тексту.'})]),
-      sec('Музика (BrainCube Beats)',[h('p',{text:'Тридцять треків у різних енергійних жанрах, розбитих по категоріях, які синтезуються прямо тут, у браузері. Їх пише код, тому їх можна вільно класти на фон відео. Обери жанр, послухай і збережи WAV для монтажу. Музика не зупиняється, коли переходиш до нотаток.'})])
+      sec('Музика (BrainCube Beats)',[h('p',{text:'Тридцять треків у різних енергійних жанрах, розбитих по категоріях, які синтезуються прямо тут, у браузері. Їх пише код, тому їх можна вільно класти на фон відео. Обери жанр, послухай і збережи WAV для монтажу. Музика не зупиняється, коли переходиш до нотаток.'})]),
+      sec('Нагадування',[h('p',{text:'Третій режим — нагадування з датою, часом і повтором. Коли настає час, додаток дзвонить і показує сповіщення — навіть якщо вкладка у фоні.'}),
+        ul(['Мелодію (від м’яких до дуже докучливих), гучність, тривалість дзвінка і час відкладання обирай у Налаштуваннях → Нагадування.','Кнопки «Готово» та «Відкласти» є і у вікні дзвінка, і в самому сповіщенні.','Дзвінок працює, поки вкладка чи додаток відкриті. Повністю закрита вкладка не задзвонить — для цього кнопка «У календар» біля нагадування: календар телефону чи ПК нагадає сам.','iPhone: сповіщення працюють лише з додатку, доданого на початковий екран; коли iOS згортає додаток, сторінка засинає.','Нагадування синхронізуються через Gist і входять у копію даних.','Alt+M перемикає режими: Нотатки → Музика → Нагадування.'])])
     );
     ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close()}},[
       h('div',{class:'modal wide',role:'dialog','aria-modal':'true','aria-label':'Про додаток'},[
@@ -2847,7 +2865,7 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 <script>(function REM(){
 'use strict';
 var K='notatnyk:rem:v1',B=document.body,REPS=['none','daily','weekdays','weekly','monthly'];
-var st={items:[],keep:true,filter:'act'};
+var st={items:[],keep:true,filter:'act',snd:'alarm',vol:80,dur:180,snz:10};
 var ring={},editId=null,soundOn=true,ringStart=0,ac=null,keepOsc=null,nextBeep=0,flashOn=false,baseTitle=document.title,lastMin=-1,dismissed=false;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -2858,11 +2876,11 @@ function norm(r){
 function sortId(){st.items.sort(function(a,b){return a.id<b.id?-1:a.id>b.id?1:0})}
 function load(){
   try{var d=JSON.parse(localStorage.getItem(K)||'null');
-    if(d){st.items=(Array.isArray(d.items)?d.items:[]).map(norm).filter(Boolean);st.keep=d.keep!==false;st.filter=d.filter||'act'}}catch(e){}
+    if(d){st.items=(Array.isArray(d.items)?d.items:[]).map(norm).filter(Boolean);st.keep=d.keep!==false;st.filter=d.filter||'act';st.snd=d.snd||'alarm';st.vol=d.vol>=10&&d.vol<=100?+d.vol:80;st.dur=d.dur===0?0:(+d.dur||180);st.snz=+d.snz||10}}catch(e){}
   sortId();
 }
 function persist(sync){
-  try{localStorage.setItem(K,JSON.stringify({items:st.items,keep:st.keep,filter:st.filter}))}catch(e){}
+  try{localStorage.setItem(K,JSON.stringify({items:st.items,keep:st.keep,filter:st.filter,snd:st.snd,vol:st.vol,dur:st.dur,snz:st.snz}))}catch(e){}
   if(sync!==false&&window.__syncPush)window.__syncPush();
 }
 function alive(){return st.items.filter(function(r){return !r.del})}
@@ -2909,31 +2927,67 @@ function byId(id){for(var i=0;i<st.items.length;i++)if(st.items[i].id===id&&!st.
 function act(action,id){
   var r=byId(id);if(!r)return;
   if(action==='done')complete(r);
-  else if(action==='snooze')snooze(r,10);
+  else if(action==='snooze')snooze(r,st.snz);
   else return;
   persist();render();alertUI();
 }
 
 /* ---------- Звук ---------- */
+var mg=null;
 function ctx(){
   if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}
   if(ac.state==='suspended'){try{ac.resume()}catch(e){}}
   return ac;
 }
-function beep(t,f,d,v){
-  var o=ac.createOscillator(),g=ac.createGain();
-  o.type='square';o.frequency.value=f;
-  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+0.01);g.gain.setValueAtTime(v,t+d-0.03);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
-  o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+0.02);
+function master(){
+  if(!mg){mg=ac.createGain();mg.gain.value=st.vol/100;mg.connect(ac.destination)}
+  return mg;
 }
-function pattern(t){for(var i=0;i<4;i++)beep(t+i*0.28,i%2?1175:880,0.2,0.18)}
+function cutMaster(){
+  if(!mg)return;
+  var g=mg;mg=null;
+  try{g.gain.cancelScheduledValues(0);g.gain.value=0;g.disconnect()}catch(e){}
+}
+function tone(t,f,d,v,type,f2){
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type=type||'square';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.linearRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+0.012);g.gain.setValueAtTime(v,t+Math.max(0.02,d-0.04));g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  o.connect(g);g.connect(master());o.start(t);o.stop(t+d+0.03);
+}
+function decay(t,f,d,v,type){
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  o.connect(g);g.connect(master());o.start(t);o.stop(t+d+0.03);
+}
+/* кожен звук малює один цикл і повертає його довжину (сек) */
+var SOUNDS=[
+ {id:'bell',n:'Дзвіночок',k:'м’який',p:function(t){decay(t,1318,1.6,0.3);decay(t,2637,0.9,0.1);decay(t+0.5,1568,1.6,0.25);return 4}},
+ {id:'drops',n:'Краплі',k:'м’який',p:function(t){decay(t,880,0.5,0.3);decay(t+0.35,660,0.6,0.3);return 3}},
+ {id:'harp',n:'Арфа',k:'м’який',p:function(t){[523,659,784,1047,784,659].forEach(function(f,i){decay(t+i*0.2,f,0.9,0.22,'triangle')});return 3.6}},
+ {id:'chime',n:'Мелодія',k:'м’який',p:function(t){[784,988,1175,988,1319,1175].forEach(function(f,i){tone(t+i*0.25,f,0.22,0.16,'triangle')});return 4}},
+ {id:'alarm',n:'Класичний будильник',k:'середній',p:function(t){for(var i=0;i<4;i++)tone(t+i*0.28,i%2?1175:880,0.2,0.18);return 2}},
+ {id:'digital',n:'Цифровий',k:'середній',p:function(t){for(var i=0;i<3;i++)tone(t+i*0.14,2000,0.08,0.14);return 1.6}},
+ {id:'siren',n:'Сирена',k:'докучливий',p:function(t){tone(t,600,0.9,0.22,'sawtooth',1100);tone(t+0.9,1100,0.9,0.22,'sawtooth',600);return 1.8}},
+ {id:'alert',n:'Тривога',k:'докучливий',p:function(t){for(var i=0;i<6;i++)tone(t+i*0.13,i%2?1400:1900,0.11,0.26,'sawtooth');return 1.1}},
+ {id:'rise',n:'Наростаючий',k:'дуже докучливий',p:function(t,el){var v=Math.min(0.45,0.06+el*0.012);for(var i=0;i<5;i++)tone(t+i*0.16,1000+i*160,0.12,v,'square');return 1.4}},
+ {id:'none',n:'Без звуку (лише сповіщення)',k:'тихий',p:null}
+];
+function snd(id){for(var i=0;i<SOUNDS.length;i++)if(SOUNDS[i].id===id)return SOUNDS[i];return SOUNDS[4]}
+function stopSound(){soundOn=false;cutMaster()}
+function preview(id){
+  var c=ctx();if(!c)return;
+  var go=function(){cutMaster();var s_=snd(id);if(s_.p)s_.p(c.currentTime+0.05,8)};
+  if(c.state==='running')go();else c.resume().then(go).catch(function(){});
+}
 function feedRing(){
   if(!soundOn||!Object.keys(ring).length)return;
-  if(Date.now()-ringStart>180000){soundOn=false;return}
+  var s_=snd(st.snd);if(!s_.p)return;
+  if(st.dur&&Date.now()-ringStart>st.dur*1000){stopSound();return}
   if(!ac||ac.state!=='running'){ctx();return}
-  var now=ac.currentTime;
+  var now=ac.currentTime,el=(Date.now()-ringStart)/1000;
   if(nextBeep<now)nextBeep=now+0.05;
-  while(nextBeep<now+2.5){pattern(nextBeep);nextBeep+=2}
+  while(nextBeep<now+2.5){nextBeep+=s_.p(nextBeep,el+(nextBeep-now))}
 }
 function keepalive(){
   var need=st.keep&&active().length>0;
@@ -2946,7 +3000,7 @@ function keepalive(){
 function notify(r){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   var title='⏰ '+r.text,body=fmtDate(dueAt(r))+' · '+fmtTime(dueAt(r));
-  var full={body:body,tag:'rem-'+r.id,renotify:true,requireInteraction:true,vibrate:[300,150,300,150,600],icon:'icons/icon-192.png',badge:'icons/icon-192.png',data:{id:r.id},actions:[{action:'done',title:'Готово'},{action:'snooze',title:'+10 хв'}]};
+  var full={body:body,tag:'rem-'+r.id,renotify:true,requireInteraction:true,vibrate:[300,150,300,150,600],icon:'icons/icon-192.png',badge:'icons/icon-192.png',data:{id:r.id},actions:[{action:'done',title:'Готово'},{action:'snooze',title:'+'+st.snz+' хв'}]};
   var plain=function(){try{var n=new Notification(title,{body:body,tag:'rem-'+r.id,icon:'icons/icon-192.png'});n.onclick=function(){window.focus();n.close()}}catch(e){}};
   try{
     if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration){
@@ -2989,9 +3043,9 @@ function alertUI(){
   var ids=Object.keys(ring).filter(function(id){var r=byId(id);return r&&!r.done&&dueAt(r)<=Date.now()});
   Object.keys(ring).forEach(function(id){if(ids.indexOf(id)<0)delete ring[id]});
   var box=$('remAlert'),list=$('raList');
-  if(!ids.length){box.classList.remove('on');return}
+  if(!ids.length){box.classList.remove('on');stopSound();return}
   list.innerHTML=ids.map(function(id){var r=byId(id);
-    return '<div class="it" data-id="'+r.id+'"><div class="rt">'+esc(r.text)+'</div><div class="rm">'+esc(when(r))+'</div><div class="bt"><button type="button" class="go" data-a="done">Готово</button><button type="button" data-a="s5">+5 хв</button><button type="button" data-a="s10">+10 хв</button><button type="button" data-a="s60">+1 год</button></div></div>'}).join('');
+    return '<div class="it" data-id="'+r.id+'"><div class="rt">'+esc(r.text)+'</div><div class="rm">'+esc(when(r))+'</div><div class="bt"><button type="button" class="go" data-a="done">Готово</button><button type="button" data-a="s5">+5 хв</button><button type="button" data-a="s'+st.snz+'">+'+st.snz+' хв</button><button type="button" data-a="s60">+1 год</button></div></div>'}).join('');
   box.classList.toggle('on',!dismissed);
 }
 $('raList').addEventListener('click',function(e){
@@ -3001,8 +3055,8 @@ $('raList').addEventListener('click',function(e){
   if(a==='done')complete(r);else snooze(r,+a.slice(1));
   persist();render();alertUI();
 });
-$('raMute').addEventListener('click',function(){soundOn=false});
-$('raClose').addEventListener('click',function(){dismissed=true;$('remAlert').classList.remove('on');soundOn=false});
+$('raMute').addEventListener('click',stopSound);
+$('raClose').addEventListener('click',function(){dismissed=true;$('remAlert').classList.remove('on');stopSound()});
 
 /* ---------- Інтерфейс ---------- */
 function render(){renderList();renderStatus();renderNav();badge()}
@@ -3033,21 +3087,49 @@ function renderList(){
   if(f==='done'&&!done.length)out+='<div class="rempty">Виконаних ще немає.</div>';
   L.innerHTML=out;
 }
+var SR=null;
 function renderStatus(){
+  if(!SR||!SR.n.isConnected)return;
   var n='Notification' in window?Notification.permission:'none';
-  var sn=$('rsN'),bn=$('rbN');
-  if(n==='granted'){sn.textContent='✓ дозволено';sn.className='ok';bn.classList.add('hidden')}
-  else if(n==='denied'){sn.textContent='✗ заблоковано в браузері (змінити в налаштуваннях сайту)';sn.className='bad';bn.classList.add('hidden')}
-  else if(n==='none'){sn.textContent='не підтримується тут';sn.className='bad';bn.classList.add('hidden')}
-  else{sn.textContent='не дозволено';sn.className='bad';bn.classList.remove('hidden')}
-  var ss=$('rsS');
-  if(ac&&ac.state==='running'){ss.textContent='✓ готовий';ss.className='ok'}
-  else{ss.textContent='потрібен один клік/тап на сторінці';ss.className='bad'}
-  $('rKeep').checked=st.keep;
+  if(n==='granted'){SR.n.textContent='✓ дозволено';SR.n.className='ok';SR.bn.classList.add('hidden')}
+  else if(n==='denied'){SR.n.textContent='✗ заблоковано в браузері (змінити в налаштуваннях сайту)';SR.n.className='bad';SR.bn.classList.add('hidden')}
+  else if(n==='none'){SR.n.textContent='не підтримується тут';SR.n.className='bad';SR.bn.classList.add('hidden')}
+  else{SR.n.textContent='не дозволено';SR.n.className='bad';SR.bn.classList.remove('hidden')}
+  if(ac&&ac.state==='running'){SR.s.textContent='✓ готовий';SR.s.className='ok'}
+  else{SR.s.textContent='потрібен один клік на сторінці';SR.s.className='bad'}
+}
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function sel(opts,val,fn){var s_=el('select');opts.forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(String(o[0])===String(val))op.selected=true;s_.appendChild(op)});s_.addEventListener('change',function(){fn(s_.value)});return s_}
+window.__remSettings=function(){
+  var box=el('div','rset');
+  function row(k,kids){var r=el('div','rl');r.appendChild(el('span','k',k));kids.forEach(function(x){r.appendChild(x)});box.appendChild(r);return r}
+  var n=el('span'),bn=el('button','sbtn','Дозволити');bn.type='button';
+  bn.addEventListener('click',function(){try{Notification.requestPermission().then(renderStatus)}catch(e){}});
+  row('Сповіщення',[n,bn]);
+  var s_=el('span'),bt=el('button','sbtn','Перевірити звук');bt.type='button';
+  bt.addEventListener('click',function(){preview(st.snd);setTimeout(renderStatus,400)});
+  row('Звук',[s_,bt]);
+  SR={n:n,s:s_,bn:bn};
+  var ss=sel(SOUNDS.map(function(x){return [x.id,x.n+' — '+x.k]}),st.snd,function(v){st.snd=v;persist(false);preview(v)});
+  var pv=el('button','sbtn','▶ Слухати');pv.type='button';pv.addEventListener('click',function(){preview(ss.value)});
+  row('Мелодія дзвінка',[ss,pv]);
+  var vr=el('input');vr.type='range';vr.min=10;vr.max=100;vr.value=st.vol;vr.setAttribute('aria-label','Гучність дзвінка');
+  var vv=el('span',null,st.vol+'%');
+  vr.addEventListener('input',function(){st.vol=+vr.value;vv.textContent=st.vol+'%';if(mg)mg.gain.value=st.vol/100});
+  vr.addEventListener('change',function(){persist(false);preview(st.snd)});
+  row('Гучність',[vr,vv]);
+  row('Скільки дзвонити',[sel([[10,'10 секунд'],[30,'30 секунд'],[60,'1 хвилину'],[180,'3 хвилини'],[600,'10 хвилин'],[0,'Доки не вимкну']],st.dur,function(v){st.dur=+v;persist(false)})]);
+  row('Відкласти на',[sel([[5,'5 хвилин'],[10,'10 хвилин'],[15,'15 хвилин'],[30,'30 хвилин'],[60,'1 годину']],st.snz,function(v){st.snz=+v;persist(false)})]);
+  var lab=el('label','opt'),cb=el('input');cb.type='checkbox';cb.checked=st.keep;
+  cb.addEventListener('change',function(){st.keep=cb.checked;persist(false);keepalive()});
+  lab.appendChild(cb);lab.appendChild(el('span',null,'Не давати вкладці «засинати» у фоні (майже нечутний тон, поки є активні нагадування)'));
+  box.appendChild(lab);
   var ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   var standalone=window.navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
-  $('rIos').classList.toggle('hidden',!(ios&&!standalone));
-}
+  if(ios&&!standalone)box.appendChild(el('p','hint','iPhone: «Поділитися» → «На початковий екран» і відкривай додаток звідти — інакше сповіщень не буде.'));
+  renderStatus();
+  return box;
+};
 
 /* ---------- Форма ---------- */
 function setForm(t){
@@ -3101,14 +3183,6 @@ $('rnav').addEventListener('click',function(e){
   var b=e.target.closest('button[data-f]');if(!b)return;
   st.filter=b.dataset.f;persist(false);B.classList.remove('nav-open');render();
 });
-$('rbN').addEventListener('click',function(){try{Notification.requestPermission().then(renderStatus)}catch(e){}});
-$('rbS').addEventListener('click',function(){
-  var c=ctx();if(!c){return}
-  var go=function(){pattern(c.currentTime+0.05);renderStatus();keepalive()};
-  if(c.state==='running')go();else c.resume().then(go).catch(function(){});
-});
-$('rKeep').addEventListener('change',function(){st.keep=this.checked;persist(false);keepalive()});
-
 /* ---------- Календар (.ics) ---------- */
 function exportIcs(r){
   function z(t){return new Date(t).toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'')}
@@ -3155,7 +3229,18 @@ $('rnotes').addEventListener('click',function(){window.__setMode('notes')});
 document.addEventListener('visibilitychange',function(){tick();if(!document.hidden)ctx()});
 window.addEventListener('focus',tick);window.addEventListener('pageshow',tick);
 window.addEventListener('storage',function(e){if(e.key===K){load();render();tick()}});
-if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',function(e){var d=e.data;if(d&&d.type==='rem')act(d.action,d.id)});
+function drain(){
+  if(!('caches' in window))return;
+  caches.open('rem-q').then(function(c){return c.keys().then(function(ks){return Promise.all(ks.map(function(k){
+    return c.match(k).then(function(r){return r?r.json():null}).then(function(o){c.delete(k);if(o&&o.id)act(o.action,o.id)});
+  }))})}).catch(function(){});
+}
+if(navigator.serviceWorker){
+  navigator.serviceWorker.addEventListener('message',function(e){var d=e.data;if(d&&d.type==='rem-q')drain()});
+  try{navigator.serviceWorker.startMessages()}catch(e){}
+}
+document.addEventListener('visibilitychange',drain);window.addEventListener('focus',drain);
+drain();
 try{
   var m=/[?&]rem=(done|snooze):([^&]+)/.exec(location.search);
   if(m){setTimeout(function(){act(m[1],decodeURIComponent(m[2]))},400);history.replaceState(null,'',location.pathname)}
@@ -3166,7 +3251,7 @@ try{
 }catch(e){}
 setInterval(tick,1000);
 defaultForm();render();tick();
-window.__rem={st:st,tick:tick,ring:ring};
+window.__rem={st:st,tick:tick,ring:ring,drain:drain};
 })();</script>
 
 <script>;(function(){

@@ -1,4 +1,4 @@
-const CACHE = 'notatnyk-v19';
+const CACHE = 'notatnyk-v20';
 const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -8,7 +8,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== 'rem-q').map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -34,15 +34,21 @@ self.addEventListener('notificationclick', e => {
   e.notification.close();
   const d = e.notification.data || {};
   const act = e.action === 'done' || e.action === 'snooze' ? e.action : 'open';
-  e.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
-      if (list.length) {
+  e.waitUntil((async () => {
+    // Дію кладемо в чергу — додаток забере її одразу або при пробудженні
+    if (act !== 'open' && d.id) {
+      const c = await caches.open('rem-q');
+      await c.put('/__rem/' + Date.now() + '-' + Math.random().toString(36).slice(2), new Response(JSON.stringify({ action: act, id: d.id })));
+    }
+    const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    if (list.length) {
+      list.forEach(c => c.postMessage({ type: 'rem-q' }));
+      if (act === 'open') {
         const c = list.find(x => x.focused) || list[0];
-        c.postMessage({ type: 'rem', action: act, id: d.id });
-        return c.focus ? c.focus() : undefined;
+        if (c.focus) return c.focus();
       }
-      const q = act === 'open' ? './' : './?rem=' + act + ':' + encodeURIComponent(d.id || '');
-      return self.clients.openWindow(q);
-    })
-  );
+      return;
+    }
+    return self.clients.openWindow('./');
+  })());
 });
