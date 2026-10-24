@@ -956,6 +956,8 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 #remAlert .bt button{border:2px solid var(--edge,var(--ink));background:var(--white);padding:7px 10px;font-size:var(--fs);color:var(--ink)}
 #remAlert .bt button.go{background:var(--brand);color:#fff}
 #remAlert .mute{margin-top:4px}
+/* v25: перемикання режимів без зсуву меню і панелей */
+.main.enter,#music.enter,#rem.enter,#new,#newplain,.rail .tb,#tabs,#notes,.mnav,.rnav,#viewmode{animation:none!important}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -3571,7 +3573,6 @@ async function save(ti){
   if(busy)return;busy=true;aborted=false;
   $('dlx').classList.remove('hidden');
   const secs=+$('dur').value,lbl=secs>=60?Math.round(secs/60)+' хв':secs+' с';
-  if(playing)stop();
   $('dl').disabled=true;$('bar').classList.add('on');$('st').classList.remove('done');prog(0);
   $('st').textContent='Пишу «'+T[ti].n+'» — '+lbl+'…';
   const t0=performance.now();
