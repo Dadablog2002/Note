@@ -965,6 +965,9 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 /* v26: смуга прокрутки не зсуває вміст по центру */
 .mscroll,#scroll,#notes,#mnav,#rnav{scrollbar-gutter:stable}
 .top .ico.on{background:var(--brand);color:#fff}
+/* v28: панель форматування зверху і прикріплена */
+.rtb.rtb-sticky{position:sticky;top:var(--adderH,0px);z-index:6;margin:0 0 10px;padding:8px 0;background:var(--white);border-bottom:1px solid var(--line-2,var(--line))}
+body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}body.mobile .rtb.rtb-sticky::-webkit-scrollbar{display:none}body.mobile .rtb.rtb-sticky>*{flex:none}body.mobile .rtb.rtb-sticky .rtsws{display:flex;flex-wrap:nowrap;gap:5px}body.mobile .rtb.rtb-sticky .rtbtn{min-width:36px;height:36px;padding:0 8px;white-space:nowrap}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -2557,7 +2560,7 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
       return x;
     }
     function ex(cmd,val){try{document.execCommand(cmd,false,val)}catch(e){}}
-    var tb=h('div',{class:'rtb',role:'toolbar','aria-label':'Форматування'});
+    var tb=h('div',{class:'rtb rtb-sticky',role:'toolbar','aria-label':'Форматування'});
     tb.appendChild(tbtn('Ж','Жирний (Ctrl+B)',function(){ex('styleWithCSS',false);ex('bold')},'rtb-b'));
     tb.appendChild(tbtn('• Список','Маркований список: виділіть рядки або поставте курсор',function(){ex('insertUnorderedList')}));
     tb.appendChild(tbtn('1. Список','Нумерований список: виділіть рядки або поставте курсор',function(){ex('insertOrderedList')}));
@@ -2573,7 +2576,7 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
     sw.appendChild(cp);
     tb.appendChild(sw);
     tb.appendChild(tbtn('Аа','Скинути форматування виділеного',function(){ex('removeFormat')},'rtb-x'));
-    body.appendChild(ed);body.appendChild(tb);
+    body.appendChild(tb);body.appendChild(ed);
   }
   /* ---------- Список завдань (галочки) ---------- */
   function parseTodoLine(l){
@@ -2885,6 +2888,12 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
   renderAll();
 })();
 </script>
+<script>(function(){
+  var sc=document.getElementById('scroll'),st=document.getElementById('stack');
+  function sync(){var a=sc.querySelector('.adder');sc.style.setProperty('--adderH',(a&&getComputedStyle(a).position==='sticky'?a.offsetHeight:0)+'px')}
+  try{new MutationObserver(sync).observe(st,{childList:true,subtree:false});new ResizeObserver(sync).observe(sc)}catch(e){}
+  window.addEventListener('resize',sync);setInterval(sync,1500);sync();
+})();</script>
 <script>(function GLUE(){
   var K='notatnyk:mode',B=document.body;
   function set(m,save){
