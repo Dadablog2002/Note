@@ -968,6 +968,45 @@ body.rem-mode .rail-top .mode{margin-bottom:0}
 /* v28: панель форматування зверху і прикріплена */
 .rtb.rtb-sticky{position:sticky;top:var(--adderH,0px);z-index:6;margin:0 0 10px;padding:8px 0;background:var(--white);border-bottom:1px solid var(--line-2,var(--line))}
 body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}body.mobile .rtb.rtb-sticky::-webkit-scrollbar{display:none}body.mobile .rtb.rtb-sticky>*{flex:none}body.mobile .rtb.rtb-sticky .rtsws{display:flex;flex-wrap:nowrap;gap:5px}body.mobile .rtb.rtb-sticky .rtbtn{min-width:36px;height:36px;padding:0 8px;white-space:nowrap}
+
+/* ===== v29: заголовки 1–3, розмір тексту, вирівнювання, власне контекстне меню ===== */
+body{-webkit-touch-callout:none}
+/* заголовки: перший — найбільший, 2 і 3 — менші */
+body .stack .b-title,body .stack .vtitle{font-size:var(--fh1);line-height:calc(var(--fh1)*1.25);--fzb:var(--fh1)}
+body .stack .b-title.b-h2,body .stack .vtitle.vh2{font-size:var(--fh2);line-height:calc(var(--fh2)*1.3);--fzb:var(--fh2)}
+body .stack .b-title.b-h3,body .stack .vtitle.vh3{font-size:var(--fh3);line-height:calc(var(--fh3)*1.35);--fzb:var(--fh3)}
+.b-title.b-h2,.b-title.b-h3{padding-bottom:0}
+.vtitle.vh2,.vtitle.vh3{margin:0}
+/* розмір виділеного тексту */
+[data-fz]{line-height:1.3}
+[data-fz=s]{font-size:calc(var(--fzb,var(--fb))*.75)}
+[data-fz=n]{font-size:var(--fzb,var(--fb))}
+[data-fz=l]{font-size:calc(var(--fzb,var(--fb))*1.25)}
+[data-fz=xl]{font-size:calc(var(--fzb,var(--fb))*1.5)}
+[data-fz=xxl]{font-size:calc(var(--fzb,var(--fb))*2)}
+.rtbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block;margin:auto}
+.sbtn.on{background:var(--brand);color:#fff;border-color:var(--ink)}
+@media (hover:hover){.sbtn.on:hover{background:var(--brand-2);color:#fff}}
+body:not(.mobile) .app{grid-template-columns:min(calc(390px*var(--sc,1)),46vw) minmax(0,1fr)}
+/* верхня панель на телефоні: ще одна кнопка — трохи компактніше */
+body.mobile .top{gap:2px}
+body.mobile .top .ico,body.mobile .top .view-btn{width:36px;height:36px}
+/* власне контекстне меню */
+.cmenu{position:fixed;z-index:1300;min-width:210px;max-width:calc(100vw - 12px);display:flex;flex-direction:column;padding:4px;
+  background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));box-shadow:4px 4px 0 var(--shadow,#a9a3e6);
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;animation:fxIn .12s ease backwards}
+.cmenu button{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:6px 10px;text-align:left;white-space:nowrap;font-size:var(--fs);color:var(--ink)}
+.cmenu button .k{margin-left:auto;padding-left:22px;color:var(--muted)}
+@media (hover:hover){.cmenu button:hover:not([disabled]){background:var(--brand);color:#fff}.cmenu button:hover:not([disabled]) .k{color:#fff}}
+.cmenu button:focus-visible{background:var(--brand);color:#fff;outline:0}
+.cmenu button[disabled]{opacity:.4;pointer-events:none}
+.cmenu button.dng{color:var(--danger)}
+@media (hover:hover){.cmenu button.dng:hover:not([disabled]){background:var(--danger);color:#fff}}
+.cmenu hr{border:0;border-top:2px solid var(--line-2);margin:4px 0}
+.cmenu.compact{flex-direction:row;min-width:0;padding:2px;box-shadow:3px 3px 0 var(--shadow,#a9a3e6)}
+.cmenu.compact button{width:auto;flex:1 1 auto;justify-content:center;min-height:44px;padding:6px 8px;font-size:calc(var(--fs)*.85)}
+.cmenu.compact{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.cmenu{animation:none}}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -1016,6 +1055,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       <button class="view-btn" id="viewtop"></button>
       <button class="ico" id="kindnote" title="Вид нотатки: блоки / звичайна" aria-label="Змінити вид нотатки"></button>
       <button class="ico" id="topnote" title="Поставити нагору списку" aria-label="Поставити нагору списку"></button>
+      <button class="ico" id="dupnote" title="Дублювати нотатку (з новою датою)" aria-label="Дублювати нотатку"></button>
       <button class="ico" id="pinnote" title="Закріпити як важливу" aria-label="Закріпити як важливу"></button>
       <button class="ico" id="donenote" title="Позначити як готове" aria-label="Позначити як готове"></button>
       <button class="ico danger" id="delnote" title="Видалити нотатку" aria-label="Видалити нотатку"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
@@ -1097,6 +1137,8 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   var KEY='notatnyk:blocks:v2';
   var TYPES={
     title:{name:'Заголовок',color:'var(--c-title)'},
+    h2:{name:'Заголовок 2',color:'#1c7ed6'},
+    h3:{name:'Заголовок 3',color:'#66a9e6'},
     description:{name:'Опис',color:'var(--c-desc)'},
     tags:{name:'Теги',color:'var(--c-tags)'},
     screen:{name:'Екран',color:'#7c4dff'},
@@ -1110,10 +1152,10 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   var state={notes:[],trash:[],rev:0,types:[],gone:{}}, activeId=null, query='';
   var saveOk=true, undo=null, tab='todo', peekId=null;
   var MAC=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent), MOD=MAC?'Cmd':'Ctrl';
-  var SKEY='notatnyk:settings:v1', ORDER=['title','description','tags','screen','voice','sound','frame','todo','text'];
+  var SKEY='notatnyk:settings:v1', ORDER=['title','h2','h3','description','tags','screen','voice','sound','frame','todo','text'];
   var DEF=['title','description','tags','screen','voice','sound','frame'];
   var TABDEF=['todo','done','pinned','trash'],TABNAME={todo:'Не готове',done:'Готове',pinned:'Важливі',trash:'Кошик'};
-  var settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2}, selMode=false, sel={};
+  var settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:3}, selMode=false, sel={};
   var PAT='notatnyk:prefs-at',MK='notatnyk:music:v1';
   function prefsAt(){try{return +localStorage.getItem(PAT)||0}catch(e){return 0}}
   function prefsTouch(){try{localStorage.setItem(PAT,String(Date.now()))}catch(e){}if(window.__syncPush)window.__syncPush()}
@@ -1125,7 +1167,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     try{
       if(p.settings&&typeof p.settings==='object'){
         localStorage.setItem(SKEY,JSON.stringify(p.settings));
-        settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2};
+        settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:3};
         loadSettings();applyTheme();syncView();
       }
       if(p.music){localStorage.setItem(MK,JSON.stringify(p.music));if(window.__musSet)window.__musSet(p.music)}
@@ -1142,7 +1184,9 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     if(typeof x.h24==='boolean')settings.h24=x.h24;
     if(typeof x.view==='boolean')settings.view=x.view;
     if(x.theme==='light'||x.theme==='dark')settings.theme=x.theme;
-    if(x.mig!==2){['sound','frame'].forEach(function(t){if(settings.defaults.indexOf(t)<0)settings.defaults.push(t)});settings.mig=2;saveSettings()}}}catch(e){}}
+    var mg=x.mig||0;
+    if(mg<2){['sound','frame'].forEach(function(t){if(settings.defaults.indexOf(t)<0)settings.defaults.push(t)})}
+    if(mg<3){var oo=settings.order,ti=oo.indexOf('title');['h3','h2'].forEach(function(t){if(oo.indexOf(t)<0)oo.splice(ti>=0?ti+1:0,0,t)});settings.mig=3;saveSettings()}}}catch(e){}}
   function applyTheme(){document.documentElement.setAttribute('data-theme',settings.theme==='light'?'light':'dark')}
   function allTypes(){return ORDER.concat(state.types.map(function(t){return t.id}))}
   // усі типи у порядку, який користувач задав у налаштуваннях (нові/невідомі — в кінець)
@@ -1191,6 +1235,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   ICON.done='M22 11.1V12a10 10 0 1 1-5.9-9.1|M22 4 12 14l-3-3';
   ICON.top='M5 4h14|M12 20V9|m6 14 6-6 6 6';
   ICON.plus='M12 5v14|M5 12h14';
+  ICON.dup='M9 9h11v11H9z|M5 15V4h11|M14.5 12v6|M11.5 15h6';
   ICON.grip='M9 6h.01|M9 12h.01|M9 18h.01|M15 6h.01|M15 12h.01|M15 18h.01';
   function iconBtn(cls,title,d,fn){
     var b=h('button',{class:'ico '+(cls||''),title:title,'aria-label':title,onclick:fn});
@@ -1205,17 +1250,28 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   var RT_SKIP={SCRIPT:1,STYLE:1,TEMPLATE:1,IFRAME:1,OBJECT:1};
   var RT_COLOR=/^(#[0-9a-f]{3,8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(,\s*[\d.]+\s*)?\))$/i;
   function rtEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  var FZ_OK=['s','n','l','xl','xxl'];
+  function isHead(t){return t==='title'||t==='h2'||t==='h3'}
+  // колір і розмір (data-fz) на <span>/<font>
+  function spanInfo(c){
+    var col=(c.style&&c.style.color)||c.getAttribute('color')||'';if(!(col&&RT_COLOR.test(col)))col='';
+    var fz=c.getAttribute('data-fz')||'';if(FZ_OK.indexOf(fz)<0)fz='';
+    if(!fz&&c.style&&c.style.fontSize){var m=/^([\d.]+)em$/.exec(c.style.fontSize);if(m){var v=parseFloat(m[1]);fz=v<.9?'s':v<1.1?'':v<1.35?'l':v<1.75?'xl':'xxl'}}
+    return {col:col,fz:fz};
+  }
+  function alignOf(c){var a=String((c.style&&c.style.textAlign)||c.getAttribute('align')||'').toLowerCase();return /^(left|center|right|justify)$/.test(a)?a:''}
   function rtClean(src,dst){
     for(var c=src.firstChild;c;c=c.nextSibling){
       if(c.nodeType===3){dst.appendChild(document.createTextNode(c.nodeValue));continue}
       if(c.nodeType!==1||RT_SKIP[c.tagName])continue;
       var t=c.tagName,el;
       if(t==='SPAN'||t==='FONT'){
-        var col=(c.style&&c.style.color)||c.getAttribute('color')||'';
-        if(col&&RT_COLOR.test(col)){el=document.createElement('span');el.style.color=col}
+        var si=spanInfo(c);
+        if(si.col||si.fz){el=document.createElement('span');if(si.col)el.style.color=si.col;if(si.fz)el.setAttribute('data-fz',si.fz)}
         else{rtClean(c,dst);continue}
       }else if(RT_OK[t]){
         el=document.createElement(t.toLowerCase());
+        var al=alignOf(c);if(al&&/^(DIV|P|LI|UL|OL)$/.test(t))el.style.textAlign=al;
         // колір, що Chrome кладе прямо на <b>/<i>/<u>/<li>, зберігаємо як вкладений <span>
         var col2=(c.style&&c.style.color)||'';
         if(col2&&RT_COLOR.test(col2)&&t!=='UL'&&t!=='OL'&&t!=='BR'){var sp=document.createElement('span');sp.style.color=col2;el.appendChild(sp);rtClean(c,sp);dst.appendChild(el);continue}
@@ -1228,7 +1284,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     var doc=new DOMParser().parseFromString('<body>'+String(html||'')+'</body>','text/html');
     var out=document.createElement('div');rtClean(doc.body,out);return out.innerHTML;
   }
-  // Заголовок: лише текст в один рядок + кольорові <span>
+  // Заголовок: лише текст в один рядок + кольорові/розмірні <span>
   function sanitizeTitle(html){
     var doc=new DOMParser().parseFromString('<body>'+String(html||'')+'</body>','text/html');
     var out=document.createElement('div');
@@ -1238,8 +1294,8 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
         if(c.nodeType!==1||RT_SKIP[c.tagName]||c.tagName==='BR')continue;
         if(c.tagName==='B'||c.tagName==='STRONG'){var bb=document.createElement('b'),cb=(c.style&&c.style.color)||'';if(cb&&RT_COLOR.test(cb)){var sb=document.createElement('span');sb.style.color=cb;bb.appendChild(sb);walk(c,sb)}else walk(c,bb);dst.appendChild(bb);continue}
         if(c.tagName==='SPAN'||c.tagName==='FONT'){
-          var col=(c.style&&c.style.color)||c.getAttribute('color')||'';
-          if(col&&RT_COLOR.test(col)){var el=document.createElement('span');el.style.color=col;walk(c,el);dst.appendChild(el);continue}
+          var si=spanInfo(c);
+          if(si.col||si.fz){var el=document.createElement('span');if(si.col)el.style.color=si.col;if(si.fz)el.setAttribute('data-fz',si.fz);walk(c,el);dst.appendChild(el);continue}
         }
         walk(c,dst);
       }
@@ -1365,6 +1421,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       if(!live().length||/^(INPUT|TEXTAREA)$/.test((e.target&&e.target.tagName)||''))return;
       var rs=all();
       e.clipboardData.setData('text/plain',rs.map(text).join('\n'));
+      e.clipboardData.setData('text/html',ntkWrap(rs.map(function(r){return clipFromRange(r).html}).join('<br>')));
       e.preventDefault();
       if(cut){if(!del(rs))toast('Тут текст лише для читання — скопійовано')}
     }
@@ -1438,7 +1495,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
         blocks:n.blocks.filter(function(b){return b&&TYPES[b.type]}).map(function(b){
           var o={id:String(b.id||uid()),type:b.type,label:typeof b.label==='string'?b.label:'',
             value:b.type==='tags'?(Array.isArray(b.value)?b.value.map(String):[]):(typeof b.value==='string'?b.value:'')};
-          if(b.type==='title'){if(typeof b.html==='string'){var th=sanitizeTitle(b.html);if(/<(span|b)[ >]/.test(th)){o.html=th;o.value=titleToText(th)}}}
+          if(isHead(b.type)){if(typeof b.html==='string'){var th=sanitizeTitle(b.html);if(/<(span|b)[ >]/.test(th)){o.html=th;o.value=titleToText(th)}}if(b.align==='center'||b.align==='right')o.align=b.align}
           else if(b.type!=='tags'&&typeof b.html==='string'){o.html=sanitizeHTML(b.html);o.value=htmlToText(o.html)}
           if(b.type==='voice'){delete o.html;o.en=typeof b.en==='string'?b.en:''}
           if(b.type==='todo'){o.value='';o.items=(Array.isArray(b.items)?b.items:[]).filter(function(i){return i&&typeof i.t==='string'}).map(function(i){return {id:String(i.id||uid()),t:i.t.slice(0,500),d:!!i.d}})}
@@ -1748,9 +1805,13 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       h('button',{class:'sbtn',text:'+ Додати тип',onclick:function(){typeDialog(drawTypes)}}),
       h('h3',{text:'Тема'}),opt('Темна піксельна тема',settings.theme!=='light',function(on){settings.theme=on?'dark':'light';saveSettings();applyTheme()})];
     drawTypes();
+    var szBox=h('div',{class:'btns-l'});
+    function drawSz(){szBox.textContent='';var cur=getScale();SCALES.forEach(function(x){szBox.appendChild(h('button',{class:'sbtn'+(Math.abs(cur-x[0])<.01?' on':''),text:x[1],onclick:function(){setScale(x[0]);drawSz();renderStack()}}))})}
+    drawSz();
+    kids.push(h('h3',{text:'Розмір тексту'}),h('p',{class:'hint',style:'margin:0 0 8px',text:'Змінює розмір усього тексту в додатку на цьому пристрої. Окремо розмір виділеного тексту міняють кнопки A− / A+ над полем.'}),szBox);
     kids.push(h('h3',{text:'Час'}),opt('24-годинний формат',settings.h24,function(on){settings.h24=on;saveSettings();renderAll()}));
     kids.push(h('h3',{text:'Гарячі клавіші'}));
-    [[MOD+'+N або Alt+N','Нова нотатка'],[MOD+'+F','Пошук по нотатках'],['Delete','Видалити відкриту нотатку (у Кошик)'],['Alt+↑ / Alt+↓','Пересунути нотатку в списку (клавіатура на рядку)'],[MOD+' + мишка','Виділити кілька фрагментів тексту. Далі '+MOD+'+C, '+MOD+'+X, Delete, «Ж» чи колір — для всіх одразу'],[MOD+'+A, потім Delete','У полі тегів: видалити всі теги']].forEach(function(r){
+    [[MOD+'+N або Alt+N','Нова нотатка'],[MOD+'+F','Пошук по нотатках'],['Delete','Видалити відкриту нотатку (у Кошик)'],['Alt+↑ / Alt+↓','Пересунути нотатку в списку (клавіатура на рядку)'],['Права кнопка / довге натискання','Власне меню: вирізати, копіювати, вставити, виділити все; на блоках і нотатках — ще й дублювання'],[MOD+' + мишка','Виділити кілька фрагментів тексту. Далі '+MOD+'+C, '+MOD+'+X, Delete, «Ж» чи колір — для всіх одразу'],[MOD+'+A, потім Delete','У полі тегів: видалити всі теги']].forEach(function(r){
       kids.push(h('div',{class:'keyrow'},[h('kbd',{class:'kbd',text:r[0]}),h('span',{text:r[1]})]));
     });
     kids.push(h('p',{class:'hint',style:'margin:8px 0 0',text:'Якщо браузер на '+MOD+'+N відкриває нове вікно — це його власний захист, користуйтеся Alt+N.'}));
@@ -1782,7 +1843,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       h('button',{class:'sbtn',text:'Відновити з копії',onclick:function(){$('file').click()}})]));
     kids.push(h('h3',{text:'Небезпечна зона'}),h('div',{class:'btns-l'},[
       h('button',{class:'sbtn dng',text:'Видалити всі нотатки ('+state.notes.length+')',onclick:deleteAll}),
-      h('button',{class:'sbtn',text:'Скинути налаштування',onclick:function(){settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:2};saveSettings();applyTheme();close();syncView();renderAll();toast('Налаштування скинуто')}})]));
+      h('button',{class:'sbtn',text:'Скинути налаштування',onclick:function(){settings={defaults:DEF.slice(),order:ORDER.slice(),tabs:TABDEF.slice(),h24:true,view:false,theme:'dark',mig:3};saveSettings();applyTheme();close();syncView();renderAll();toast('Налаштування скинуто')}})]));
     (function(){
       var groups=[],cur=null;
       kids.forEach(function(k){if(k.tagName==='H3'||!cur){cur={t:k.textContent||'',els:[]};groups.push(cur)}cur.els.push(k)});
@@ -2027,12 +2088,13 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   function plainTools(n,b,i){
     var prev=n.blocks[i-1];
     var add=iconBtn('','Додати блок нижче',ICON.plus,function(){addPlainBlock(b.id)});
+    var dup=iconBtn('','Дублювати блок',ICON.dup,function(){duplicateBlock(b.id)});
     var up=iconBtn('','Вище',ICON.up,function(){moveBlock(b.id,-1)});
     var dn=iconBtn('','Нижче',ICON.down,function(){moveBlock(b.id,1)});
     var del=iconBtn('danger','Видалити блок',ICON.del,function(){removeBlock(b.id)});
     if(!prev||prev.type==='title')up.disabled=true;
     if(i>=n.blocks.length-1)dn.disabled=true;
-    return h('div',{class:'ptools'},[add,up,dn,del]);
+    return h('div',{class:'ptools'},[add,dup,up,dn,del]);
   }
   function moveBlock(id,dir){
     var n=active();if(!n)return;
@@ -2068,6 +2130,163 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     }else fallback();
   }
   function blockText(b){if(b.type==='todo')return (b.items||[]).filter(function(i){return i.t.trim()}).map(function(i){return (i.d?'[x] ':'[ ] ')+i.t.trim()}).join('\n');if(b.type==='tags')return b.value.join(', ');if(b.type==='voice')return [b.value,b.en].filter(function(x){return x&&String(x).trim()}).join('\n\n');return b.value}
+
+  /* ---------- Копіювання з форматуванням (колір, жирність, розмір, вирівнювання) ---------- */
+  var FZEM={s:'.75em',n:'1em',l:'1.25em',xl:'1.5em',xxl:'2em'};
+  var FZL=['s','n','l','xl','xxl'];
+  function ntkWrap(inner){return '<div data-ntk="1">'+inner+'</div>'}
+  // маркер data-ntk каже, що HTML у буфері з цього додатка — його можна вставляти з форматуванням
+  function ntkExtract(html){
+    var d=new DOMParser().parseFromString(String(html||''),'text/html'),m=d.querySelector('[data-ntk]');
+    return m?m.innerHTML:null;
+  }
+  function clipPrep(root){
+    [].slice.call(root.querySelectorAll('[data-fz]')).forEach(function(sp){var e=FZEM[sp.getAttribute('data-fz')];if(e)sp.style.fontSize=e});
+    return root.innerHTML;
+  }
+  function areaEl(n){var el=n&&(n.nodeType===1?n:n.parentElement);return el&&el.closest?el.closest('.rte,.vtext,.vtitle'):null}
+  var KEEP_WRAP={B:1,STRONG:1,I:1,EM:1,U:1,S:1,SPAN:1,FONT:1,DIV:1,P:1};
+  // діапазон → {html,text}; «одягаємо» предків (жирний/колір/розмір), яких cloneContents не бере
+  function clipFromRange(r){
+    var root=areaEl(r.commonAncestorContainer);
+    var d=document.createElement('div');d.appendChild(r.cloneContents());
+    var node=r.commonAncestorContainer;if(node.nodeType===3)node=node.parentNode;
+    while(root&&node&&node!==root&&node.nodeType===1){
+      var tg=node.tagName;
+      if(KEEP_WRAP[tg]&&((tg!=='DIV'&&tg!=='P')||node.style.textAlign)){var w=node.cloneNode(false);while(d.firstChild)w.appendChild(d.firstChild);d.appendChild(w)}
+      node=node.parentNode;
+    }
+    var clean=document.createElement('div');rtClean(d,clean);
+    return {html:clipPrep(clean),text:htmlToText(clean.innerHTML)||r.toString()};
+  }
+  function legacyCopy(html,text){
+    var ok=false,sl=getSelection(),saved=sl.rangeCount?sl.getRangeAt(0).cloneRange():null;
+    function onC(e){e.clipboardData.setData('text/html',html);e.clipboardData.setData('text/plain',text);e.preventDefault();ok=true}
+    var sp=document.createElement('span');sp.textContent='.';sp.style.cssText='position:fixed;top:0;left:0;opacity:0;pointer-events:none;-webkit-user-select:text;user-select:text';
+    document.body.appendChild(sp);var r=document.createRange();r.selectNodeContents(sp);sl.removeAllRanges();sl.addRange(r);
+    document.addEventListener('copy',onC,true);
+    try{document.execCommand('copy')}catch(e){}
+    document.removeEventListener('copy',onC,true);sp.remove();
+    sl.removeAllRanges();if(saved)sl.addRange(saved);
+    return ok;
+  }
+  function writeClip(html,text,okMsg){
+    var wrapped=ntkWrap(html);
+    function fb(){toast(legacyCopy(wrapped,text)?okMsg:'Не вдалося скопіювати')}
+    if(navigator.clipboard&&navigator.clipboard.write&&typeof ClipboardItem!=='undefined'){
+      try{navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([wrapped],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]).then(function(){toast(okMsg)},fb);return}catch(e){}
+    }
+    fb();
+  }
+  function blockHTML(b){
+    if(isHead(b.type)){
+      var al=(b.align==='center'||b.align==='right')?'text-align:'+b.align+';':'';
+      var inner=(typeof b.html==='string'&&b.html)?sanitizeTitle(b.html):rtEsc(b.value||'');
+      return '<div style="font-size:'+({title:'1.5em',h2:'1.25em',h3:'1.1em'})[b.type]+';'+al+'">'+inner+'</div>';
+    }
+    if(b.type==='tags')return '<div>'+rtEsc(b.value.join(', '))+'</div>';
+    if(b.type==='todo')return (b.items||[]).filter(function(i){return i.t.trim()}).map(function(i){return '<div>'+(i.d?'\u2611 ':'\u2610 ')+rtEsc(i.t.trim())+'</div>'}).join('');
+    if(b.type==='voice')return [b.value,b.en].filter(function(x){return x&&String(x).trim()}).map(function(x){return '<div>'+rtEsc(x).replace(/\n/g,'<br>')+'</div>'}).join('<br>');
+    return (typeof b.html==='string'&&b.html)?sanitizeHTML(b.html):plainToHTML(b.value);
+  }
+  function copyBlockRich(b){
+    var d=document.createElement('div');d.innerHTML=blockHTML(b);
+    writeClip(clipPrep(d),blockText(b),b.type==='tags'?'Теги скопійовано':'Скопійовано з форматуванням');
+  }
+  // Ctrl+C / Ctrl+X у тексті: у буфер іде і форматований HTML, і простий текст
+  function onCopyCut(e,cut){
+    if(e.defaultPrevented)return;
+    var t=e.target;if(t&&/^(INPUT|TEXTAREA)$/.test(t.tagName||''))return;
+    var sl=getSelection();if(!sl.rangeCount||sl.isCollapsed)return;
+    var r=sl.getRangeAt(0),ar=areaEl(r.commonAncestorContainer);if(!ar)return;
+    var rc=clipFromRange(r);
+    e.clipboardData.setData('text/html',ntkWrap(rc.html));e.clipboardData.setData('text/plain',rc.text);e.preventDefault();
+    if(cut){if(ar.isContentEditable)document.execCommand('delete');else toast('Тут текст лише для читання — скопійовано')}
+  }
+  document.addEventListener('copy',function(e){onCopyCut(e,false)});
+  document.addEventListener('cut',function(e){onCopyCut(e,true)});
+
+  /* ---------- Розмір виділеного тексту ---------- */
+  function dropFz(x){x.removeAttribute('data-fz');if(x.tagName==='SPAN'&&!x.attributes.length){while(x.firstChild)x.parentNode.insertBefore(x.firstChild,x);x.remove()}}
+  function fzIn(rr,node){var nr=document.createRange();nr.selectNode(node);return rr.compareBoundaryPoints(Range.START_TO_START,nr)<=0&&rr.compareBoundaryPoints(Range.END_TO_END,nr)>=0}
+  function curFz(ed){
+    var sl=getSelection();if(!sl.rangeCount)return 'n';
+    var r=sl.getRangeAt(0),n=r.startContainer;   // початок виділення (перший текстовий вузол)
+    if(n.nodeType===1){var c=n.childNodes[r.startOffset];if(c){n=c;if(n.nodeType===1){var t=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null).nextNode();if(t)n=t}}}
+    var el=n.nodeType===1?n:n.parentElement,sp=el&&el.closest?el.closest('[data-fz]'):null;
+    return sp&&ed.contains(sp)?sp.getAttribute('data-fz'):'n';
+  }
+  function applyFz(ed,lvl){
+    var sl=getSelection();if(!sl.rangeCount)return;
+    if(sl.isCollapsed){   // нічого не виділено — беремо абзац (або весь текст)
+      try{sl.modify('move','backward','paragraphboundary');sl.modify('extend','forward','paragraphboundary')}catch(e){}
+      if(sl.isCollapsed){if(!ed.textContent.trim())return;var all=document.createRange();all.selectNodeContents(ed);sl.removeAllRanges();sl.addRange(all)}
+    }
+    try{document.execCommand('styleWithCSS',false,false);document.execCommand('fontSize',false,'7')}catch(e){return}
+    var made=[];
+    [].slice.call(ed.querySelectorAll('font[size="7"]')).forEach(function(f){
+      var sp=document.createElement('span');
+      while(f.firstChild)sp.appendChild(f.firstChild);
+      f.parentNode.replaceChild(sp,f);
+      [].slice.call(sp.querySelectorAll('[data-fz]')).forEach(dropFz);
+      sp.setAttribute('data-fz',lvl);made.push(sp);
+      // зовнішні розмірні обгортки, що містять лише цей фрагмент, більше не потрібні
+      var par=sp.parentElement;
+      while(par&&par!==ed&&par.tagName==='SPAN'&&par.hasAttribute('data-fz')&&par.childNodes.length===1){var nx=par.parentElement;dropFz(par);par=nx}
+    });
+    if(!made.length)return;
+    var r=document.createRange();r.setStartBefore(made[0]);r.setEndAfter(made[made.length-1]);sl.removeAllRanges();sl.addRange(r);
+    if(lvl==='n'){   // «звичайний» = прибрати розмір усередині виділення
+      var rr=sl.getRangeAt(0);
+      [].slice.call(ed.querySelectorAll('[data-fz]')).forEach(function(x){if(x.getAttribute('data-fz')!=='n'&&fzIn(rr,x))dropFz(x)});
+      [].slice.call(ed.querySelectorAll('[data-fz="n"]')).forEach(function(x){var a=x.parentElement&&x.parentElement.closest('[data-fz]');if(!a||a.getAttribute('data-fz')==='n')dropFz(x)});
+    }
+  }
+  function stepFz(ed,step){applyFz(ed,FZL[Math.max(0,Math.min(FZL.length-1,FZL.indexOf(curFz(ed))+step))])}
+  var AL_ICON={left:'M4 6h16|M4 10h10|M4 14h16|M4 18h10',center:'M4 6h16|M7 10h10|M4 14h16|M7 18h10',right:'M4 6h16|M10 10h10|M4 14h16|M10 18h10'};
+  var AL_NAME={left:'По лівому краю',center:'По центру',right:'По правому краю'};
+  function alignBtns(fn){
+    return ['left','center','right'].map(function(a){
+      var x=h('button',{type:'button',class:'rtbtn',title:AL_NAME[a],'aria-label':AL_NAME[a]});x.appendChild(icon(AL_ICON[a]));
+      x.addEventListener('mousedown',function(e){e.preventDefault()});x.addEventListener('click',function(){fn(a)});return x;
+    });
+  }
+  function sizeBtns(fn){
+    return [['A\u2212','Менший текст',-1],['A+','Більший текст',1]].map(function(d){
+      var x=h('button',{type:'button',class:'rtbtn',title:d[1],'aria-label':d[1],text:d[0]});
+      x.addEventListener('mousedown',function(e){e.preventDefault()});x.addEventListener('click',function(){fn(d[2])});return x;
+    });
+  }
+
+  /* ---------- Дублювання блоку і нотатки ---------- */
+  function cloneBlock(b){var c=JSON.parse(JSON.stringify(b));c.id=uid();if(c.items)c.items.forEach(function(i){i.id=uid()});return c}
+  function duplicateBlock(id){
+    var n=active();if(!n)return;
+    var i=n.blocks.findIndex(function(b){return b.id===id});if(i<0)return;
+    var c=cloneBlock(n.blocks[i]);n.blocks.splice(i+1,0,c);
+    queueSave();renderStack();renderList();
+    var el=document.querySelector('[data-bid="'+c.id+'"]');if(el)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    toast('Блок продубльовано','Скасувати',function(){
+      var k=n.blocks.findIndex(function(b){return b.id===c.id});
+      if(k>=0){n.blocks.splice(k,1);queueSave();if(activeId===n.id){renderStack();renderList()}}
+    });
+  }
+  // копія нотатки: нові id, дата створення/зміни — зараз; не «готова» і не «важлива»
+  function duplicateNote(src){
+    src=src||active();if(!src)return;
+    var t=Date.now(),c=JSON.parse(JSON.stringify(src));
+    c.id=uid();c.createdAt=t;c.updatedAt=t;c.pinned=false;c.done=false;delete c.rank;delete c.rankAt;delete c.deletedAt;
+    c.blocks.forEach(function(b){b.id=uid();if(b.items)b.items.forEach(function(i){i.id=uid()})});
+    if(settings.view){settings.view=false;saveSettings();syncView()}
+    state.notes.unshift(c);activeId=c.id;tab='todo';query='';selMode=false;sel={};$('q').value='';
+    flush();renderAll();closeNav();
+    var sc=$('scroll');if(sc)sc.scrollTop=0;var lst=$('notes');if(lst)lst.scrollTop=0;
+    toast('Нотатку скопійовано','Скасувати',function(){
+      state.notes=state.notes.filter(function(x){return x.id!==c.id});state.gone[c.id]=Date.now();
+      if(activeId===c.id)activeId=state.notes.some(function(x){return x.id===src.id})?src.id:(state.notes[0]?state.notes[0].id:null);
+      state.rev=Date.now();flush();renderAll();
+    });
+  }
 
   /* ---------- Кошик ---------- */
   function trashPeek(){for(var i=0;i<state.trash.length;i++)if(state.trash[i].id===peekId)return state.trash[i];return null}
@@ -2117,7 +2336,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   }
   function renderTrashView(){
     var stack=$('stack'),n=trashPeek();
-    $('delnote').classList.add('hidden');$('topnote').classList.add('hidden');$('kindnote').classList.add('hidden');syncPin(null);syncDone(null);
+    $('delnote').classList.add('hidden');$('topnote').classList.add('hidden');$('dupnote').classList.add('hidden');$('kindnote').classList.add('hidden');syncPin(null);syncDone(null);
     var sv=$('saved');sv.textContent='';sv.className='saved';$('stamp').textContent='';$('stamp').title='';
     if(!n){
       stack.appendChild(h('div',{class:'empty'},[h('div',null,[h('h2',{text:'Кошик'}),h('p',{text:'Виберіть нотатку зліва, щоб переглянути її. Звідси її можна відновити.'})])]));
@@ -2184,11 +2403,11 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       n.kind='block';
     }else{
       var bad=n.blocks.some(function(b){
-        if(b.type==='title'||b.type==='text'||b.type==='description')return false;
+        if(isHead(b.type)||b.type==='text'||b.type==='description')return false;
         return !!((b.value&&String(b.value).trim())||(b.items&&b.items.some(function(i){return i.t.trim()}))||(b.en&&b.en.trim()));
       });
       if(bad){toast('Не можна: є заповнені блоки (теги, екран, голос тощо). Їх треба спершу прибрати');return}
-      n.blocks=n.blocks.filter(function(b){return b.type==='title'||b.type==='text'||b.type==='description'});
+      n.blocks=n.blocks.filter(function(b){return isHead(b.type)||b.type==='text'||b.type==='description'});
       n.blocks.forEach(function(b){if(b.type==='description')b.type='text'});
       if(!n.blocks.some(function(b){return b.type==='title'}))n.blocks.unshift(newBlock('title'));
       if(!n.blocks.some(function(b){return b.type==='text'}))n.blocks.push(newBlock('text'));
@@ -2350,7 +2569,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   function renderStack(){
     var stack=$('stack');stack.textContent='';stack.className='stack';$('viewtop').classList.toggle('hidden',tab==='trash');if(tab==='trash'){renderTrashView();return}
     var n=active();
-    $('delnote').classList.toggle('hidden',!n);$('topnote').classList.toggle('hidden',!n);$('kindnote').classList.toggle('hidden',!n);syncKind(n);syncPin(n);syncDone(n);
+    $('delnote').classList.toggle('hidden',!n);$('topnote').classList.toggle('hidden',!n);$('dupnote').classList.toggle('hidden',!n);$('kindnote').classList.toggle('hidden',!n);syncKind(n);syncPin(n);syncDone(n);
     drawSaved();
     if(!n){
       stack.appendChild(h('div',{class:'empty'},[h('div',null,[
@@ -2365,14 +2584,16 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       if(n.blocks.filter(function(b){return b.type==='text'}).length>1)stack.classList.add('multi');
       n.blocks.forEach(function(b,i){
         var body=h('div',{class:'body'});
-        if(b.type==='title')buildTitle(b,body);else if(b.type==='todo')buildTodo(b,body);else buildText(b,body);
+        if(isHead(b.type))buildTitle(b,body);else if(b.type==='todo')buildTodo(b,body);else buildText(b,body);
         var kids=[body];
         if(b.type!=='title')kids.push(plainTools(n,b,i));
         stack.appendChild(h('section',{class:'block plain','data-bid':b.id},kids));
       });
       stack.appendChild(h('div',{class:'padrow'},[
         h('button',{class:'add padd',type:'button',title:'Новий порожній блок нижче (Ctrl+Enter у тексті)',onclick:function(){addPlainBlock()}},[document.createTextNode('+ Додати блок')]),
-        h('button',{class:'add padd',type:'button',title:'Список завдань із галочками',onclick:function(){addPlainBlock(null,'todo')}},[h('i',{class:'sticker',style:'background:'+TYPES.todo.color}),document.createTextNode('Список завдань')])
+        h('button',{class:'add padd',type:'button',title:'Список завдань із галочками',onclick:function(){addPlainBlock(null,'todo')}},[h('i',{class:'sticker',style:'background:'+TYPES.todo.color}),document.createTextNode('Список завдань')]),
+        h('button',{class:'add padd',type:'button',title:'Менший заголовок',onclick:function(){addPlainBlock(null,'h2')}},[h('i',{class:'sticker',style:'background:'+TYPES.h2.color}),document.createTextNode(TYPES.h2.name)]),
+        h('button',{class:'add padd',type:'button',title:'Ще менший заголовок',onclick:function(){addPlainBlock(null,'h3')}},[h('i',{class:'sticker',style:'background:'+TYPES.h3.color}),document.createTextNode(TYPES.h3.name)])
       ]));
       return;
     }
@@ -2401,9 +2622,9 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       var txt=blockText(b);
       if(!String(txt).trim())return;
       any=true;
-      var cp=iconBtn('','Скопіювати',ICON.copy,function(){copyText(txt,b.type==='tags'?'Теги скопійовано':'Скопійовано')});
+      var cp=iconBtn('','Скопіювати з форматуванням',ICON.copy,function(){copyBlockRich(b)});
       var body;
-      if(b.type==='title'){body=h('h1',{class:'vtitle'});if(typeof b.html==='string'&&b.html)body.innerHTML=sanitizeTitle(b.html);else body.textContent=txt}
+      if(isHead(b.type)){var lv=b.type==='h2'?2:b.type==='h3'?3:1;body=h('h'+lv,{class:'vtitle'+(lv>1?' vh'+lv:'')});if(typeof b.html==='string'&&b.html)body.innerHTML=sanitizeTitle(b.html);else body.textContent=txt;if(b.align==='center'||b.align==='right')body.style.textAlign=b.align}
       else if(b.type==='voice')body=viewVoice(b);
       else if(b.type==='todo')body=viewTodo(b,tab==='trash'||n!==active());
       else if(b.type==='tags'){
@@ -2423,7 +2644,8 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     labelIn.addEventListener('input',function(){b.label=labelIn.value;queueSave()});
 
     var tools=h('div',{class:'tools'},[
-      iconBtn('','Скопіювати блок',ICON.copy,function(){copyText(blockText(b),b.type==='tags'?'Теги скопійовано':'Скопійовано')}),
+      iconBtn('','Скопіювати блок (з форматуванням)',ICON.copy,function(){copyBlockRich(b)}),
+      iconBtn('','Дублювати блок',ICON.dup,function(){duplicateBlock(b.id)}),
       i>0?iconBtn('','Вище',ICON.up,function(){moveBlock(b.id,-1)}):null,
       i<n.blocks.length-1?iconBtn('','Нижче',ICON.down,function(){moveBlock(b.id,1)}):null,
       iconBtn('danger','Видалити блок',ICON.del,function(){removeBlock(b.id)})
@@ -2433,7 +2655,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
       tools
     ]);
     var body=h('div',{class:'body'});
-    if(b.type==='title')buildTitle(b,body);
+    if(isHead(b.type))buildTitle(b,body);
     else if(b.type==='tags')buildTags(b,body);
     else if(b.type==='voice')buildVoice(b,body);
     else if(b.type==='todo')buildTodo(b,body);
@@ -2442,9 +2664,10 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   }
 
   function buildTitle(b,body){
-    var ed=h('div',{class:'b-title rte',contenteditable:'true',role:'textbox','aria-label':'Заголовок','data-ph':'Заголовок',spellcheck:'true'});
+    var ed=h('div',{class:'b-title rte'+(b.type==='h2'?' b-h2':b.type==='h3'?' b-h3':''),contenteditable:'true',role:'textbox','aria-label':TYPES[b.type].name,'data-ph':TYPES[b.type].name,spellcheck:'true'});
+    if(b.align==='center'||b.align==='right')ed.style.textAlign=b.align;
     if(typeof b.html==='string'&&b.html)ed.innerHTML=sanitizeTitle(b.html);else ed.textContent=b.value||'';
-    body.classList.add('tbody');
+    if(b.type==='title')body.classList.add('tbody');
     var count=h('div',{class:'count'}),saved=null;
     function inEd(n){return n&&(n===ed||ed.contains(n))}
     function saveSel(){var sl=window.getSelection();if(sl.rangeCount&&inEd(sl.anchorNode))saved=sl.getRangeAt(0).cloneRange()}
@@ -2475,7 +2698,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     function paint(cmd,val){
       restoreSel();
       var sl=window.getSelection();
-      function go(){try{document.execCommand('styleWithCSS',false,cmd==='bold'?false:true);document.execCommand(cmd,false,val)}catch(e){}}
+      function go(){try{document.execCommand('styleWithCSS',false,cmd==='bold'?false:true);document.execCommand(cmd,false,val)}catch(e){}if(cmd==='removeFormat')applyFz(ed,'n')}
       if(MS.has(ed)){MS.run(ed,go);saveSel();commit();return}
       if(!sl.rangeCount||sl.isCollapsed){var r=document.createRange();r.selectNodeContents(ed);sl.removeAllRanges();sl.addRange(r)}
       go();saveSel();commit();
@@ -2485,6 +2708,8 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     bt.addEventListener('mousedown',function(e){e.preventDefault()});
     bt.addEventListener('click',function(){paint('bold')});
     tb.appendChild(bt);
+    sizeBtns(function(st){restoreSel();function go(){stepFz(ed,st)}if(MS.has(ed))MS.run(ed,go);else go();saveSel();commit()}).forEach(function(x){tb.appendChild(x)});
+    alignBtns(function(a){if(a==='left'){delete b.align;ed.style.textAlign=''}else{b.align=a;ed.style.textAlign=a}queueSave()}).forEach(function(x){tb.appendChild(x)});
     var sw=h('span',{class:'rtsws'});
     PALETTE.forEach(function(c){
       var x=h('button',{type:'button',class:'rtsw',title:'Колір заголовка: '+c[1],'aria-label':'Колір заголовка: '+c[1],style:'background:'+c[0]});
@@ -2499,7 +2724,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     rs.addEventListener('mousedown',function(e){e.preventDefault()});
     rs.addEventListener('click',function(){paint('removeFormat')});
     tb.appendChild(rs);
-    body.appendChild(ed);body.appendChild(tb);body.appendChild(count);upd();
+    body.appendChild(ed);body.appendChild(tb);if(b.type==='title'){body.appendChild(count);upd()}
   }
   var PALETTE=[['#e5484d','Червоний'],['#f08a00','Помаранчевий'],['#e5b800','Жовтий'],['#2fa66a','Зелений'],['#0aa5b8','Бірюзовий'],['#3b82f6','Синій'],['#a855f7','Фіолетовий'],['#e0409a','Рожевий']];
   function buildText(b,body){
@@ -2526,8 +2751,9 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     ed.addEventListener('input',commit);
     ed.addEventListener('paste',function(e){
       e.preventDefault();
-      var t=(e.clipboardData||window.clipboardData).getData('text/plain');
-      document.execCommand('insertText',false,t);
+      var cd=e.clipboardData||window.clipboardData,inner=ntkExtract(cd.getData('text/html'));
+      if(inner!=null){var cl=sanitizeHTML(inner);if(cl){document.execCommand('insertHTML',false,cl);return}}   // скопійовано з цього додатка — лишаємо форматування
+      document.execCommand('insertText',false,cd.getData('text/plain'));
     });
     // Markdown-подібні скорочення: «- », «* », «1. » на початку рядка → список (як у Word)
     ed.addEventListener('keydown',function(e){
@@ -2564,6 +2790,8 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     tb.appendChild(tbtn('Ж','Жирний (Ctrl+B)',function(){ex('styleWithCSS',false);ex('bold')},'rtb-b'));
     tb.appendChild(tbtn('• Список','Маркований список: виділіть рядки або поставте курсор',function(){ex('insertUnorderedList')}));
     tb.appendChild(tbtn('1. Список','Нумерований список: виділіть рядки або поставте курсор',function(){ex('insertOrderedList')}));
+    sizeBtns(function(st){restoreSel();MS.run(ed,function(){stepFz(ed,st)});saveSel();commit()}).forEach(function(x){tb.appendChild(x)});
+    alignBtns(function(a){restoreSel();MS.run(ed,function(){ex('styleWithCSS',true);ex(a==='left'?'justifyLeft':a==='center'?'justifyCenter':'justifyRight')});saveSel();commit()}).forEach(function(x){tb.appendChild(x)});
     var sw=h('span',{class:'rtsws'});
     PALETTE.forEach(function(c){
       var x=h('button',{type:'button',class:'rtsw',title:'Колір: '+c[1],'aria-label':'Колір: '+c[1],style:'background:'+c[0]});
@@ -2575,7 +2803,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
     cp.addEventListener('input',function(){restoreSel();MS.run(ed,function(){ex('styleWithCSS',true);ex('foreColor',cp.value)});saveSel();commit()});
     sw.appendChild(cp);
     tb.appendChild(sw);
-    tb.appendChild(tbtn('Аа','Скинути форматування виділеного',function(){ex('removeFormat')},'rtb-x'));
+    tb.appendChild(tbtn('Аа','Скинути форматування виділеного',function(){ex('removeFormat');applyFz(ed,'n')},'rtb-x'));
     body.appendChild(tb);body.appendChild(ed);
   }
   /* ---------- Список завдань (галочки) ---------- */
@@ -2821,21 +3049,230 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   }
 
 
+  /* Розмір тексту всього додатка (налаштування на цьому пристрої) */
+  var SCKEY='notatnyk:scale:v1',SCALES=[[.8,'Менший'],[1,'Звичайний'],[1.25,'Більший'],[1.5,'Великий'],[1.75,'Дуже великий']];
+  function getScale(){try{var v=+localStorage.getItem(SCKEY);if(v>=.7&&v<=2)return v}catch(e){}return 1}
+  function setScale(v){try{localStorage.setItem(SCKEY,String(v))}catch(e){}fitPixels()}
   function fitPixels(){
-    var d=window.devicePixelRatio||1,r=document.documentElement.style,mob=document.body.classList.contains('mobile');
+    var d=window.devicePixelRatio||1,r=document.documentElement.style,mob=document.body.classList.contains('mobile'),sc=getScale();
     function px(k){return (9*k/d).toFixed(4)+'px'}
-    var ks=Math.max(2,Math.round(1.4*d)),kb=Math.max(2,Math.round(1.6*d));
+    function sn(k){return Math.round(k*sc*2)/2}
+    var ks=sn(Math.max(2,Math.round(1.4*d))),kb=sn(Math.max(2,Math.round(1.6*d))),kt=sn(Math.max(3,Math.round(2.4*d)));
     // на телефоні: основний текст ≥16px (інакше iOS «наближає» при фокусі), дрібний ≥13px
     if(mob){kb=Math.max(kb,Math.ceil(16*d/9));ks=Math.max(ks,Math.ceil(13*d/9))}
-    var kt=Math.max(3,Math.round(2.4*d));
+    kt=Math.max(kt,kb+1);
+    // заголовки нотатки: 1 — найбільший (на телефоні помітно більший за текст), 2 і 3 — поступово менші
+    var k1=mob?Math.max(kt,kb+2):kt,k2=kb+(k1-kb)*(mob?.5:.5),k3=kb+(k1-kb)*.25;
     r.setProperty('--fs',px(ks));
     r.setProperty('--fb',px(kb));
     function dp(n){return (n/d).toFixed(4)+'px'}
     r.setProperty('--ft',px(kt));
+    r.setProperty('--fh1',px(k1));r.setProperty('--fh2',px(k2));r.setProperty('--fh3',px(k3));
     r.setProperty('--lb',dp(Math.round(9*kb*1.5)));
     r.setProperty('--lt',dp(Math.round(9*kt*1.25)));
+    r.setProperty('--sc',String(sc));
   }
   fitPixels();window.addEventListener('resize',fitPixels);
+
+  /* ---------- Власне контекстне меню ----------
+     ПК: права кнопка (стандартне меню браузера не показується).
+     Телефон: компактна панелька при виділенні тексту, ставиться так, щоб не закривати виділене. */
+  var CM=(function(){
+    var menu=null,selT=0,kidx=-1;
+    var coarse=window.matchMedia?window.matchMedia('(pointer:coarse)'):{matches:false};
+    var TXT_IN=/^(text|search|password|email|url|tel|number|)$/i;
+    function fieldOf(t){var el=t&&t.closest&&t.closest('input,textarea');if(!el)return null;if(el.tagName==='INPUT'&&!TXT_IN.test(el.type||''))return null;return el}
+    function rteOf(t){var el=t&&(t.nodeType===1?t:t.parentElement);return el&&el.closest?el.closest('[contenteditable="true"]'):null}
+    function analyze(t){
+      var f=fieldOf(t);if(f)return {kind:'field',el:f};
+      var r=rteOf(t);if(r)return {kind:'rte',el:r};
+      var el=t&&(t.nodeType===1?t:t.parentElement),v=el&&el.closest?el.closest('.vtext,.vtitle,.td-vt'):null;
+      return v?{kind:'view',el:v}:null;
+    }
+    function fieldSel(c){try{return c.el.selectionStart!=null&&c.el.selectionStart!==c.el.selectionEnd}catch(e){return false}}
+    function hasSel(c){
+      if(c.kind==='field')return fieldSel(c);
+      var sl=getSelection();return !!(sl.rangeCount&&!sl.isCollapsed&&c.el.contains(sl.getRangeAt(0).commonAncestorContainer));
+    }
+    function isEditable(c){return c.kind==='rte'||(c.kind==='field'&&!c.el.readOnly&&!c.el.disabled)}
+    function pointRange(x,y){
+      var r=null;
+      if(document.caretRangeFromPoint)r=document.caretRangeFromPoint(x,y);
+      else if(document.caretPositionFromPoint){var p=document.caretPositionFromPoint(x,y);if(p){r=document.createRange();r.setStart(p.offsetNode,p.offset);r.collapse(true)}}
+      return r;
+    }
+    function snap(c,x,y){
+      if(c.kind==='field'){try{return {s:c.el.selectionStart||0,e:c.el.selectionEnd||0}}catch(e){return {s:0,e:0}}}
+      var sl=getSelection();
+      if(sl.rangeCount&&c.el.contains(sl.getRangeAt(0).commonAncestorContainer))return sl.getRangeAt(0).cloneRange();
+      var pr=(x!=null)?pointRange(x,y):null;
+      if(pr&&c.el.contains(pr.startContainer))return pr;
+      var r=document.createRange();r.selectNodeContents(c.el);r.collapse(false);return r;
+    }
+    function restore(c,sn){
+      if(c.kind==='field'){c.el.focus();try{c.el.setSelectionRange(sn.s,sn.e)}catch(e){}return}
+      if(c.kind==='rte')c.el.focus({preventScroll:true});
+      if(sn){var sl=getSelection();sl.removeAllRanges();sl.addRange(sn)}
+    }
+    function doCopy(c,sn,cut){
+      restore(c,sn);
+      if(c.kind==='field'){
+        var v=c.el.value.slice(sn.s,sn.e);if(!v){toast('Спершу виділіть текст');return}
+        copyText(v,cut?'Вирізано':'Скопійовано');
+        if(cut&&isEditable(c)){c.el.setRangeText('',sn.s,sn.e,'end');c.el.dispatchEvent(new Event('input',{bubbles:true}))}
+        return;
+      }
+      var sl=getSelection();if(!sl.rangeCount||sl.isCollapsed){toast('Спершу виділіть текст');return}
+      var rc=clipFromRange(sl.getRangeAt(0));
+      writeClip(rc.html,rc.text,cut?'Вирізано':'Скопійовано з форматуванням');
+      if(cut&&c.kind==='rte')document.execCommand('delete');
+    }
+    function doPaste(c,sn){
+      var cb=navigator.clipboard;
+      function ins(html,text){
+        restore(c,sn);
+        if(c.kind==='field'){
+          var t=String(text||'');if(c.el.tagName==='INPUT')t=t.replace(/\s*[\r\n]+\s*/g,' ');
+          c.el.setRangeText(t,sn.s,sn.e,'end');c.el.dispatchEvent(new Event('input',{bubbles:true}));return;
+        }
+        if(c.kind!=='rte')return;
+        var title=c.el.classList.contains('b-title');
+        if(html&&!title){document.execCommand('insertHTML',false,html);return}
+        document.execCommand('insertText',false,title?String(text||'').replace(/\s*[\r\n]+\s*/g,' '):String(text||''));
+      }
+      function fail(){toast('Браузер не дав доступ до буфера — натисніть '+MOD+'+V')}
+      function viaText(){if(cb&&cb.readText)cb.readText().then(function(t){ins('',t)},fail);else fail()}
+      if(cb&&cb.read){
+        cb.read().then(function(items){
+          var it=items[0];if(!it){fail();return}
+          function get(ty){return it.types.indexOf(ty)>=0?it.getType(ty).then(function(b){return b.text()}):Promise.resolve('')}
+          return Promise.all([get('text/html'),get('text/plain')]).then(function(r){
+            var inner=r[0]?ntkExtract(r[0]):null;
+            ins(inner!=null?sanitizeHTML(inner):'',r[1]);
+          });
+        }).catch(viaText);
+      }else viaText();
+    }
+    function doAll(c){
+      if(c.kind==='field'){c.el.focus();c.el.select();return}
+      if(c.kind==='rte')c.el.focus({preventScroll:true});
+      var r=document.createRange();r.selectNodeContents(c.el);var sl=getSelection();sl.removeAllRanges();sl.addRange(r);
+    }
+    function textItems(c,sn){
+      var has=hasSel(c),ed=isEditable(c);
+      return [
+        {t:'Вирізати',k:MOD+'+X',off:!(has&&ed),fn:function(){doCopy(c,sn,true)}},
+        {t:'Копіювати',k:MOD+'+C',off:!has,fn:function(){doCopy(c,sn,false)}},
+        {t:'Вставити',k:MOD+'+V',off:!ed,fn:function(){doPaste(c,sn)}},
+        {t:'Виділити все',s:'Усе',k:MOD+'+A',fn:function(){doAll(c)}}
+      ];
+    }
+    function extras(t){
+      var out=[],row=t.closest&&t.closest('.row[data-nid]');
+      if(row&&!selMode){
+        var id=row.getAttribute('data-nid');
+        if(tab==='trash'){out.push({t:'Відновити',fn:function(){restoreNote(id)}},{t:'Видалити назавжди',dng:1,fn:function(){purgeNote(id)}})}
+        else{
+          var n=state.notes.find(function(x){return x.id===id});
+          if(n)out.push({t:'Відкрити',fn:function(){activeId=id;renderList();renderStack();saveUI();closeNav()}},{t:'Дублювати нотатку',fn:function(){duplicateNote(n)}},
+            {t:n.pinned?'Відкріпити':'Закріпити як важливу',fn:function(){togglePin(n)}},{t:n.done?'Зняти «Готове»':'Позначити як готове',fn:function(){toggleDone(n)}},
+            {t:'Видалити нотатку',dng:1,fn:function(){confirmDeleteNote(n)}});
+        }
+      }
+      var blk=t.closest&&t.closest('.block[data-bid]');
+      if(blk&&!settings.view&&tab!=='trash'&&active()){
+        var bid=blk.getAttribute('data-bid');
+        out.push({t:'Дублювати блок',fn:function(){duplicateBlock(bid)}},{t:'Видалити блок',dng:1,fn:function(){removeBlock(bid)}});
+      }
+      return out;
+    }
+    function hide(){if(menu){menu.remove();menu=null;kidx=-1}}
+    function build(list,compact,isSel){
+      hide();
+      var m=h('div',{class:'cmenu'+(compact?' compact':''),role:'menu'});
+      list.forEach(function(it){
+        if(it==='-'){m.appendChild(h('hr'));return}
+        var b=h('button',{type:'button',class:it.dng?'dng':'',role:'menuitem',disabled:it.off?'':null},[h('span',{text:compact&&it.s?it.s:it.t})]);
+        if(!compact&&it.k)b.appendChild(h('span',{class:'k',text:it.k}));
+        b.addEventListener('mousedown',function(e){e.preventDefault()});
+        b.addEventListener('click',function(e){e.preventDefault();hide();it.fn()});
+        m.appendChild(b);
+      });
+      m.__sel=!!isSel;m.style.left='0px';m.style.top='0px';
+      document.body.appendChild(m);menu=m;return m;
+    }
+    function placeAt(m,x,y){
+      var vw=window.innerWidth,vh=window.innerHeight,w=m.offsetWidth,hh=m.offsetHeight;
+      m.style.left=(x+w>vw-6?Math.max(6,x-w):x)+'px';m.style.top=(y+hh>vh-6?Math.max(6,y-hh):y)+'px';
+    }
+    // біля виділення: під ним (поза ручками виділення), а якщо нема місця — над ним; не заходить під закріплені панелі
+    function placeNear(m,first,last,union){
+      var vv=window.visualViewport,top0=vv?vv.offsetTop:0,left0=vv?vv.offsetLeft:0,vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
+      var w=m.offsetWidth,hh=m.offsetHeight,lim=top0+4,hd=$('top');
+      if(hd){var hr=hd.getBoundingClientRect();if(hr.bottom>lim&&hr.bottom<top0+vh/2)lim=hr.bottom+2}
+      [].forEach.call(document.querySelectorAll('#scroll .adder,#scroll .rtb-sticky'),function(el){
+        var r=el.getBoundingClientRect();if(r.bottom>lim&&r.top<=lim+4&&r.bottom<top0+vh/2)lim=r.bottom+2;
+      });
+      var below=last.bottom+30,above=first.top-10-hh,y;
+      if(below+hh<=top0+vh-6)y=below;
+      else if(above>=lim)y=above;
+      else y=Math.max(lim,top0+vh-hh-6);
+      var x=Math.min(left0+vw-w-6,Math.max(left0+6,(union.left+union.right)/2-w/2));
+      m.style.left=x+'px';m.style.top=y+'px';
+    }
+    function showSel(){
+      var ae=document.activeElement,c=null,first,last,union;
+      var f=fieldOf(ae);
+      if(f&&fieldSel({el:f})){c={kind:'field',el:f};union=first=last=f.getBoundingClientRect()}
+      else{
+        var sl=getSelection();
+        if(!sl.rangeCount||sl.isCollapsed){hide();return}
+        var r=sl.getRangeAt(0);c=analyze(r.commonAncestorContainer);
+        if(!c||c.kind==='field'){hide();return}
+        var rs=r.getClientRects();if(!rs.length){hide();return}
+        first=rs[0];last=rs[rs.length-1];union=r.getBoundingClientRect();
+      }
+      var sn=snap(c),list=textItems(c,sn).filter(function(it){return !it.off});
+      if(!list.length){hide();return}
+      var m=build(list,true,true);placeNear(m,first,last,union);
+    }
+    function schedSel(){
+      if(!coarse.matches)return;
+      clearTimeout(selT);
+      if(menu&&menu.__sel)hide();
+      selT=setTimeout(showSel,350);
+    }
+    document.addEventListener('selectionchange',schedSel);
+    document.addEventListener('select',schedSel,true);
+    // «довге натискання» на телефоні і права кнопка на ПК
+    document.addEventListener('contextmenu',function(e){
+      e.preventDefault();                                 // стандартне меню браузера не показуємо
+      var t=e.target;if(!t||!t.closest||t.closest('.cmenu'))return;
+      var c=analyze(t),ex=extras(t);
+      if(!c&&!ex.length){hide();return}
+      var touch=coarse.matches&&e.pointerType!=='mouse',list=[];
+      if(c)list=textItems(c,snap(c,e.clientX,e.clientY));
+      if(ex.length){if(list.length)list.push('-');list=list.concat(ex)}
+      var compact=touch&&c&&!ex.length;
+      if(compact)list=list.filter(function(it){return !it.off});
+      var m=build(list,compact,false);
+      placeAt(m,e.clientX,e.clientY+(touch?24:0));
+      if(e.pointerType===''&&!e.clientX&&!e.clientY){var b0=m.querySelector('button:not([disabled])');if(b0){b0.focus();kidx=0}}
+    },true);
+    document.addEventListener('pointerdown',function(e){if(menu&&!(e.target.closest&&e.target.closest('.cmenu')))hide()},true);
+    window.addEventListener('scroll',function(e){if(menu&&!(e.target&&e.target.closest&&e.target.closest&&e.target.closest('.cmenu')))hide()},true);
+    window.addEventListener('resize',hide);
+    document.addEventListener('input',function(){if(menu&&menu.__sel)hide()},true);
+    document.addEventListener('keydown',function(e){
+      if(!menu)return;
+      if(e.key==='Escape'){e.preventDefault();e.stopPropagation();hide();return}
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        var bs=[].slice.call(menu.querySelectorAll('button:not([disabled])'));if(!bs.length)return;
+        e.preventDefault();kidx=(kidx+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length;bs[kidx].focus();
+      }
+    },true);
+    return {hide:hide};
+  })();
 
   /* ---------- Init ---------- */
   $('kn').textContent=MOD+'+N / Alt+N';$('kf').textContent=MOD+'+F';
@@ -2843,6 +3280,7 @@ body.mobile .rtb.rtb-sticky{flex-wrap:nowrap;overflow-x:auto;gap:5px;padding:6px
   $('new').title='Нова нотатка ('+MOD+'+N або Alt+N)';
   $('q').placeholder='Пошук ('+MOD+'+F)';$('q').title='Пошук ('+MOD+'+F)';
   $('new').addEventListener('click',function(){addNote()});
+  $('dupnote').appendChild(icon(ICON.dup));$('dupnote').addEventListener('click',function(){duplicateNote()});
   $('delnote').addEventListener('click',function(){confirmDeleteNote()});
   $('back').addEventListener('click',function(){navIsOpen()?closeNav():openNav()});
   $('closenav').appendChild(icon(ICON.x));$('closenav').addEventListener('click',closeNav);
