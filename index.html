@@ -1065,6 +1065,16 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
 @keyframes tocFlash{0%,70%{outline:3px solid var(--brand);outline-offset:3px}100%{outline:3px solid transparent;outline-offset:3px}}
 .flash{animation:tocFlash 1.4s ease-out}
 @media (prefers-reduced-motion:reduce){.toc{animation:none}}
+
+/* ===== v32: курсив, активні кнопки панелі ===== */
+.rte i,.rte em,.vrich i,.vrich em,.vtext i,.vtext em,.b-title i,.vtitle i,.rtb-i{font-style:italic;font-synthesis:style}
+.fwfix b,.fwfix strong{font-weight:700!important}
+.rtbtn.act{background:var(--brand);color:#fff}
+@media (hover:hover){.rtbtn.act:hover{background:var(--brand-2,var(--brand));color:#fff}}
+.rtsw{position:relative}
+.rtsw.act{outline:3px solid var(--brand);outline-offset:2px}
+.rtsw.act::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;background:#fff;mix-blend-mode:difference}
+.rtcp.act{outline:3px solid var(--brand);outline-offset:2px}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -2360,6 +2370,13 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
       [].slice.call(ed.querySelectorAll('[data-fz="n"]')).forEach(function(x){var a=x.parentElement&&x.parentElement.closest('[data-fz]');if(!a||a.getAttribute('data-fz')==='n')dropFz(x)});
     }
   }
+  // У додатку <b> має font-weight:400, тож браузер вважає жирний текст «не жирним» і лише додає жирність.
+  // На час команди повертаємо <b> справжню вагу — тоді Ж/Ctrl+B працюють як перемикач.
+  function toggleBold(ed){
+    ed.classList.add('fwfix');
+    try{document.execCommand('styleWithCSS',false,false);document.execCommand('bold')}catch(e){}
+    ed.classList.remove('fwfix');
+  }
   function stepFz(ed,step){applyFz(ed,FZL[Math.max(0,Math.min(FZL.length-1,FZL.indexOf(curFz(ed))+step))])}
   var AL_ICON={left:'M4 6h16|M4 10h10|M4 14h16|M4 18h10',center:'M4 6h16|M7 10h10|M4 14h16|M7 18h10',right:'M4 6h16|M10 10h10|M4 14h16|M10 18h10'};
   var AL_NAME={left:'По лівому краю',center:'По центру',right:'По правому краю'};
@@ -2866,13 +2883,15 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
         if(!sl.rangeCount||sl.isCollapsed){var r=document.createRange();r.selectNodeContents(ed);sl.removeAllRanges();sl.addRange(r)}
         fn();saveSel();commit();
       },
-      align:function(a){if(a==='left'){delete b[AK];ed.style.textAlign=''}else{b[AK]=a;ed.style.textAlign=a}queueSave()}
+      align:function(a){if(a==='left'){delete b[AK];ed.style.textAlign=''}else{b[AK]=a;ed.style.textAlign=a}queueSave()},
+      getAlign:function(){return b[AK]==='center'||b[AK]==='right'?b[AK]:'left'}
     };
+    ed.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&!e.altKey&&e.code==='KeyB'){e.preventDefault();ctx.run(function(){toggleBold(ed)})}});
     ed.addEventListener('focus',function(){GTB.attach(ctx)});
     ed.addEventListener('blur',function(){GTB.detach()});
     body.appendChild(ed);if(isMain){body.appendChild(count);upd()}
   }
-  var PALETTE=[['#e5484d','Червоний'],['#f08a00','Помаранчевий'],['#e5b800','Жовтий'],['#2fa66a','Зелений'],['#0aa5b8','Бірюзовий'],['#3b82f6','Синій'],['#a855f7','Фіолетовий'],['#e0409a','Рожевий']];
+  var PALETTE=[['#e5484d','Червоний'],['#f08a00','Помаранчевий'],['#e5b800','Жовтий'],['#2fa66a','Зелений'],['#0aa5b8','Бірюзовий'],['#3b82f6','Синій'],['#a855f7','Фіолетовий'],['#e0409a','Рожевий'],['#ffffff','Білий']];
   function buildText(b,body){
     var ed=h('div',{class:(b.type==='description'?'b-desc':'b-text')+' rte',contenteditable:'true',role:'textbox','aria-multiline':'true','aria-label':TYPES[b.type].name,'data-ph':TYPES[b.type].name,spellcheck:'true'});
     ed.innerHTML=typeof b.html==='string'?sanitizeHTML(b.html):plainToHTML(b.value);
@@ -2943,6 +2962,7 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
       }
     });
     var ctx={kind:'text',ed:ed,run:function(fn){restoreSel();MS.run(ed,fn);saveSel();commit()}};
+    ed.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&!e.altKey&&e.code==='KeyB'){e.preventDefault();ctx.run(function(){toggleBold(ed)})}});
     ed.addEventListener('focus',function(){GTB.attach(ctx)});
     ed.addEventListener('blur',function(){GTB.detach()});
     body.appendChild(ed);
@@ -3217,23 +3237,24 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
 
   /* ---------- Єдина панель форматування (з'являється вгорі, коли пишете в тексті чи заголовку) ---------- */
   var GTB=(function(){
-    var el=$('gtb'),sc=$('scroll'),cur=null,tmr=0;
+    var el=$('gtb'),sc=$('scroll'),cur=null,tmr=0,stBtns=[],swBtns=[],cpEl=null,raf=0;
     function ex(cmd,val){try{document.execCommand(cmd,false,val)}catch(e){}}
     function mk(label,title,fn,o){
       o=o||{};
       var x=h('button',{type:'button',class:'rtbtn'+(o.cls?' '+o.cls:''),title:title,'aria-label':title});
       if(o.icon)x.appendChild(icon(o.icon));else x.textContent=label;
       if(o.text)x.setAttribute('data-only','text');
+      if(o.st)stBtns.push({x:x,k:o.st});
       x.addEventListener('mousedown',function(e){e.preventDefault()});
-      x.addEventListener('click',function(){if(cur)fn(cur)});
+      x.addEventListener('click',function(){if(cur)fn(cur);refresh()});
       (o.into||el).appendChild(x);return x;
     }
-    mk('Ж','Жирний (Ctrl+B)',function(c){c.run(function(){ex('styleWithCSS',false);ex('bold')})},{cls:'rtb-b'});
-    mk('К','Курсив (Ctrl+I)',function(c){c.run(function(){ex('styleWithCSS',false);ex('italic')})},{cls:'rtb-i'});
-    mk('Ч','Підкреслений (Ctrl+U)',function(c){c.run(function(){ex('styleWithCSS',false);ex('underline')})},{cls:'rtb-u'});
-    mk('З','Закреслений',function(c){c.run(function(){ex('styleWithCSS',false);ex('strikeThrough')})},{cls:'rtb-s'});
-    mk('•','Маркований список',function(c){c.run(function(){ex('insertUnorderedList')})},{text:1});
-    mk('1.','Нумерований список',function(c){c.run(function(){ex('insertOrderedList')})},{text:1});
+    mk('Ж','Жирний (Ctrl+B)',function(c){c.run(function(){toggleBold(c.ed)})},{cls:'rtb-b',st:'b'});
+    mk('К','Курсив (Ctrl+I)',function(c){c.run(function(){ex('styleWithCSS',false);ex('italic')})},{cls:'rtb-i',st:'i'});
+    mk('Ч','Підкреслений (Ctrl+U)',function(c){c.run(function(){ex('styleWithCSS',false);ex('underline')})},{cls:'rtb-u',st:'u'});
+    mk('З','Закреслений',function(c){c.run(function(){ex('styleWithCSS',false);ex('strikeThrough')})},{cls:'rtb-s',st:'s'});
+    mk('•','Маркований список',function(c){c.run(function(){ex('insertUnorderedList')})},{text:1,st:'ul'});
+    mk('1.','Нумерований список',function(c){c.run(function(){ex('insertOrderedList')})},{text:1,st:'ol'});
     mk('A\u2212','Менший текст (виділеного)',function(c){c.run(function(){stepFz(c.ed,-1)})});
     mk('A+','Більший текст (виділеного)',function(c){c.run(function(){stepFz(c.ed,1)})});
     mk('','Збільшити відступ абзацу (Tab)',function(c){c.run(function(){changeIndent(c.ed,1)})},{icon:AL_ICON.indent,text:1});
@@ -3242,21 +3263,58 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
       mk('',AL_NAME[a],function(c){
         if(c.align)c.align(a);
         else c.run(function(){ex('styleWithCSS',true);ex(a==='left'?'justifyLeft':a==='center'?'justifyCenter':'justifyRight')});
-      },{icon:AL_ICON[a]});
+      },{icon:AL_ICON[a],st:'al-'+a});
     });
     var sw=h('span',{class:'rtsws'});
     PALETTE.forEach(function(c){
       var x=h('button',{type:'button',class:'rtsw',title:'Колір: '+c[1],'aria-label':'Колір: '+c[1],style:'background:'+c[0]});
       x.addEventListener('mousedown',function(e){e.preventDefault()});
-      x.addEventListener('click',function(){if(cur)cur.run(function(){ex('styleWithCSS',true);ex('foreColor',c[0])})});
+      x.addEventListener('click',function(){if(cur)cur.run(function(){ex('styleWithCSS',true);ex('foreColor',c[0])});refresh()});
+      var hx=c[0].replace('#','');swBtns.push({x:x,rgb:'rgb('+parseInt(hx.substr(0,2),16)+', '+parseInt(hx.substr(2,2),16)+', '+parseInt(hx.substr(4,2),16)+')'});
       sw.appendChild(x);
     });
     var cp=h('input',{type:'color',class:'rtcp',title:'Свій колір','aria-label':'Свій колір',value:'#e5484d'});
-    cp.addEventListener('input',function(){if(cur)cur.run(function(){ex('styleWithCSS',true);ex('foreColor',cp.value)})});
+    cpEl=cp;
+    cp.addEventListener('input',function(){if(cur)cur.run(function(){ex('styleWithCSS',true);ex('foreColor',cp.value)});refresh()});
     cp.addEventListener('blur',function(){detach()});
     sw.appendChild(cp);el.appendChild(sw);
     mk('Аа','Скинути форматування виділеного',function(c){c.run(function(){ex('removeFormat');applyFz(c.ed,'n')})},{cls:'rtb-x'});
-    function show(){el.classList.add('on');sc.classList.add('tbon')}
+    // що застосовано до тексту біля курсора / на початку виділення
+    function marks(ed){
+      var m={b:0,i:0,u:0,s:0,ul:0,ol:0,al:'',col:''},sl=getSelection();
+      if(!sl.rangeCount)return m;
+      var rg=sl.getRangeAt(0),n=rg.startContainer;
+      if(n.nodeType===1){var c=n.childNodes[rg.startOffset];if(c){n=c;if(n.nodeType===1){var t=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null).nextNode();if(t)n=t}}}
+      var e=n.nodeType===1?n:n.parentElement;
+      if(!e||!ed.contains(e))return m;
+      for(;e&&e!==ed;e=e.parentElement){
+        var tg=e.tagName;
+        if(tg==='B'||tg==='STRONG')m.b=1;else if(tg==='I'||tg==='EM')m.i=1;else if(tg==='U')m.u=1;else if(tg==='S'||tg==='STRIKE'||tg==='DEL')m.s=1;
+        else if(tg==='UL')m.ul=1;else if(tg==='OL')m.ol=1;
+        if(!m.col&&e.style&&e.style.color)m.col=e.style.color.replace(/\s+/g,' ').toLowerCase();
+        if(!m.al&&/^(DIV|P|LI|UL|OL)$/.test(tg)&&e.style.textAlign)m.al=e.style.textAlign;
+      }
+      if(sl.isCollapsed){   // курсор: показуємо, яким буде текст, що введете далі
+        ed.classList.add('fwfix');
+        try{m.b=document.queryCommandState('bold')?1:0;m.i=document.queryCommandState('italic')?1:0;m.u=document.queryCommandState('underline')?1:0;m.s=document.queryCommandState('strikeThrough')?1:0}catch(x){}
+        ed.classList.remove('fwfix');
+      }
+      return m;
+    }
+    function refresh(){
+      if(!cur||!el.classList.contains('on')||document.activeElement!==cur.ed)return;
+      var m=marks(cur.ed),al=cur.getAlign?cur.getAlign():(/^(center|right)$/.test(m.al)?m.al:'left');
+      stBtns.forEach(function(b){
+        var on=b.k.indexOf('al-')===0?al===b.k.slice(3):!!m[b.k];
+        b.x.classList.toggle('act',on);b.x.setAttribute('aria-pressed',on?'true':'false');
+      });
+      var hit=false;
+      swBtns.forEach(function(b){var on=!!m.col&&m.col===b.rgb;if(on)hit=true;b.x.classList.toggle('act',on)});
+      if(cpEl)cpEl.classList.toggle('act',!!m.col&&!hit);
+    }
+    function schedRefresh(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;refresh()})}
+    document.addEventListener('selectionchange',schedRefresh);
+    function show(){el.classList.add('on');sc.classList.add('tbon');schedRefresh()}
     function hide(){clearTimeout(tmr);el.classList.remove('on');sc.classList.remove('tbon')}
     function attach(ctx){clearTimeout(tmr);cur=ctx;el.classList.toggle('is-title',ctx.kind!=='text');show()}
     function detach(){
