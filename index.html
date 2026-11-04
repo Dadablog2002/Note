@@ -1075,6 +1075,19 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
 .rtsw.act{outline:3px solid var(--brand);outline-offset:2px}
 .rtsw.act::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;background:#fff;mix-blend-mode:difference}
 .rtcp.act{outline:3px solid var(--brand);outline-offset:2px}
+
+/* ===== v35: один список типів блоків ===== */
+.addmenu{gap:8px}
+.addmenu svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tmenu{position:fixed;z-index:1250;min-width:240px;max-width:calc(100vw - 16px);overflow-y:auto;padding:4px;
+  background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));box-shadow:4px 4px 0 var(--shadow,#a9a3e6);animation:fxIn .12s ease backwards}
+.tmenu button{display:flex;align-items:center;gap:10px;width:100%;min-height:38px;padding:6px 10px;text-align:left;font-size:var(--fs);color:var(--ink)}
+.tmenu button.nt{color:var(--brand)}
+.tmenu hr{border:0;border-top:2px solid var(--line-2);margin:4px 0}
+@media (hover:hover){.tmenu button:hover{background:var(--brand);color:#fff}}
+.tmenu button:focus-visible{background:var(--brand);color:#fff;outline:0}
+body.mobile .tmenu button{min-height:40px}
+@media (prefers-reduced-motion:reduce){.tmenu{animation:none}}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -2734,7 +2747,7 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
   /* ---------- Render: blocks ---------- */
   function tagsLength(arr){return arr.join(', ').length}
   function renderStack(){
-    GTB.hide();TOC.close();var stack=$('stack');stack.textContent='';stack.className='stack';$('viewtop').classList.toggle('hidden',tab==='trash');if(tab==='trash'){renderTrashView();return}
+    GTB.hide();TOC.close();TMENU.close();var stack=$('stack');stack.textContent='';stack.className='stack';$('viewtop').classList.toggle('hidden',tab==='trash');if(tab==='trash'){renderTrashView();return}
     var n=active();
     $('tocnote').classList.toggle('hidden',!n);$('topnote').classList.toggle('hidden',!n);$('dupnote').classList.toggle('hidden',!n);$('kindnote').classList.toggle('hidden',!n);syncKind(n);syncPin(n);syncDone(n);
     drawSaved();
@@ -2768,14 +2781,10 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
     }
     n.blocks.forEach(function(b,i){stack.appendChild(renderBlock(n,b,i))});
 
-    var adder=h('div',{class:'adder'},[h('span',{text:'Додати блок:'})]);
-    allTypes().forEach(function(t){
-      adder.appendChild(h('button',{class:'add',onclick:function(){addBlock(t)}},[
-        h('i',{class:'sticker',style:'background:'+TYPES[t].color}),
-        document.createTextNode(TYPES[t].name)
-      ]));
-    });
-    adder.appendChild(h('button',{class:'add newtype',title:'Створити свій тип блоку: назва і колір',onclick:function(){typeDialog()}},[document.createTextNode('+ Свій тип')]));
+    var adder=h('div',{class:'adder'});
+    var addBtn=h('button',{class:'add addmenu',type:'button','aria-haspopup':'true','aria-expanded':'false'},[document.createTextNode('+ Додати блок'),icon(ICON.down)]);
+    addBtn.addEventListener('click',function(e){TMENU.toggle(addBtn,e.detail===0)});
+    adder.appendChild(addBtn);
     stack.insertBefore(adder,stack.firstChild);stack.classList.add('hasadder');
   }
 
@@ -3322,6 +3331,45 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
       tmr=setTimeout(function(){var a=document.activeElement;if(a&&(el.contains(a)||(a.closest&&a.closest('.rte'))))return;hide()},160);
     }
     return {attach:attach,detach:detach,hide:hide};
+  })();
+
+  /* ---------- Список типів блоків (кнопка «Додати блок») ---------- */
+  var TMENU=(function(){
+    var menu=null,btn=null,kidx=-1;
+    function close(){
+      if(!menu)return;
+      menu.remove();menu=null;
+      if(btn)btn.setAttribute('aria-expanded','false');
+      document.removeEventListener('pointerdown',onDoc,true);document.removeEventListener('keydown',onKey,true);window.removeEventListener('resize',close);
+    }
+    function onDoc(e){if(menu&&!menu.contains(e.target)&&!(btn&&btn.contains(e.target)))close()}
+    function onKey(e){
+      if(e.key==='Escape'){e.stopPropagation();close();if(btn)btn.focus();return}
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        var bs=[].slice.call(menu.querySelectorAll('button'));if(!bs.length)return;
+        e.preventDefault();kidx=(kidx+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length;bs[kidx].focus();
+      }
+    }
+    function toggle(b,byKey){
+      if(menu){close();return}
+      btn=b;kidx=-1;
+      menu=h('div',{class:'tmenu',role:'menu','aria-label':'Типи блоків'});
+      allTypes().forEach(function(t){
+        menu.appendChild(h('button',{type:'button',role:'menuitem',onclick:function(){close();addBlock(t)}},[
+          h('i',{class:'sticker',style:'background:'+TYPES[t].color}),h('span',{text:TYPES[t].name})
+        ]));
+      });
+      menu.appendChild(h('hr'));
+      menu.appendChild(h('button',{type:'button',role:'menuitem',class:'nt',title:'Створити свій тип блоку: назва і колір',onclick:function(){close();typeDialog()}},[h('span',{text:'+ Свій тип'})]));
+      document.body.appendChild(menu);
+      var r=b.getBoundingClientRect(),w=menu.offsetWidth;
+      menu.style.top=(r.bottom+6)+'px';menu.style.left=Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px';
+      var room=window.innerHeight-r.bottom-18;menu.style.maxHeight=Math.max(160,room)+'px';
+      b.setAttribute('aria-expanded','true');
+      document.addEventListener('pointerdown',onDoc,true);document.addEventListener('keydown',onKey,true);window.addEventListener('resize',close);
+      if(byKey){var f=menu.querySelector('button');if(f){f.focus();kidx=0}}
+    }
+    return {toggle:toggle,close:close};
   })();
 
   /* ---------- Зміст нотатки за заголовками ---------- */
