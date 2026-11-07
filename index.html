@@ -1088,6 +1088,153 @@ body.mobile #music .dls-row{grid-template-columns:minmax(80px,1fr) 1fr auto}
 .tmenu button:focus-visible{background:var(--brand);color:#fff;outline:0}
 body.mobile .tmenu button{min-height:40px}
 @media (prefers-reduced-motion:reduce){.tmenu{animation:none}}
+
+/* ===== v36: режим F2L ===== */
+.mode{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mode button{border:0}
+.mode button:nth-child(even){border-left:2px solid var(--edge,var(--ink))}
+.mode button:nth-child(odd){border-left:0}
+.mode button:nth-child(n+3){border-top:2px solid var(--edge,var(--ink))}
+body.f2l-mode .main,body.f2l-mode #music,body.f2l-mode #rem{display:none!important}
+.rail,.main,#music,#rem,#f2l{grid-row:1}
+#f2l{display:none;flex-direction:column;min-width:0;min-height:0;height:100%;position:relative;--ok:#169c66}
+html:not([data-theme=light]) #f2l{--ok:#2fc08a}
+body.f2l-mode #f2l{display:flex}
+#f2l.enter{animation:mIn .2s steps(4)}
+.fnav{display:none;flex:1;overflow-y:auto;min-height:0;border-top:1px solid var(--line-2)}
+body.f2l-mode .fnav{display:block}
+body.f2l-mode #new,body.f2l-mode #newplain,body.f2l-mode #viewmode,body.f2l-mode .rail .tb,
+body.f2l-mode #tabs,body.f2l-mode #selbar,body.f2l-mode #notes,body.f2l-mode #keys,body.f2l-mode #mini{display:none!important}
+body.f2l-mode .rail-top{padding-bottom:12px}
+body.f2l-mode .rail-top .mode{margin-bottom:0}
+.fnav button{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;padding:12px 20px;text-align:left;font-size:var(--fs);color:var(--ink-2);border-bottom:1px solid var(--line-2)}
+.fnav button.on{background:var(--brand);color:#fff}
+.fnav button b{font-weight:400;opacity:.75}
+@media (hover:hover){.fnav button:hover:not(.on){background:var(--paper)}}
+.fnav,#flist{scrollbar-gutter:stable}
+#f2l .fbody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);position:relative}
+#f2l .fcol{display:flex;flex-direction:column;min-height:0;min-width:0}
+#f2l .fhead{flex:none;display:flex;align-items:center;gap:12px 14px;flex-wrap:wrap;padding:18px 28px 10px}
+#f2l .ftabs{display:flex;gap:12px;width:auto;max-width:100%}
+#f2l .ftabs button{width:50px;height:46px;font-size:var(--fs);color:var(--ink-2);display:flex;align-items:center;justify-content:center;min-width:0;background:var(--white);border:2px solid var(--edge,var(--ink))}
+#f2l .ftabs button.on{background:var(--brand);color:#fff}
+@media (hover:hover){#f2l .ftabs button:hover:not(.on){background:var(--paper)}}
+#f2l .fscroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 28px 60px}
+#f2l .fgt{display:flex;align-items:center;gap:8px;font-size:var(--fs);color:var(--muted);margin:22px 0 10px}
+#f2l .fgt:first-child{margin-top:8px}
+#f2l .fgc{border:2px solid var(--edge,var(--ink));padding:0 8px;color:var(--ink)}
+#f2l .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+#f2l .fcase{position:relative;display:flex;flex-direction:column;align-items:center;gap:0;min-width:0;padding:6px;background:var(--white);border:2px solid var(--edge,var(--ink));font-size:var(--fs);color:var(--muted)}
+#f2l .fcase svg{display:block;width:100%;height:auto}
+#f2l .fcase.on{border-color:var(--brand);box-shadow:3px 3px 0 var(--brand);color:var(--ink)}
+#f2l .fcase.no{opacity:.5}
+#f2l .fcase i{position:absolute;top:-2px;right:-2px;width:22px;height:22px;display:grid;place-items:center;background:var(--ok);color:#fff;border:2px solid var(--edge,var(--ink))}
+#f2l .fcase em{position:absolute;top:-2px;left:-2px;z-index:1;min-width:22px;height:22px;padding:0 5px;display:grid;place-items:center;font-style:normal;font-size:calc(var(--fs) - 2px);line-height:1;background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink))}
+#f2l .fcase.on em{background:var(--brand);color:#fff;border-color:var(--brand)}
+@media (hover:hover){#f2l .fcase:hover{border-color:var(--brand)}}
+#f2l .i{fill:currentColor;flex:none}#f2l .i .s{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#f2l .fmu{font-size:var(--fs);line-height:var(--lb);color:var(--muted);margin:10px 0}
+#f2l .fpanel{max-width:560px;padding:16px;background:var(--white);border:2px solid var(--edge,var(--ink));box-shadow:4px 4px 0 var(--shadow,#a9a3e6)}
+#f2l .flab{display:flex;flex-direction:column;gap:6px;margin:12px 0 0;font-size:var(--fs);color:var(--muted)}
+#f2l select{background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));padding:8px;font:inherit;font-size:var(--fs);width:100%;border-radius:0}
+#f2l .fpanel .fb{margin-top:16px}
+/* кнопки */
+#f2l .fb{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 14px;min-width:0;background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));font-size:var(--fs)}
+#f2l .fb.p{background:var(--brand);color:#fff;box-shadow:3px 3px 0 var(--edge,var(--ink))}
+#f2l .fb.p:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--edge,var(--ink))}
+#f2l .fb.ok{background:var(--ok);color:#fff}
+#f2l .fb.ln{color:var(--ok);border-color:var(--ok)}
+#f2l .fb.on{background:var(--brand);color:#fff}
+#f2l .fb.sq{width:48px;min-height:46px;padding:0}
+#f2l .fb.w{width:100%;margin-top:10px}
+@media (hover:hover){#f2l .fb:hover:not(.p):not(.ok):not(.on){background:var(--paper)}}
+#f2l .fchip{max-width:100%;margin-left:auto;gap:6px;padding:0 10px}
+body:not(.mobile) #f2l .fchip{display:none}
+/* урок */
+#f2l .flesson{display:flex;flex-direction:column;gap:12px;min-height:0;padding:16px max(16px,env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:var(--paper);
+  position:absolute;inset:0;z-index:20;transform:translateY(100%);visibility:hidden;transition:transform .25s,visibility 0s .25s}
+#f2l.open .flesson{transform:none;visibility:visible;transition:transform .25s}
+#f2l .flesson>*{width:100%;max-width:560px;margin-inline:auto;flex:none}
+#f2l .fl-top{display:flex;align-items:center;gap:10px}
+#f2l .fl-top .fb[hidden]{display:none}
+#f2l .fl-t{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;line-height:1.3}
+#f2l .fl-t .i{color:var(--muted)}
+#f2l .fl-t i{display:flex;align-items:center;gap:8px;font-style:normal}
+#f2l .fl-t b{font-size:var(--fb);font-weight:400;color:var(--ink)}
+#f2l .fl-t span{font-size:var(--fs);color:var(--muted);overflow-wrap:anywhere}
+#f2l .frot{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:2;display:flex;justify-content:center;gap:12px}
+#f2l .fnv{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:var(--white)}
+#f2l .fnv.l{left:10px}#f2l .fnv.r{right:10px}
+#f2l .fnv.off{display:none}
+#f2l .fb.sm{min-height:34px;padding:0 10px;font-size:var(--fs)}
+#f2l .fb>svg:not(.i){width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#f2l #fclose,#f2l #fmore{color:var(--ink)}
+#f2l #fmore svg{stroke-width:4.5}
+#f2l .fstage{position:relative;flex:1 1 0!important;min-height:160px;background:var(--white);border:2px solid var(--edge,var(--ink))}
+#f2l #fcube{position:absolute;inset:8px 0 64px;touch-action:none;cursor:grab}
+#f2l #fcube:active{cursor:grabbing}
+#f2l #fcube svg{display:block;width:100%;height:100%}
+#f2l .fvar{flex:none;min-width:48px;min-height:46px;padding:0 9px}
+#f2l .fcard{display:flex;flex-direction:column;gap:10px;padding:10px 12px;background:var(--white);border:2px solid var(--edge,var(--ink))}
+#f2l .fsu{display:flex;align-items:center;gap:8px}
+#f2l .fsu:empty{display:none}
+#f2l .fsu-i{flex:none;width:22px;min-height:26px;display:grid;place-items:center;color:var(--muted)}
+#f2l .fsu-t{flex:1;min-width:0;text-align:center;font-size:var(--fs);line-height:1.5;word-spacing:.4em;color:var(--ink);overflow-wrap:anywhere;user-select:text}
+#f2l .fcp{flex:none;width:40px;min-height:40px}
+#f2l .fcp[hidden]{display:none}
+#f2l .fal{display:flex;align-items:center;gap:8px}
+#f2l .fal .fsu-i{min-height:36px}
+#f2l .fsu:not(:empty)+.fal{padding-top:10px;border-top:2px solid var(--line-2)}
+#f2l .fchips{position:relative;flex:1;min-width:0;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:8px;max-height:96px;overflow-y:auto}
+#f2l .ft{min-height:38px;min-width:44px;padding:0 9px;background:var(--white);border:2px solid var(--edge,var(--ink));font-size:var(--fb);color:var(--ink)}
+#f2l .ft.dn{opacity:.4}
+#f2l .fcard .ft{min-height:36px;min-width:34px;padding:0 5px}
+#f2l .fcard .fchips{gap:5px}
+#f2l .ft.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+#f2l .fmsg{width:100%;padding:12px;border:2px dashed var(--line);color:var(--muted);font-size:var(--fs);text-align:center}
+#f2l .fpl{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto}
+#f2l .fpl .fb.sq{width:58px;min-height:52px}
+#f2l .fpl.off{opacity:.45;pointer-events:none}
+#f2l .fpl .pp{width:90px;min-height:52px}
+@media (min-width:520px){#f2l .fpl{gap:12px}#f2l .fpl .fb.sq{width:68px}#f2l .fpl .pp{width:104px}}
+#f2l .fmob{display:inline-flex}
+@media (min-width:1150px){
+  body:not(.mobile) #f2l .fbody{grid-template-columns:minmax(0,1fr) 410px}
+  body:not(.mobile) #f2l .flesson{position:static;transform:none;visibility:visible;border-left:2px solid var(--edge,var(--ink));transition:none}
+  body:not(.mobile) #f2l .fx{display:none}
+  body:not(.mobile) #f2l .fmob{display:none}
+}
+body.mobile #f2l .fhead{padding:12px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));gap:10px}
+body.mobile #f2l .ftabs{width:auto}
+body.mobile #f2l .fscroll{padding:4px max(12px,env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+body.mobile #f2l .fgrid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+@media (max-height:700px){#f2l .fchips{max-height:46px}#f2l .flesson{gap:8px}}
+/* затемнення і лист із вибором */
+#fsh{position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,8,25,.55)}
+#fsh.on{display:flex}
+#fsh .fsheet{width:100%;max-width:460px;max-height:88%;overflow-y:auto;padding:14px 16px 16px;background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));box-shadow:4px 4px 0 var(--shadow,#a9a3e6);animation:fxIn .15s ease backwards}
+body.mobile #fsh{align-items:flex-end;padding:0}
+body.mobile #fsh .fsheet{max-width:none;border-width:2px 0 0;box-shadow:none;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+#fsh h3{margin:14px 0 8px;font-size:var(--fs);color:var(--muted);font-weight:400}
+#fsh h3:first-child{margin-top:0}
+#fsh .fg2,#fsh .fg3{display:grid;gap:8px}
+#fsh .fg2{grid-template-columns:1fr 1fr}#fsh .fg3{grid-template-columns:repeat(3,1fr)}
+#fsh .fb{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 10px;min-width:0;background:var(--white);color:var(--ink);border:2px solid var(--edge,var(--ink));font-size:var(--fs)}
+#fsh .fb.on{background:var(--brand);color:#fff}
+#fsh .fb.p{background:var(--brand);color:#fff;box-shadow:3px 3px 0 var(--edge,var(--ink))}
+#fsh .fb.w{width:100%;margin-top:10px}
+#fsh .fb.vo{flex-direction:column;align-items:flex-start;gap:2px;width:100%;padding:10px 12px;text-align:left;margin-bottom:8px;height:auto}
+#fsh .fb.vo code{font:inherit;font-size:var(--fs);word-spacing:.3em;overflow-wrap:anywhere}
+#fsh .fmu{font-size:var(--fs);color:var(--muted);margin:10px 0 0;overflow-wrap:anywhere}
+@media (hover:hover){#fsh .fb:hover:not(.on):not(.p){background:var(--paper)}}
+#ftoast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:1200;padding:10px 16px;background:var(--ink);color:var(--paper);border:2px solid var(--edge,var(--ink));font-size:var(--fs);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#ftoast.on{opacity:1;transform:translate(-50%,0)}
+/* кубик */
+#f2l .fk{fill:#25223a;stroke:#25223a;stroke-width:.03}
+#f2l .fg{fill:var(--line-2);stroke:#25223a;stroke-width:.04}
+#f2l .fp{stroke:#1b1830;stroke-width:.06}
+#f2l .fo{fill:var(--brand);fill-opacity:.35;stroke:var(--brand);stroke-opacity:1;stroke-width:.05}
+@media (prefers-reduced-motion:reduce){#f2l.enter,#fsh .fsheet{animation:none}#f2l .flesson{transition:none}}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -1111,7 +1258,7 @@ body.mobile .tmenu button{min-height:40px}
         <button class="ico" id="reloadapp" title="Перезавантажити" aria-label="Перезавантажити додаток"></button><button class="ico" id="settings" title="Налаштування" aria-label="Налаштування"></button>
         <button class="ico navclose" id="closenav" title="Закрити меню" aria-label="Закрити меню"></button>
       </div>
-      <div class="mode" role="group" aria-label="Режим"><button type="button" data-mode="notes" class="on"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>Нотатки</button><button type="button" data-mode="music"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>Музика</button><button type="button" data-mode="rem"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg>Нагадки</button></div><button class="btn-new" id="new"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Нова нотатка</button>
+      <div class="mode" role="group" aria-label="Режим"><button type="button" data-mode="notes" class="on"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>Нотатки</button><button type="button" data-mode="music"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>Музика</button><button type="button" data-mode="rem"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg>Нагадки</button><button type="button" data-mode="f2l"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg>F2L</button></div><button class="btn-new" id="new"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Нова нотатка</button>
       <div class="tb"><label class="find">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="q" placeholder="Пошук" autocomplete="off">
@@ -1123,6 +1270,7 @@ body.mobile .tmenu button{min-height:40px}
     <div class="notes" id="notes"></div>
     <nav class="mnav" id="mnav" aria-label="Жанри"></nav>
     <nav class="rnav" id="rnav" aria-label="Нагадування"></nav>
+    <nav class="fnav" id="fnav" aria-label="F2L тренер"></nav>
     <div class="mini hidden" id="mini"><i class="dot" id="miD"></i><span class="t" id="miT" title="Відкрити музику"></span><button type="button" class="ib" id="miP" aria-label="Грати або пауза"></button></div><div class="keys" id="keys"><span><kbd class="kbd" id="kn"></kbd>нова нотатка</span><span><kbd class="kbd" id="kf"></kbd>пошук</span></div>
   </aside>
 
@@ -1197,6 +1345,20 @@ body.mobile .tmenu button{min-height:40px}
 <div id="rList"></div>
 
 </div></div></section>
+<section id="f2l" aria-label="F2L тренер">
+<div class="mtop"><button class="ico mback" id="fback" title="Меню" aria-label="Відкрити бічну панель"></button><button class="ico" id="fnotes" title="Нотатки (Alt+M)" aria-label="Нотатки"></button><b class="mtitle">F2L тренер</b><span class="sp"></span><span class="mt">Alt+M — перемкнути</span></div>
+<div class="fbody">
+<div class="fcol"><div class="fhead" id="fhead"></div><div class="fscroll" id="flist"></div></div>
+<div class="flesson" id="fles">
+<div class="fl-top"><button type="button" class="fb sq fx" id="fclose" data-a="close" title="Назад" aria-label="Назад"></button><button type="button" class="fb sq ln" id="fok" data-a="tog" title="Вивчено" aria-label="Вивчено" hidden></button><div class="fl-t" id="flt"></div><button type="button" class="fb fvar" id="fvb" data-a="sh" data-v="var"></button><button type="button" class="fb sq" id="fmore" data-a="sh" data-v="more" title="Додатково" aria-label="Додатково"></button></div>
+<div class="fstage"><div id="fcube"></div><button type="button" class="fb sq fnv l" id="fgl" data-a="go" data-d="-1" title="Попередній випадок" aria-label="Попередній випадок"></button><button type="button" class="fb sq fnv r" id="fgr" data-a="go" data-d="1" title="Наступний випадок" aria-label="Наступний випадок"></button>
+<div class="frot" id="frot"><button type="button" class="fb sq" data-a="spin" data-d="-90" title="Повернути ліворуч" aria-label="Повернути ліворуч" id="frl"></button><button type="button" class="fb sq" data-a="auto" title="Стартове положення" aria-label="Стартове положення" id="fra"></button><button type="button" class="fb sq" data-a="spin" data-d="90" title="Повернути праворуч" aria-label="Повернути праворуч" id="frr"></button></div></div>
+<div class="fcard"><div class="fsu" id="fsetup"></div><div class="fal"><span class="fsu-i" id="fali" title="Алгоритм" aria-label="Алгоритм"></span><div class="fchips" id="fchips"></div><button type="button" class="fb sq fcp" id="fcpa" data-a="cp" data-w="alg" title="Копіювати алгоритм" aria-label="Копіювати алгоритм" hidden></button></div></div>
+<div class="fpl" id="fpl"><button type="button" class="fb sq" id="fb0" data-a="jt" data-i="0" aria-label="На початок"></button><button type="button" class="fb sq" id="fb1" data-a="stp" data-d="-1" aria-label="Крок назад"></button><button type="button" class="fb p pp" id="fpp" data-a="tp" aria-label="Відтворити"></button><button type="button" class="fb sq" id="fb2" data-a="stp" data-d="1" aria-label="Крок вперед"></button><button type="button" class="fb sq" id="fb3" data-a="rst" title="Поставити на початковий кадр" aria-label="Початковий кадр"></button></div>
+</div>
+</div>
+<div id="fsh"></div><div id="ftoast" role="status"></div>
+</section>
 <div class="pbar" id="pbar" role="region" aria-label="Плеєр">
 <div class="pb-seek"><span id="tcur">0:00</span><input type="range" id="seek" min="0" max="511" value="0" step="1" aria-label="Перемотка"><span id="ttot">0:00</span></div>
 <div class="pb-np"><span class="dot" id="npD"></span><span class="pb-t"><span id="npT"></span><span id="npM"></span></span></div>
@@ -1207,7 +1369,7 @@ body.mobile .tmenu button{min-height:40px}
 </div>
 </div>
 </div>
-<div id="remAlert" role="alertdialog" aria-modal="true" aria-label="Нагадування"><div class="box"><h3>⏰ Час виконати!</h3><div id="raList"></div><div class="bt mute"><button type="button" id="raMute">Вимкнути звук</button><button type="button" id="raClose">Закрити</button></div></div></div>
+<div id="remAlert" role="alertdialog" aria-modal="true" aria-label="Нагадування"><div class="box"><h3>Час виконати!</h3><div id="raList"></div><div class="bt mute"><button type="button" id="raMute">Вимкнути звук</button><button type="button" id="raClose">Закрити</button></div></div></div>
 <div class="scrim" id="scrim"></div>
 <div id="layer"></div>
 <input type="file" id="file" accept=".json,application/json" class="hidden">
@@ -1242,7 +1404,7 @@ body.mobile .tmenu button{min-height:40px}
   function prefsTouch(){try{localStorage.setItem(PAT,String(Date.now()))}catch(e){}if(window.__syncPush)window.__syncPush()}
   window.__prefsTouch=prefsTouch;
   function jget(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
-  function prefsGet(){return {at:prefsAt(),settings:settings,music:jget(MK),tts:jget('notatnyk:tts:v1'),rem:window.__remPrefsGet?window.__remPrefsGet():null}}
+  function prefsGet(){return {at:prefsAt(),settings:settings,music:jget(MK),tts:jget('notatnyk:tts:v1'),rem:window.__remPrefsGet?window.__remPrefsGet():null,f2l:window.__f2lGet?window.__f2lGet():null}}
   function prefsApply(p){
     if(!p||typeof p!=='object'||!(p.at>prefsAt()))return false;
     try{
@@ -1254,6 +1416,7 @@ body.mobile .tmenu button{min-height:40px}
       if(p.music){localStorage.setItem(MK,JSON.stringify(p.music));if(window.__musSet)window.__musSet(p.music)}
       if(p.tts){localStorage.setItem('notatnyk:tts:v1',JSON.stringify(p.tts));if(window.__ttsSet)window.__ttsSet(p.tts)}
       if(p.rem&&window.__remPrefsSet)window.__remPrefsSet(p.rem);
+      if(p.f2l&&window.__f2lSet)window.__f2lSet(p.f2l);
       localStorage.setItem(PAT,String(p.at));
     }catch(e){return false}
     return true;
@@ -2324,7 +2487,7 @@ body.mobile .tmenu button{min-height:40px}
       return '<div style="font-size:'+({title:'1.5em',h2:'1.25em',h3:'1.1em'})[b.type]+';'+al+'">'+inner+'</div>';
     }
     if(b.type==='tags')return '<div>'+rtEsc(b.value.join(', '))+'</div>';
-    if(b.type==='todo')return (b.items||[]).filter(function(i){return i.t.trim()}).map(function(i){return '<div>'+(i.d?'\u2611 ':'\u2610 ')+rtEsc(i.t.trim())+'</div>'}).join('');
+    if(b.type==='todo')return (b.items||[]).filter(function(i){return i.t.trim()}).map(function(i){return '<div>'+(i.d?'[x] ':'[ ] ')+rtEsc(i.t.trim())+'</div>'}).join('');
     if(b.type==='voice')return [b.value,b.en].filter(function(x){return x&&String(x).trim()}).map(function(x){return '<div>'+rtEsc(x).replace(/\n/g,'<br>')+'</div>'}).join('<br>');
     return (typeof b.html==='string'&&b.html)?sanitizeHTML(b.html):plainToHTML(b.value);
   }
@@ -3686,11 +3849,12 @@ body.mobile .tmenu button{min-height:40px}
   var K='notatnyk:mode',B=document.body;
   function set(m,save){
     var mu=m==='music';
-    B.classList.toggle('rem-mode',m==='rem');B.classList.toggle('music-mode',mu);B.classList.remove('nav-open');document.querySelectorAll('.pop-panel.open').forEach(function(x){x.classList.remove('open')});
+    B.classList.toggle('rem-mode',m==='rem');B.classList.toggle('f2l-mode',m==='f2l');B.classList.toggle('music-mode',mu);B.classList.remove('nav-open');document.querySelectorAll('.pop-panel.open').forEach(function(x){x.classList.remove('open')});
     document.querySelectorAll('.mode button').forEach(function(b){var on=b.dataset.mode===m;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
-    ['.mscroll','#scroll','#notes','#mnav'].forEach(function(q){var e=document.querySelector(q);if(e)e.scrollTop=0});
+    ['.mscroll','#scroll','#notes','#mnav','#flist','#fnav'].forEach(function(q){var e=document.querySelector(q);if(e)e.scrollTop=0});
     window.scrollTo(0,0);
-    [document.querySelector('.main'),document.getElementById('music'),document.getElementById('rem')].forEach(function(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')});
+    [document.querySelector('.main'),document.getElementById('music'),document.getElementById('rem'),document.getElementById('f2l')].forEach(function(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')});
+    if(m==='f2l'&&window.__f2lShow)window.__f2lShow();
     if(save!==false)try{localStorage.setItem(K,m)}catch(e){}
   }
   window.__setMode=set;
@@ -3731,11 +3895,11 @@ body.mobile .tmenu button{min-height:40px}
   var mb=document.getElementById('mback');
   mb.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
   mb.addEventListener('click',function(){B.classList.add('nav-open')});
-  try{var sm=localStorage.getItem(K);if(sm==='music'||sm==='rem')set(sm,false)}catch(e){}
+  try{var sm=localStorage.getItem(K);if(sm==='music'||sm==='rem'||sm==='f2l')set(sm,false)}catch(e){}
   window.addEventListener('keydown',function(e){
-    var rm=B.classList.contains('rem-mode'),mu=B.classList.contains('music-mode')||rm,mod=e.ctrlKey||e.metaKey;
+    var fm=B.classList.contains('f2l-mode'),rm=B.classList.contains('rem-mode'),mu=B.classList.contains('music-mode')||rm||fm,mod=e.ctrlKey||e.metaKey;
     if(B.classList.contains('music-mode')&&mod&&!e.shiftKey&&!e.altKey&&e.code==='KeyF'){e.preventDefault();e.stopImmediatePropagation();var mq=document.getElementById('msq');if(mq){mq.focus();mq.select()}return}
-    if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyM'){e.preventDefault();set(rm?'notes':mu?'rem':'music');return}
+    if(e.altKey&&!mod&&!e.shiftKey&&e.code==='KeyM'){e.preventDefault();var ord=['notes','music','rem','f2l'],cur=fm?'f2l':rm?'rem':B.classList.contains('music-mode')?'music':'notes';set(ord[(ord.indexOf(cur)+1)%ord.length]);return}
     if(mu&&!e.shiftKey&&(e.code==='KeyF'||e.code==='KeyN')&&(mod||e.altKey))set('notes');
   },true);
 })();</script>
@@ -3776,7 +3940,7 @@ function rel(t){
 var REPN={none:'',daily:'щодня',weekdays:'по буднях',weekly:'щотижня',monthly:'щомісяця'};
 function when(r){
   var t=dueAt(r);
-  return fmtDate(t)+' · '+fmtTime(t)+(r.sz?' (відкладено)':'')+' · '+rel(t)+(r.repeat!=='none'?' · ↻ '+REPN[r.repeat]:'');
+  return fmtDate(t)+' · '+fmtTime(t)+(r.sz?' (відкладено)':'')+' · '+rel(t)+(r.repeat!=='none'?' · повтор: '+REPN[r.repeat]:'');
 }
 function nextAt(r,from){
   var d=new Date(r.at),n=0;
@@ -3879,7 +4043,7 @@ function keepalive(){
 /* ---------- Сповіщення ---------- */
 function notify(r){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
-  var title='⏰ '+r.text,body=fmtDate(dueAt(r))+' · '+fmtTime(dueAt(r));
+  var title=r.text,body=fmtDate(dueAt(r))+' · '+fmtTime(dueAt(r));
   var full={body:body,tag:'rem-'+r.id,renotify:true,requireInteraction:true,vibrate:[300,150,300,150,600],icon:'icons/icon-192.png',badge:'icons/icon-192.png',data:{id:r.id},actions:[{action:'done',title:'Готово'},{action:'snooze',title:'+'+st.snz+' хв'}]};
   var plain=function(){try{var n=new Notification(title,{body:body,tag:'rem-'+r.id,icon:'icons/icon-192.png'});n.onclick=function(){window.focus();n.close()}}catch(e){}};
   try{
@@ -3907,7 +4071,7 @@ function tick(){
   }
   feedRing();
   var n=Object.keys(ring).length;
-  if(n){flashOn=!flashOn;document.title=flashOn?'⏰ Нагадування!':baseTitle}
+  if(n){flashOn=!flashOn;document.title=flashOn?'Нагадування!':baseTitle}
   else if(document.title!==baseTitle){document.title=baseTitle}
   badge();
   var mi=Math.floor(now/60000);
@@ -3971,11 +4135,11 @@ var SR=null;
 function renderStatus(){
   if(!SR||!SR.n.isConnected)return;
   var n='Notification' in window?Notification.permission:'none';
-  if(n==='granted'){SR.n.textContent='✓ дозволено';SR.n.className='ok';SR.bn.classList.add('hidden')}
-  else if(n==='denied'){SR.n.textContent='✗ заблоковано в браузері (змінити в налаштуваннях сайту)';SR.n.className='bad';SR.bn.classList.add('hidden')}
+  if(n==='granted'){SR.n.textContent='дозволено';SR.n.className='ok';SR.bn.classList.add('hidden')}
+  else if(n==='denied'){SR.n.textContent='заблоковано в браузері (змінити в налаштуваннях сайту)';SR.n.className='bad';SR.bn.classList.add('hidden')}
   else if(n==='none'){SR.n.textContent='не підтримується тут';SR.n.className='bad';SR.bn.classList.add('hidden')}
   else{SR.n.textContent='не дозволено';SR.n.className='bad';SR.bn.classList.remove('hidden')}
-  if(ac&&ac.state==='running'){SR.s.textContent='✓ готовий';SR.s.className='ok'}
+  if(ac&&ac.state==='running'){SR.s.textContent='готовий';SR.s.className='ok'}
   else{SR.s.textContent='потрібен один клік на сторінці';SR.s.className='bad'}
 }
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
@@ -3991,7 +4155,7 @@ window.__remSettings=function(){
   row('Звук',[s_,bt]);
   SR={n:n,s:s_,bn:bn};
   var ss=sel(SOUNDS.map(function(x){return [x.id,x.n+' — '+x.k]}),st.snd,function(v){st.snd=v;persist(false);pt();preview(v)});
-  var pv=el('button','sbtn','▶ Слухати');pv.type='button';pv.addEventListener('click',function(){preview(ss.value)});
+  var pv=el('button','sbtn','Слухати');pv.type='button';pv.addEventListener('click',function(){preview(ss.value)});
   row('Мелодія дзвінка',[ss,pv]);
   var vr=el('input');vr.type='range';vr.min=10;vr.max=100;vr.value=st.vol;vr.setAttribute('aria-label','Гучність дзвінка');
   var vv=el('span',null,st.vol+'%');
@@ -4141,6 +4305,282 @@ try{
 setInterval(tick,1000);
 defaultForm();render();tick();
 window.__rem={st:st,tick:tick,ring:ring,drain:drain};
+})();</script>
+<script>(function F2L(){
+'use strict';
+const $=id=>document.getElementById(id);
+const KEY='notatnyk:f2l:v1';
+const AX={U:[0,1,0],D:[0,-1,0],R:[1,0,0],L:[-1,0,0],F:[0,0,1],B:[0,0,-1]};
+const FN=Object.keys(AX);
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const crs=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const ST=[],IX={};
+for(const x of[-1,0,1])for(const y of[-1,0,1])for(const z of[-1,0,1])for(const f of FN){const p=[x,y,z],n=AX[f];if(dot(p,n)==1){IX[p+'|'+n]=ST.length;ST.push({p,n});}}
+const rot=(v,a)=>{const c=crs(a,v),d=dot(a,v);return v.map((_,i)=>-c[i]+a[i]*d+0)};
+const MV={};
+for(const f of FN)for(let q=1;q<4;q++){const P=ST.map((s,i)=>{if(dot(s.p,AX[f])!=1)return i;let p=s.p,n=s.n;for(let j=0;j<q;j++){p=rot(p,AX[f]);n=rot(n,AX[f]);}return IX[p+'|'+n]});MV[f+(q==1?'':q==2?'2':"'")]=P;}
+for(const [nm,f] of [['r','R'],['l','L'],['f','F'],['u','U'],['d','D']])for(let q=1;q<4;q++){const P=ST.map((s,i)=>{if(dot(s.p,AX[f])<0)return i;let p=s.p,n=s.n;for(let j=0;j<q;j++){p=rot(p,AX[f]);n=rot(n,AX[f]);}return IX[p+'|'+n]});MV[nm+(q==1?'':q==2?'2':"'")]=P;}
+const parse=a=>a.trim().split(/\s+/).filter(Boolean);
+const inv=a=>parse(a).reverse().map(t=>t.endsWith("'")?t[0]:t.endsWith('2')?t:t+"'").join(' ');
+const mirAlg=a=>parse(a).map(t=>{let f={L:'R',R:'L',l:'r',r:'l'}[t[0]]||t[0],q=t.slice(1);q=q=="'"?'':q=='2'?'2':"'";return f+q}).join(' ');
+const YI=ST.map(s=>IX[rot(s.p,AX.U)+'|'+rot(s.n,AX.U)]);
+const SL=[{c:[1,-1,1],s:'R',o:'F'},{c:[1,-1,-1],s:'B',o:'R'},{c:[-1,-1,-1],s:'L',o:'B'},{c:[-1,-1,1],s:'F',o:'L'}];
+const cHome=k=>IX[SL[k].c+'|'+AX.D];
+const eHome=k=>IX[[SL[k].c[0],0,SL[k].c[2]]+'|'+AX[SL[k].s]];
+
+const canon=(c,e,k)=>{const cand=[];let cc=c,ee=e;for(let i=0;i<4;i++){cand.push([cc,ee]);cc=MV.U[cc];ee=MV.U[ee]}
+ if(ST[c].p[1]==1)return cand.find(([a])=>ST[a].p[0]==1&&ST[a].p[2]==1);
+ if(ST[e].p[1]==1){const f=cand.find(([,b])=>ST[b].p[0]==SL[k].c[0]&&ST[b].p[2]==0);if(f)return f}
+ return cand.sort((x,y)=>x[0]*100+x[1]-(y[0]*100+y[1]))[0]};
+
+const RIGHT=[[["F U R U' R' F' R U' R'", "F' U' F' r U r' U2 F"], ["R U2 R' U' R U R'"], ["F' U2 F U F' U' F"], ["U2 R2 U2 R' U' R U' R2", "R2 U R' U R U2 R' U' R'"], ["U2 R U R' F' U' F", "F' r' F r U F"], ["U R U2 R' U R U' R'", "U R U2 R2 F R F'"], ["R2 U R2 U R2 U2 R2", "U2 R2 U2 R2 U' R2 U' R2"], ["F' U F R U2 R'", "R U' R' F' U2 F"], ["U' F' U2 F U' F' U F", "U' F' U2 F U2 F' U2 F"], ["R f R2 f' R'", "R U' R' U2 R U R'"], ["R U' R' U2 F' U' F", "R U' f R' f' U2 R'"], ["U' R U' R' U R U R'", "U2 R2 U R' U R U2 R2"], ["F R' F' R", "U' F' U F"], ["R' U2 R2 U R2 U R", "U F' U2 F U' R U R'"], ["r' U2 R2 U R2 U r", "R2 U2 F R2 F' U2 R2"], ["R U R'"], ["U R U R' U2 R U R'", "U' R U2 R' U R U R'"], ["U2 F' U F U R U R'", "U F' U' F U' R U R'"], ["R2 f R f' U' R2", "R' U' R F R' F' U R"], ["U' R U R' U R U R'", "U2 R U' R' U' R U R'"], ["U' R U2 R' U F' U' F", "R' U' R F' U' R' U2 R F"], ["U R U' R'", "U2 R U2 R'"], ["U F' U F U' F' U' F", "F' U' R' F U' F' U R F"], ["F' U F U2 R U R'", "R f U R' U' f' R'"], ["R2 U f R' f' R2", "F' U r' F' r U2 F"], ["U' R U R' U' R U2 R'", "U' R U R' U2 R U' R'"], ["U' R U' R' U' R U2 R'", "U' R U' R' U2 R U' R'"], ["U2 R U R' F R' F' R", "U' R U R' U F' U' F"], ["F' U' F"], ["U' R U2 R' U' R U2 R'", "U' R U2 R' U2 R U' R'"], ["R U2 R' U2 F' U' F", "U2 R U' R' F R' F' R"], ["R F R' U R U' F' R'", "R' F' R U R U' R' F"], ["R2 U2 F R2 F' U2 R' U R'", "R U' R U2 F R2 F' U2 R2"], ["U R U2 R' F' U2 F", "U F' U F U' F' U F"], ["R U R' U' R U R'", "U2 F' U F R U R'"], ["R U2 R U R' U R U2 R2", "R2 U2 F R' F' U2 R' U2 R'"], ["R U F R U R' U' F' R'", "R2 f R f' U' R' U R'"], ["U' R U' R' F' U' F", "U F' U' F U F' U' F"], ["R U' R' U R U' R'", "R U' R2 F R F'"], ["R2 U2 R' U' R U' R' U2 R'", "R U2 R U2 F R F' U2 R2"], ["R F U R U' R' F' U' R'", "R U' R U f R' f' R2"]], [["U R2 U2 R U R' U R2", "R U R' U R U2 R2 U R"], ["U' R' U2 F R U R' U' F' R", "F R U R' F R' F' U' R F'"], ["U' R' U2 R U R' U' R", "R U2 R2 U' R2 U' R2 U' R"], ["R' F R' F' R2 U' R' U R", "U R' U' R' U' F' U F R2"], ["U R' F R' F' R2", "U' R' F' U2 F R"], ["R' F' U2 F R U R' U' R", "U f R2 U R2 U' R f'"], ["f R2 f' R' U' R", "R f' U' f R' U R"], ["U R2 U2 R2 U R2 U R2", "U R' U F' U' F U' R"], ["U2 R' U2 R U' R' U R", "U2 R' U' F R' F' R2"], ["f U R U' R f'", "U' f U R2 U' f'"], ["R U2 R U' R U R' U2 R'", "U' R' U2 F' U' F U' R"], ["U2 f R' f' U f R f'", "R' F' U F U F' U' F U2 R"], ["U R' U2 R", "U2 R' U R"], ["R' U' F R' F' R U' R", "R' U2 R U' f R f'"], ["R' U2 R U R' U2 R", "R' U2 R U2 R' U R"], ["U' f R f'", "r' F' U F U' r"], ["R' F R' F' R U' R", "R' U' R U' f R f'"], ["R' U R U R' U2 R", "R' U R U2 R' U R"], ["R' U' R U R' U2 R", "R' U' R U2 R' U R"], ["U' R2 U' F' U F R2", "R' U R U' f R f'"], ["U' R U2 R2 U' R2 U' R'", "U' R' U F' U2 F U2 R"], ["f R' f'", "R' F' U' F R"], ["R' U R U' R' U' R", "U R2 U' R U' R' U2 R2"], ["U' R' U F' U F U2 R", "U' R' U R U2 f R f'"], ["R' U' R U' R' U' R", "U R' U R U R' U' R"], ["r' U R U' R' U' r", "U' R2 F' U' F U R2"], ["U f R f' U' R' U R", "U f R' f' U' R' U' R"], ["R' U2 R U' R' U' R", "U2 R' U' R U2 R' U' R"], ["U' R' U' R"], ["U' F R U R2 U' R F'", "f R U R2 U' R2 f'"], ["R U2 F R F' U2 R'", "F R2 U R U' R2 F'"], ["R' U2 F' U F U2 R", "R' U2 R U2 f R f'"], ["R' U R F R U R2 U' R F'", "F R' U R2 U' R' F' R' U' R"], ["R' U' R U R' U' R", "U R' U F' U2 F R"], ["U' R' U2 R' F R F' R", "U' R' U2 R f R2 f'"], ["R2 F' U' F U R U' R", "R' U R f U R2 U' f'"], ["R' U2 R' U' R U' R' U2 R2", "R' U R U' R' U' F R' F' R2"], ["R' U R U' R' U R", "R' U R U2 R' U2 R"], ["U R' U R f R f'", "U2 f R' U R2 U' f'"], ["R' U R' U' F' U F R2", "f U R2 U' f' R' U' R"], ["R2 U2 R U R' U R U2 R", "R2 F R F' U R U R' U' R"]], [], [["F U' R U2 R' U' F' r' F' r", "r' F r F U R U2 R' U F'"], ["F' U2 R' F R U2 F", "f U2 R U R' U2 f'"], ["U F U2 R U2 R' U2 F'", "U' F' U2 R' F' R U2 F"], ["r' F r F R U2 R' F'", "r' F' U' F' U r F U F'"], ["F R U2 R' U' R U R' U2 F'", "F U' R U2 R' U' R U2 R' F'"], ["U2 F U' F' r' F' r", "r' F' r U r' F' r"], ["U2 F R U2 R' U F'", "U F U R U R' U F'"], ["F R U2 R' F' r' F' r", "F U R U R' F' r' F' r"], ["F R U2 R' U R U2 R' U F'", "F U2 R U' R' U R U2 R' F'"], ["F U2 F R' F' R F'", "F U F' U2 r' F r"], ["U2 F U' R U2 R' F'", "U' F U F' U' F U F'"], ["F' r U r' F U' F'", "U2 F U2 F' r' F' r"], ["U' F U' R U R' U F'", "U2 F U' R U2 R' U F'"], ["F' r U r' U' r' F' r", "F R' F R F r U r'"], ["U F U2 F' U' F U F'", "F R U R' U' R U2 R' F'"], ["F R U' R' U R U2 R' U F'", "R' F' U' F R' F R U F' R"], ["F R U' R' F' r' F' r", "U F U F R' F' R U2 F'"], ["r' U' F' U F' r", "U' F U F' r' F' r"], ["U' F U2 R U2 R' U F'", "U2 F U2 F' U F U' F'"], ["r' F' U r' F' r2"], ["U F R U2 R' F'", "R U2 F U F' U R'"], ["U' r' F' r U F U' F'", "U2 r' F' r U' F U F'"], ["F U2 F' U F U F'", "U2 F U2 R U2 R' F'"], ["U F U' R U' R' U2 F'", "U F U' F' U2 r' F' r"], ["F U' F' U F U F'"], ["r' F r", "F R U R' F'"], ["U F U' R U2 R' U2 F'", "R' U2 R U F R' U R U F'"], ["F R F R U R' U' F' R' F'", "U2 R' U' F' U F R F U F'"], ["U F U F'"], ["f U' F' U F U f'", "U2 r' F' U' F U F' r"], ["F U F' U F U F'", "r' F' r U2 F U F'"], ["F R' F R F' U F'", "F U F' U r' F' r"], ["F U' R U' R' U F'", "F U' F' U' F U2 F'"], ["F U2 F' U r' F' r", "F U R' F R F' U F'"], ["U' F U2 F'", "U2 F U' F'"], ["U2 r' F r U' r' F' r", "F R U' R' U' R U R' U2 F'"], ["U F U2 R U R' U F'", "r' U' F' U r F U F'"], ["F U' F' U r' F' r", "U2 F U R U' R' U2 F'"], ["F U R U' R' U F'", "U' F R U R' U2 F'"], ["U r' F' r"], ["F U2 R U' R' U F'", "F U2 F' U' F U2 F'"]]];
+const LEFT=[[["F U R U' R' F' R U' R'", "F' R' F U' F' U R U F"], ["R U2 R' U' R U R'"], ["F' U2 F U F' U' F"], ["U2 R2 U2 R' U' R U' R2", "R2 U R' U R U2 R' U' R'"], ["U2 R U R' F' U' F", "F' U F U2 F' U' F"], ["U R U2 R' U R U' R'", "U R U2 R2 F R F'"], ["R2 U R2 U R2 U2 R2", "U2 R2 U2 R2 U' R2 U' R2"], ["F' U F R U2 R'", "R U' R' F' U2 F"], ["U' F' U2 F U' F' U F", "U' F' U2 F U2 F' U2 F"], ["R f R2 f' R'", "R U' R' U2 R U R'"], ["R U' R' U2 F' U' F", "R U' f R' f' U2 R'"], ["U' R U' R' U R U R'", "U2 R2 U R' U R U2 R2"], ["F R' F' R", "U' F' U F"], ["R' U2 R2 U R2 U R", "U F' U2 F U' R U R'"], ["R2 U2 F R2 F' U2 R2", "U F' U2 F U F' U2 F"], ["R U R'"], ["U R U R' U2 R U R'", "U' R U2 R' U R U R'"], ["U2 F' U F U R U R'", "U F' U' F U' R U R'"], ["R2 f R f' U' R2", "R' U' R F R' F' U R"], ["U' R U R' U R U R'", "U2 R U' R' U' R U R'"], ["U' R U2 R' U F' U' F", "R' U' R F' U' R' U2 R F"], ["U R U' R'", "U2 R U2 R'"], ["U F' U F U' F' U' F", "F' U' R' F U' F' U R F"], ["F' U F U2 R U R'", "R f U R' U' f' R'"], ["R2 U f R' f' R2", "U R U R' U2 F' U' F"], ["U' R U R' U' R U2 R'", "U' R U R' U2 R U' R'"], ["U' R U' R' U' R U2 R'", "U' R U' R' U2 R U' R'"], ["U2 R U R' F R' F' R", "U' R U R' U F' U' F"], ["F' U' F"], ["U' R U2 R' U' R U2 R'", "U' R U2 R' U2 R U' R'"], ["R U2 R' U2 F' U' F", "U2 R U' R' F R' F' R"], ["R F R' U R U' F' R'", "R' F' R U R U' R' F"], ["R2 U2 F R2 F' U2 R' U R'", "R U' R U2 F R2 F' U2 R2"], ["U R U2 R' F' U2 F", "U F' U F U' F' U F"], ["R U R' U' R U R'", "U2 F' U F R U R'"], ["R U2 R U R' U R U2 R2", "R2 U2 F R' F' U2 R' U2 R'"], ["R U F R U R' U' F' R'", "R2 f R f' U' R' U R'"], ["U' R U' R' F' U' F", "U F' U' F U F' U' F"], ["R U' R' U R U' R'", "R U' R2 F R F'"], ["R2 U2 R' U' R U' R' U2 R'", "R U2 R U2 F R F' U2 R2"], ["R F U R U' R' F' U' R'", "R U' R U f R' f' R2"]], [["U R2 U2 R U R' U R2", "R U R' U R U2 R2 U R"], ["U' R' U2 F R U R' U' F' R", "F R U R' F R' F' U' R F'"], ["U' R' U2 R U R' U' R", "R U2 R2 U' R2 U' R2 U' R"], ["R' F R' F' R2 U' R' U R", "U R' U' R' U' F' U F R2"], ["U R' F R' F' R2", "U' R' F' U2 F R"], ["R' F' U2 F R U R' U' R", "U f R2 U R2 U' R f'"], ["f R2 f' R' U' R", "R f' U' f R' U R"], ["U R2 U2 R2 U R2 U R2", "U R' U F' U' F U' R"], ["U2 R' U2 R U' R' U R", "U2 R' U' F R' F' R2"], ["f U R U' R f'", "U' f U R2 U' f'"], ["R U2 R U' R U R' U2 R'", "U' R' U2 F' U' F U' R"], ["U2 f R' f' U f R f'", "R' F' U F U F' U' F U2 R"], ["U R' U2 R", "U2 R' U R"], ["R' U' F R' F' R U' R", "R' U2 R U' f R f'"], ["R' U2 R U R' U2 R", "R' U2 R U2 R' U R"], ["U' f R f'"], ["R' F R' F' R U' R", "R' U' R U' f R f'"], ["R' U R U R' U2 R", "R' U R U2 R' U R"], ["R' U' R U R' U2 R", "R' U' R U2 R' U R"], ["U' R2 U' F' U F R2", "R' U R U' f R f'"], ["U' R U2 R2 U' R2 U' R'", "U' R' U F' U2 F U2 R"], ["f R' f'", "R' F' U' F R"], ["R' U R U' R' U' R", "U R2 U' R U' R' U2 R2"], ["U' R' U F' U F U2 R", "U' R' U R U2 f R f'"], ["R' U' R U' R' U' R", "U R' U R U R' U' R"], ["U' R2 F' U' F U R2", "U f U R U' R2 f'"], ["U f R f' U' R' U R", "U f R' f' U' R' U' R"], ["R' U2 R U' R' U' R", "U2 R' U' R U2 R' U' R"], ["U' R' U' R"], ["U' F R U R2 U' R F'", "f R U R2 U' R2 f'"], ["R U2 F R F' U2 R'", "F R2 U R U' R2 F'"], ["R' U2 F' U F U2 R", "R' U2 R U2 f R f'"], ["R' U R F R U R2 U' R F'", "F R' U R2 U' R' F' R' U' R"], ["R' U' R U R' U' R", "U R' U F' U2 F R"], ["U' R' U2 R' F R F' R", "U' R' U2 R f R2 f'"], ["R2 F' U' F U R U' R", "R' U R f U R2 U' f'"], ["R' U2 R' U' R U' R' U2 R2", "R' U R U' R' U' F R' F' R2"], ["R' U R U' R' U R", "R' U R U2 R' U2 R"], ["U R' U R f R f'", "U2 f R' U R2 U' f'"], ["R' U R' U' F' U F R2", "f U R2 U' f' R' U' R"], ["R2 U2 R U R' U R U2 R", "R2 F R F' U R U R' U' R"]], [], [["F U R' U' F U R2 U' R' F' U F'", "F U R' F' U' F U R2 U2 R' U F'"], ["F' U2 R' F R U2 F", "f U2 R U R' U2 f'"], ["U F U2 R U2 R' U2 F'", "U' F' U2 R' F' R U2 F"], ["F U2 R f' U f R2 U F'", "F R U f R f' U R' U F'"], ["F R U2 R' U' R U R' U2 F'", "F U' R U2 R' U' R U2 R' F'"], ["F R U' R2 F R F' U F'", "F R U2 f' U f R2 U2 F'"], ["U2 F R U2 R' U F'", "U F U R U R' U F'"], ["F U' R2 f' U' f R' U2 F'", "F U' R U' f R' f' U' R' F'"], ["F R U2 R' U R U2 R' U F'", "F U2 R U' R' U R U2 R' F'"], ["F U2 F R' F' R F'", "F R f R f' R' U F'"], ["U2 F U' R U2 R' F'", "U' F U F' U' F U F'"], ["U F U' F R' F' R F'", "F R U' R' F' U F U' F'"], ["U' F U' R U R' U F'", "U2 F U' R U2 R' U F'"], ["R' U' F' U F R U2 F U F'", "U2 R' F' U' F U R F U F'"], ["U F U2 F' U' F U F'", "F R U R' U' R U2 R' F'"], ["F R U' R' U R U2 R' U F'", "R' F' U' F R' F R U F' R"], ["U F U F R' F' R U2 F'", "U F R U R' F' U F U F'"], ["r' U' F' U F' r", "U f U' f' U2 f U f'"], ["U' F U2 R U2 R' U F'", "U2 F U2 F' U F U' F'"], ["r' F' U r' F' r2"], ["U F R U2 R' F'", "R U2 F U F' U R'"], ["U' F U' R' F' U' F U R F'", "F R U' R' U2 F' U' F U F'"], ["F U2 F' U F U F'", "U2 F U2 R U2 R' F'"], ["U F U' R U' R' U2 F'", "U R' F U' R U' R' U2 F' R"], ["F U' F' U F U F'"], ["F R U R' F'", "r' F r"], ["U F U' R U2 R' U2 F'", "R' U2 R U F R' U R U F'"], ["F R F R U R' U' F' R' F'", "U2 R' U' F' U F R F U F'"], ["U F U F'"], ["f U' F' U F U f'", "U2 F R' F' U' F U R F'"], ["F U F' U F U F'", "U F U' R U R' U2 F'"], ["F R' F R F' U F'"], ["F U' R U' R' U F'", "F U' F' U' F U2 F'"], ["F U R' F R F' U F'"], ["U' F U2 F'", "U2 F U' F'"], ["F R U' R' U' R U R' U2 F'", "F R2 U2 R' U' R U' R2 U' F'"], ["U F U2 R U R' U F'", "R U2 R' F R U2 R2 F' R"], ["U2 F U R U' R' U2 F'", "F U2 R' F R F' U F'"], ["F U R U' R' U F'", "U' F R U R' U2 F'"], ["f R U' R' U f'", "U r' F' r"], ["F U2 R U' R' U F'", "F U2 F' U' F U2 F'"]]];
+const SN=["Передній правий","Задній правий","Задній лівий","Передній лівий"],HN=["Права рука","Ліва рука"],MIR=[3,2,1,0];
+const GN=["Кут і ребро в шарі U","Кут у U, ребро в слоті","Кут у слоті, ребро в U","Обидва в слоті"];
+const COL={U:'#ffd500',D:'#fff',F:'#1faa59',B:'#2563eb',R:'#e53935',L:'#ff8a00'};
+const COLN={U:'жовтий',D:'білий',F:'зелений',B:'синій',R:'червоний',L:'оранжевий'};
+const FL=n=>FN.find(f=>AX[f]+''==n+'');
+const S={k:0,h:0,tab:0,f:0,sel:0,c:0,e:0,cur:'',yaw:null,v:null};
+let LS={};
+const lk=n=>S.k+':'+S.h+':'+n,isL=n=>!!LS[lk(n)];
+const st=(k,alg)=>{let c=cHome(k),e=eHome(k);for(const t of parse(inv(alg))){c=MV[t][c];e=MV[t][e]}return[c,e]};
+const norm=(c,e)=>{let b;for(let i=0;i<4;i++){const s=c+'|'+e;if(!b||s<b)b=s;c=MV.U[c];e=MV.U[e]}return b};
+const R0=RIGHT[0].map(a=>{const[c,e]=st(0,a[0]);return{c,e,g:(ST[c].p[1]==-1?2:0)+(ST[e].p[1]==0?1:0),n:parse(a[0]).length,a:a[0]}}).sort((x,y)=>x.g-y.g||x.n-y.n||x.a.localeCompare(y.a));
+const NK={};R0.forEach((r,i)=>NK[norm(r.c,r.e)]=i);
+const YP=[];YI.forEach((v,i)=>YP[v]=i);
+const slotState=(n,k)=>{let c=R0[n].c,e=R0[n].e;for(let i=0;i<k;i++){c=YP[c];e=YP[e]}return canon(c,e,k)};
+const classNum=(c,e,k)=>{for(let i=0;i<k;i++){c=YI[c];e=YI[e]}return NK[norm(c,e)]};
+const memo={};
+function tbl(k,h){const id=k+','+h;if(memo[id])return memo[id];const l=h?LEFT[MIR[k]].map(a=>a.map(mirAlg)):RIGHT[k],map={};l.forEach(a=>{const[c,e]=st(k,a[0]);map[c+'|'+e]=a});return memo[id]=map}
+const UQ=['','','2',"'"];
+function full(a,alg){const p=parse(alg),q=t=>t.endsWith("'")?3:t.endsWith('2')?2:1;if(!a)return alg;if(p[0]&&p[0][0]=='U'){const s=(q(p[0])+a)%4;p.shift();if(s)p.unshift('U'+UQ[s])}else p.unshift('U'+UQ[a]);return p.join(' ')}
+function find(c,e,k,h){const map=tbl(k,h);for(let a=0;a<4;a++){const t=map[c+'|'+e];if(t)return{a,algs:t.map(x=>full(a,x))};c=MV.U[c];e=MV.U[e]}return null}
+const vec=(p,d)=>{const v=[0,0,0];v[d]=p[d];return v};
+function colors(c,e,k){const sl=SL[k],col={},pc=ST[c].p,nw=ST[c].n;
+ const ns=[0,1,2].filter(d=>pc[d]).map(d=>vec(pc,d)).filter(v=>v+''!=nw+'');
+ const h=Math.sign(dot(AX.D,crs(AX[sl.o],AX[sl.s])));let[m1,m2]=ns;if(Math.sign(dot(nw,crs(m1,m2)))!=h)[m1,m2]=[m2,m1];
+ col[c]=COL.D;col[IX[pc+'|'+m1]]=COL[sl.o];col[IX[pc+'|'+m2]]=COL[sl.s];
+ const pe=ST[e].p,nm=ST[e].n,o=[0,1,2].filter(d=>pe[d]).map(d=>vec(pe,d)).find(v=>v+''!=nm+'');
+ col[e]=COL[sl.s];col[IX[pe+'|'+o]]=COL[sl.o];return col}
+
+
+
+
+
+const PH=.5;
+function camV(yaw){const t=yaw*Math.PI/180,cs=Math.cos,sn=Math.sin;
+ return v=>{const x=v[0]*cs(t)-v[2]*sn(t),z1=v[0]*sn(t)+v[2]*cs(t);return[x,v[1]*cs(PH)-z1*sn(PH),v[1]*sn(PH)+z1*cs(PH)]}}
+function autoYaw(c,e,k){return k==2?315:45}
+const curYaw=()=>S.yaw==null?autoYaw(S.v.c,S.v.e,S.v.k):S.yaw;
+function svg(c,e,k,yaw,z){const sl=SL[k],V=camV(yaw),col=colors(c,e,k);let o='';
+ const poly=(pts,cls,f)=>`<polygon points="${pts.map(q=>{const r=V(q);return r[0].toFixed(2)+','+(-r[1]).toFixed(2)}).join(' ')}" class="${cls}"${f?` style="fill:${f}"`:''}/>`;
+ const quad=(ctr,n,r)=>{const t=[0,1,2].filter(d=>!n[d]),a=[0,0,0],b=[0,0,0];a[t[0]]=r;b[t[1]]=r;return[[1,1],[1,-1],[-1,-1],[-1,1]].map(([s1,s2])=>ctr.map((v,i)=>v+s1*a[i]+s2*b[i]))};
+ for(const f of FN){const n=AX[f];if(V(n)[2]>0)o+=poly(quad(n.map(v=>v*1.5),n,1.5),'fk')}
+ ST.forEach((s,i)=>{if(V(s.n)[2]<=0)return;const f=col[i]||(Math.abs(s.p[0])+Math.abs(s.p[1])+Math.abs(s.p[2])==1?COL[FL(s.n)]:0),inS=s.p+''==sl.c+''||s.p+''==[sl.c[0],0,sl.c[2]]+'',q=quad(s.p.map((v,j)=>v+s.n[j]*.5),s.n,.45);o+=poly(q,f?'fp':'fg',f||undefined);if(inS)o+=poly(q,'fo')});
+ let vb='-2.9 -2.9 5.8 5.8';
+ return`<svg viewBox="${vb}">${o}</svg>`}
+const refresh=()=>r3();
+let drag=null,anim=0;
+function pd(ev){cancelAnimationFrame(anim);drag={x:ev.clientX,p:curYaw()};try{ev.currentTarget.setPointerCapture(ev.pointerId)}catch(x){}}
+function pm(ev){if(!drag)return;S.yaw=drag.p-(ev.clientX-drag.x)*.6;refresh()}
+function pu(){drag=null}
+function animTo(t,end){cancelAnimationFrame(anim);const f=curYaw(),t0=performance.now(),ms=380;const step=now=>{let p=Math.min(1,(now-t0)/ms);p=1-Math.pow(1-p,3);S.yaw=f+(t-f)*p;refresh();if(p<1)anim=requestAnimationFrame(step);else if(end)S.yaw=null};anim=requestAnimationFrame(step)}
+function spin(d){animTo(curYaw()+d)}
+function toAuto(){const a=autoYaw(S.v.c,S.v.e,S.v.k),c=curYaw();animTo(c+(((a-c)%360)+540)%360-180,1)}
+function opts(k){const sl=SL[k],ch=sl.c,eh=[ch[0],0,ch[2]];
+ const nm=p=>(p[1]?(p[1]>0?'U':'D'):'')+(p[2]?(p[2]>0?'F':'B'):'')+(p[0]?(p[0]>0?'R':'L'):'');
+ const cs=[],es=[];
+ ST.forEach((s,i)=>{const[x,y,z]=s.p,n=Math.abs(x)+Math.abs(y)+Math.abs(z);
+  if(n==3&&(y==1||s.p+''==ch+''))cs.push([i,`${nm(s.p)}: білий стікер дивиться на ${FL(s.n)}`]);
+  if(n==2&&(y==1||s.p+''==eh+''))es.push([i,`${nm(s.p)}: ${COLN[sl.s]} стікер дивиться на ${FL(s.n)}`])});return{cs,es}}
+
+
+/* ===== інтерфейс, плеєр і 3D-рендер ===== */
+Object.assign(S,{open:0,vi:0,sp:1,sh:'',lk:'',D:null,n:null});
+const HS=['Права','Ліва'],SP=[['Повільно',1000],['Середня',480],['Швидко',220]];
+const FIL=['Всі','Вивчені','Не вивчені'],vis=n=>S.f==0||(S.f==1?isL(n):!isL(n)),allN=()=>R0.map((_,n)=>n);
+const I={play:'<path d="M8 5v14l11-7z"/>',pause:'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>',rep:'<path d="M12 5V2L8 6l4 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>',st:'<path d="M6 6h2.5v12H6zM10 12l8 6V6z"/>',bk:'<path class="s" d="M15 5l-7 7 7 7"/>',fw:'<path class="s" d="M9 5l7 7-7 7"/>',ck:'<path class="s" d="M5 12l5 5L20 7"/>',dn:'<path class="s" d="M6 9l6 6 6-6"/>'};
+I.grid='<path class="s" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>';
+I.tune='<path class="s" d="M4 8h8M18 8h2M4 16h2M12 16h8"/><circle class="s" cx="15" cy="8" r="2.4"/><circle class="s" cx="9" cy="16" r="2.4"/>';
+I.copy='<rect class="s" x="9" y="9" width="11" height="11" rx="1.5"/><path class="s" d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/>';
+I.rl='<path class="s" d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5"/>';
+I.rr='<path class="s" d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/>';
+I.home='<path class="s" d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5.5h4V20"/>';
+I.shuf='<path class="s" d="M3 7h3.5c2 0 3.2 1 4.4 3l2.2 4c1.2 2 2.4 3 4.4 3H21M3 17h3.5c1.4 0 2.4-.5 3.3-1.4M14.3 8.4C15.2 7.5 16.2 7 17.6 7H21M18 4l3 3-3 3M18 14l3 3-3 3"/>';
+I.stop='<path d="M7 7h10v10H7z"/>';
+I.arr='<path class="s" d="M20 12H5M11 6l-6 6 6 6"/>';
+I.hand='<path class="s" d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.83-2.26l-3.4-3.4a2 2 0 1 1 3.2-2.4L8 15"/>';
+const ic=(n,s=22)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+const SVG0='<svg viewBox="0 0 24 24" aria-hidden="true">';
+// символи без написів: рука (дзеркально для лівої), швидкість (кількість шевронів), слот (заповнена чверть), варіанти (крапки)
+const handIc=(h,s=20)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${h?'<g transform="translate(24 0) scale(-1 1)">'+I.hand+'</g>':I.hand}</svg>`;
+const slotIc=(k,s=20)=>{const q=[[12,12],[12,4],[4,4],[4,12]][k]||[12,12];return`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path class="s" d="M4 4h16v16H4zM12 4v16M4 12h16"/><rect x="${q[0]}" y="${q[1]}" width="8" height="8"/></svg>`};
+const dotsIc=(n,c)=>{const w=n*13+3;return`<svg class="i" width="${w}" height="16" viewBox="0 0 ${w} 16" aria-hidden="true">${Array.from({length:n},(_,i)=>`<circle ${i==c?'':'class="s" '}cx="${9+13*i}" cy="8" r="${i==c?4.5:3.6}"/>`).join('')}</svg>`};
+const learnedCount=(k,h)=>R0.filter((_,n)=>LS[k+':'+h+':'+n]).length;
+
+/* --- збереження (прогрес і швидкість синхронізуються разом з налаштуваннями) --- */
+function save(touch){try{localStorage.setItem(KEY,JSON.stringify({learned:LS,speed:S.sp}))}catch(x){}if(touch&&window.__prefsTouch)window.__prefsTouch()}
+function cleanL(o){const r={};if(o&&typeof o==='object')for(const k in o)if(/^\d:\d:\d{1,2}$/.test(k)&&o[k])r[k]=1;return r}
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){LS=cleanL(d.learned);if(+d.speed>=0&&+d.speed<=2)S.sp=+d.speed|0}}catch(x){}
+let ready=0;
+window.__f2lGet=()=>({learned:LS,speed:S.sp});
+window.__f2lSet=o=>{if(!o||typeof o!=='object')return;if(o.learned)LS=cleanL(o.learned);if(+o.speed>=0&&+o.speed<=2)S.sp=+o.speed|0;save(false);if(ready)render()};
+
+/* --- 3D-рендер: шар крутиться разом з підсвіченням слота --- */
+const qd=(c,n,r)=>{const t=[0,1,2].filter(d=>!n[d]),a=[0,0,0],b=[0,0,0];a[t[0]]=r;b[t[1]]=r;return[[1,1],[1,-1],[-1,-1],[-1,1]].map(([s,u])=>c.map((v,i)=>v+s*a[i]+u*b[i]))};
+const PL={oc:[],cid:[],seq:[],idx:0,an:null,play:0,raf:0,last:0,g:1,gt:0,tk:0};
+const ez=p=>p<.5?2*p*p:1-2*(1-p)*(1-p),invT=t=>t.endsWith("'")?t.slice(0,-1):t.endsWith('2')?t:t+"'";
+// кут повороту шару: X — на чверть за годинниковою, X2 — на півоберта, X' — на чверть ПРОТИ годинникової
+// (раніше X' крутився на три чверті за годинниковою — «U3» замість «U'»)
+const moveAng=t=>{const q=t.endsWith("'")?3:t.endsWith('2')?2:1;return q==3?Math.PI/2:-q*Math.PI/2};
+function r3(){const el=$('fcube');if(!el||!S.v)return;const V=camV(curYaw()),an=PL.an,sl=SL[S.v.k];let mv=null,pr=1;
+ if(an){const t=an.tok,f=t[0].toUpperCase();pr=ez(Math.min(1,an.t));const ph=moveAng(t)*pr;mv={a:AX[f],w:t[0]!=f,c:Math.cos(ph),s:Math.sin(ph)}}
+ const inL=p=>mv&&(mv.w?dot(p,mv.a)>=0:dot(p,mv.a)==1),
+ R=v=>{const d=dot(mv.a,v),x=crs(mv.a,v);return v.map((y,i)=>y*mv.c+x[i]*mv.s+mv.a[i]*d*(1-mv.c))},
+ pt=q=>{const r=V(q);return r[0].toFixed(2)+','+(-r[1]).toFixed(2)},out=[];
+ const add=(ctr,n,r,mov,eps,cls,fill)=>{let q=qd(ctr,n,r),nn=n,cc=ctr;if(mov){q=q.map(R);nn=R(n);cc=R(ctr)}
+  if(V(nn)[2]<=1e-6)return;out.push([V(cc)[2]+eps,`<polygon points="${q.map(pt).join(' ')}" class="${cls}"${fill?` style="fill:${fill}"`:''}/>`])};
+ for(const x of[-1,0,1])for(const y of[-1,0,1])for(const z of[-1,0,1]){if(!x&&!y&&!z)continue;const p=[x,y,z],m=inL(p);
+  for(const f of FN){const n=AX[f],q=p.map((v,i)=>v+n[i]);if(Math.max(...q.map(Math.abs))<=1&&!(mv&&inL(q)!=m))continue;add(p.map((v,i)=>v+n[i]*.5),n,.5,m,0,'fk')}}
+ ST.forEach((s,i)=>{const f=PL.cid[PL.oc[i]];add(s.p.map((v,j)=>v+s.n[j]*.5),s.n,.45,inL(s.p),.03,f?'fp':'fg',f)});
+ // підсвічування слота завжди стоїть на місці. Воно трішки згасає лише тоді, коли поточний рух зачіпає слот,
+ // тримається притьмареним, поки рухи по слоту тривають, і плавно відновлюється, щойно рух закінчився
+ const slc=sl.c,slp=[slc[0],0,slc[2]],isSlot=p=>p+''==slc+''||p+''==slp+'';
+ let hit=false;ST.forEach(s=>{if(isSlot(s.p)&&inL(s.p))hit=true});
+ const tnow=performance.now(),dtg=Math.min(100,tnow-(PL.gt||tnow));PL.gt=tnow;
+ const gtar=an&&hit?.4:1;PL.g+=(gtar-PL.g)*(1-Math.exp(-dtg/130));if(Math.abs(gtar-PL.g)<.01)PL.g=gtar;
+ const op=PL.g,stat=[];
+ ST.forEach(s=>{if(V(s.n)[2]>0&&isSlot(s.p))stat.push(`<polygon points="${qd(s.p.map((v,j)=>v+s.n[j]*.5),s.n,.45).map(pt).join(' ')}" class="fo"${op<1?` style="opacity:${op.toFixed(2)}"`:''}/>`)});
+ out.sort((a,b)=>a[0]-b[0]);el.innerHTML=`<svg viewBox="-2.9 -2.9 5.8 5.8">${out.map(x=>x[1]).join('')+stat.join('')}</svg>`;
+ if(PL.g<1&&!PL.raf&&!PL.tk)kick()}
+
+/* --- програвач алгоритму --- */
+const ap=(oc,t)=>{const P=MV[t],n=oc.slice();oc.forEach((id,i)=>n[P[i]]=id);return n};
+function jump(i){PL.g=1;PL.oc=ST.map((_,j)=>j);for(let j=0;j<i;j++)PL.oc=ap(PL.oc,PL.seq[j]);PL.idx=i;PL.an=null}
+function setup(alg){cancelAnimationFrame(PL.raf);PL.raf=0;PL.play=0;const{c,e,k}=S.v,col=colors(c,e,k);
+ PL.cid=ST.map((s,i)=>col[i]||(Math.abs(s.p[0])+Math.abs(s.p[1])+Math.abs(s.p[2])==1?COL[FL(s.n)]:null));PL.seq=alg?parse(alg):[];
+ jump(0)}
+const dur=t=>SP[S.sp][1]*(t.endsWith('2')?1.45:1);
+function nx(d){if(d>0?PL.idx>=PL.seq.length:PL.idx<=0)return 0;const t=d>0?PL.seq[PL.idx]:invT(PL.seq[PL.idx-1]);PL.an={tok:t,dir:d,t:0,d:dur(t)};upd();return 1}
+function cm(){const a=PL.an;PL.oc=ap(PL.oc,a.tok);PL.idx+=a.dir;PL.an=null;upd()}
+function tick(now){PL.raf=0;const dt=Math.min(60,now-PL.last);PL.last=now;
+ if(PL.an){PL.an.t+=dt/PL.an.d;if(PL.an.t>=1)cm()}
+ if(!PL.an&&PL.play&&!nx(1)){PL.play=0;upd()}
+ PL.tk=1;r3();PL.tk=0;if(PL.an||PL.play||PL.g<1)PL.raf=requestAnimationFrame(tick)}
+const kick=()=>{if(!PL.raf){PL.last=performance.now();PL.raf=requestAnimationFrame(tick)}};
+function tp(){if(!PL.seq.length)return;if(PL.play){PL.play=0;upd();return}if(PL.idx>=PL.seq.length&&!PL.an)jump(0);PL.play=1;upd();kick()}
+function stp(d){if(!PL.seq.length)return;PL.play=0;if(PL.an)cm();if(nx(d))kick();else{r3();upd()}}
+function jt(i){PL.play=0;jump(i);r3();upd()}
+function upd(){const n=PL.seq.length,cur=PL.an?(PL.an.dir>0?PL.idx:PL.idx-1):PL.idx-1,box=$('fchips');
+ [...box.querySelectorAll('.ft')].forEach((b,j)=>{b.classList.toggle('dn',j<cur);b.classList.toggle('on',j==cur)});
+ const el=box.querySelectorAll('.ft')[cur];if(el&&(el.offsetTop<box.scrollTop||el.offsetTop+el.offsetHeight>box.scrollTop+box.clientHeight))box.scrollTop=el.offsetTop-6;
+ $('fpp').innerHTML=ic(PL.play?'pause':(n&&PL.idx>=n&&!PL.an)?'rep':'play',26);$('fpl').classList.toggle('off',!n)}
+
+/* --- дані уроку --- */
+function ld(c,e,k,h){if(c==cHome(k)&&e==eHome(k))return{done:1,vars:[]};const a=find(c,e,k,h),b=find(c,e,k,1-h),m=a||b;if(!m)return{vars:[]};
+ const P=a?'':HN[1-h]+' · ',vars=[{l:P+'Основний',a:m.algs[0]}];if(m.algs[1])vars.push({l:P+'Запасний',a:m.algs[1]});if(a&&b)vars.push({l:HN[1-h],a:b.algs[0]});return{vars}}
+function drawLesson(){const k=S.k,h=S.h;let c,e,n;
+ if(S.tab==0){[c,e]=slotState(S.sel,k);n=S.sel}else{c=S.c;e=S.e;n=classNum(c,e,k)}
+ S.v={c,e,k};S.n=n;const D=ld(c,e,k,h);S.D=D;const key=[c,e,k,h].join();if(key!=S.lk){S.lk=key;S.vi=0}if(S.vi>=D.vars.length)S.vi=0;
+ const V=D.vars[S.vi];S.cur=V?V.a:'';setup(S.cur);
+ $('flt').innerHTML=`<b>${Number.isInteger(n)?'№'+(n+1):ic('tune',22)}</b><i title="${SN[k]} · ${HN[h]}" aria-label="${SN[k]}, ${HN[h]}">${slotIc(k,20)}${handIc(h,20)}</i>`;
+
+ const su=!D.done&&V?inv(S.cur):'';
+ $('fsetup').innerHTML=su?`<span class="fsu-i" title="Сетап: так кубик приводиться до цього випадку" aria-label="Сетап">${ic('shuf',22)}</span><div class="fsu-t">${su}</div><button type="button" class="fb sq fcp" data-a="cp" data-w="scr" title="Копіювати сетап" aria-label="Копіювати сетап">${ic('copy',20)}</button>`:'';
+ $('fcpa').hidden=!su;
+ $('fchips').scrollTop=0;
+ $('fchips').innerHTML=D.done?'<div class="fmsg">Пара вже на місці</div>':!V?'<div class="fmsg">Немає зручного алгоритму для цього слота.</div>':PL.seq.map((t,j)=>`<button type="button" class="ft" data-a="jt" data-i="${j+1}">${t}</button>`).join('');
+ const vb=$('fvb');vb.style.display=D.vars.length>1?'':'none';if(V){vb.innerHTML=dotsIc(D.vars.length,S.vi);vb.title='Варіант алгоритму: '+V.l;vb.setAttribute('aria-label',vb.title)}
+ drawAct();r3();upd()}
+function drawAct(){const n=S.n,ok=Number.isInteger(n),L=ok&&isL(n),cat=S.tab==0;
+ ['fgl','fgr'].forEach(id=>$(id).classList.toggle('off',!cat));
+ const fk=$('fok');fk.hidden=!ok;if(ok){fk.dataset.n=n;fk.classList.toggle('ok',L);fk.classList.toggle('ln',!L);fk.setAttribute('aria-pressed',L)}}
+const drawSp=drawAct;
+
+/* --- шапка, бічна панель, каталог --- */
+function drawHead(){
+ const T=[['Каталог','grid'],['Своя пара','tune']];
+ $('fhead').innerHTML=`<div class="ftabs" role="tablist">${T.map(([t,i],j)=>`<button type="button" role="tab" aria-selected="${S.tab==j}" aria-label="${t}" title="${t}" class="${S.tab==j?'on':''}" data-a="tab" data-i="${j}">${ic(i,22)}</button>`).join('')}</div>`+
+ `<button type="button" class="fb fchip" data-a="sh" data-v="set" title="${SN[S.k]} · ${HN[S.h]}" aria-label="Слот і рука: ${SN[S.k]}, ${HN[S.h]}">${slotIc(S.k)}${handIc(S.h)}${ic('dn',14)}</button>`;}
+function drawNav(){
+ const b=(a,i,on,label,extra)=>`<button type="button" class="${on?'on':''}" data-a="${a}" data-i="${i}"><span>${label}</span>${extra||''}</button>`;
+ $('fnav').innerHTML=`<div class="mnav-h">Слот</div>`+SN.map((n,i)=>b('slot',i,S.k==i,n,`<b>${learnedCount(i,S.k==i?S.h:(i>1?1:0))}/41</b>`)).join('')+
+ `<div class="mnav-h">Рука</div>`+HN.map((n,i)=>b('hand',i,S.h==i,n,`<b>${learnedCount(S.k,i)}/41</b>`)).join('')+
+ (S.tab==0?`<div class="mnav-h">Показувати</div>`+FIL.map((n,i)=>b('filt',i,S.f==i,n)).join(''):'')}
+function drawList(){const box=$('flist'),y=box.scrollTop,k=S.k;let t='';
+ if(S.tab==0){const list=allN().filter(vis);
+  for(let g=0;g<4;g++){const all=allN().filter(n=>R0[n].g==g),items=list.filter(n=>R0[n].g==g);if(!items.length)continue;
+   t+=`<div class="fgt"><span>${GN[g]}</span><span class="fgc">${all.filter(isL).length}/${all.length}</span></div><div class="fgrid">`;
+   items.forEach(n=>{const[cc,ee]=slotState(n,k),ok=find(cc,ee,k,S.h)||find(cc,ee,k,1-S.h);
+    t+=`<button type="button" class="fcase${n==S.sel?' on':''}${ok?'':' no'}" data-a="pick" data-n="${n}" aria-label="Випадок ${n+1}${isL(n)?', вивчено':''}"><em>№${n+1}</em>${isL(n)?`<i>${ic('ck',14)}</i>`:''}${svg(cc,ee,k,autoYaw(cc,ee,k))}</button>`});t+='</div>'}
+  if(!list.length)t+='<p class="fmu">Порожньо</p>'}
+ else{const o=opts(k),sl=SL[k],sel=(a,v,w)=>`<select data-sel="${w}">${a.map(([i,l])=>`<option value="${i}"${i==v?' selected':''}>${l}</option>`).join('')}</select>`;
+  t=`<div class="fpanel"><p class="fmu" style="margin:0 0 4px">Кут: білий + ${COLN[sl.o]} + ${COLN[sl.s]} · ребро: ${COLN[sl.o]} + ${COLN[sl.s]}</p><label class="flab">Кут (білий стікер)${sel(o.cs,S.c,'c')}</label><label class="flab">Ребро (${COLN[sl.s]} стікер)${sel(o.es,S.e,'e')}</label><button type="button" class="fb p fmob" data-a="open">Показати алгоритм</button></div>`}
+ box.innerHTML=t;box.scrollTop=y}
+function render(){$('f2l').classList.toggle('open',!!S.open);drawHead();drawNav();drawList();drawLesson();drawAct();if(S.sh)sh(S.sh)}
+
+/* --- дії --- */
+function reveal(){const b=document.querySelector('#flist .fcase.on'),l=$('flist');if(!b)return;const a=b.getBoundingClientRect(),c=l.getBoundingClientRect();if(a.top<c.top)l.scrollTop-=c.top-a.top+8;else if(a.bottom>c.bottom)l.scrollTop+=a.bottom-c.bottom+8}
+function pick(n){S.sel=n;S.yaw=null;S.open=1;render()}
+function go(d){const l=allN().filter(vis);if(!l.length)return;let i=l.indexOf(S.sel);i=i<0?(d>0?0:l.length-1):(i+d+l.length)%l.length;S.sel=l[i];S.yaw=null;render();reveal()}
+function setF(f){S.f=f;const l=allN().filter(vis);if(l.length&&!l.includes(S.sel))S.sel=l[0];S.yaw=null;render()}
+function setH(h){S.h=h;S.yaw=null;render()}
+function slotSet(k){S.k=k;S.h=k>1?1:0;S.yaw=null;const o=opts(k);S.c=o.cs[0][0];S.e=o.es[0][0];render()}
+function setC(v){S.c=v;S.yaw=null;drawLesson();drawAct()}
+function setE(v){S.e=v;S.yaw=null;drawLesson();drawAct()}
+function tab(i){S.tab=i;S.open=0;S.yaw=null;render()}
+function closeL(){PL.play=0;S.open=0;$('f2l').classList.remove('open')}
+function tog(n){const key=lk(n);if(LS[key])delete LS[key];else LS[key]=1;save(true);drawHead();drawNav();drawList();drawAct()}
+function toast(m){const t=$('ftoast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),1600)}
+function cp(txt){if(!txt)return;const fb=()=>{const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();let ok=0;try{ok=document.execCommand('copy')}catch(y){}t.remove();toast(ok?'Скопійовано':'Не вдалося скопіювати')};
+ try{navigator.clipboard.writeText(txt).then(()=>toast('Скопійовано'),fb)}catch(x){fb()}}
+function pv(i){S.vi=i;cs();drawLesson()}
+function pSp(i){S.sp=i;save(true);cs();drawSp()}
+function shHTML(){const t=S.sh,opt=(a,sel,act,cls)=>a.map((n,i)=>`<button type="button" class="fb ${cls||''} ${sel==i?'on':''}" data-a="${act}" data-i="${i}">${n}</button>`).join('');
+ if(t=='set')return`<h3>Слот</h3><div class="fg2">${opt(SN,S.k,'slot')}</div><h3>Рука</h3><div class="fg2">${opt(HN,S.h,'hand')}</div>${S.tab==0?`<h3>Показувати</h3><div class="fg3">${opt(FIL,S.f,'filt')}</div>`:''}<button type="button" class="fb p w" data-a="csh">Готово</button>`;
+ if(t=='var')return`<h3>Варіант алгоритму</h3>`+S.D.vars.map((v,i)=>`<button type="button" class="fb vo ${i==S.vi?'on':''}" data-a="pv" data-i="${i}"><span>${v.l}</span><code>${v.a}</code></button>`).join('');
+ if(t=='spd')return`<h3>Швидкість відтворення</h3>`+SP.map((s,i)=>`<button type="button" class="fb vo ${i==S.sp?'on':''}" data-a="psp" data-i="${i}"><span>${s[0]}</span></button>`).join('');
+ if(t=='more'){const has=!!S.cur;return`<h3>Рука</h3><div class="fg2">${opt(HN,S.h,'hand')}</div><h3>Швидкість</h3><div class="fg3">${opt(SP.map(x=>x[0]),S.sp,'psp')}</div><h3>Алгоритм</h3>${has?`<button type="button" class="fb w" data-a="cp" data-w="alg">Копіювати алгоритм</button><button type="button" class="fb w" data-a="cp" data-w="scr">Копіювати сетап</button><p class="fmu">Сетап: ${inv(S.cur)}</p>`:'<p class="fmu">Для цього випадку алгоритму немає.</p>'}<button type="button" class="fb p w" data-a="csh">Готово</button>`}
+ return''}
+function sh(t){S.sh=t;const el=$('fsh');el.innerHTML=`<div class="fsheet" role="dialog" aria-modal="true">${shHTML()}</div>`;el.classList.add('on')}
+function cs(){S.sh='';$('fsh').classList.remove('on')}
+
+/* --- події (без inline-обробників) --- */
+function act(el){const a=el.dataset.a,d=el.dataset;
+ switch(a){
+  case 'tab':tab(+d.i);break;case 'slot':slotSet(+d.i);break;case 'hand':setH(+d.i);break;case 'filt':setF(+d.i);break;
+  case 'pick':pick(+d.n);break;case 'close':closeL();break;case 'sh':sh(d.v);break;case 'csh':cs();break;
+  case 'jt':jt(+d.i);break;case 'stp':stp(+d.d);break;case 'tp':tp();break;case 'go':go(+d.d);break;case 'tog':tog(+d.n);break;
+  case 'pv':pv(+d.i);break;case 'psp':pSp(+d.i);break;case 'spin':spin(+d.d);break;case 'auto':toAuto();break;
+  case 'cp':cp(d.w=='alg'?S.cur:inv(S.cur));break;case 'rst':jt(0);toAuto();break;case 'open':S.open=1;render();break;
+ }}
+function onClick(e){const el=e.target.closest&&e.target.closest('[data-a]');if(el)act(el)}
+$('f2l').addEventListener('click',onClick);
+$('fnav').addEventListener('click',e=>{onClick(e);if(document.body.classList.contains('mobile'))document.body.classList.remove('nav-open')});
+$('f2l').addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.sel){if(t.dataset.sel=='c')setC(+t.value);else setE(+t.value)}});
+$('fsh').addEventListener('click',e=>{if(e.target===$('fsh'))cs()});
+$('fcube').addEventListener('pointerdown',pd);$('fcube').addEventListener('pointermove',pm);$('fcube').addEventListener('pointerup',pu);$('fcube').addEventListener('pointercancel',pu);
+addEventListener('keydown',x=>{if(!document.body.classList.contains('f2l-mode')||x.ctrlKey||x.metaKey||x.altKey)return;
+ const tg=x.target.tagName;if(x.target.isContentEditable)return;
+ if(x.key=='Escape'){if(S.sh)cs();else if(S.open)closeL();return}
+ if(S.tab==0&&!S.sh&&tg!='SELECT'&&tg!='INPUT'&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(x.key)){x.preventDefault();go(x.key=='ArrowLeft'||x.key=='ArrowUp'?-1:1)}
+ else if(x.code=='Space'&&tg!='BUTTON'&&tg!='SELECT'&&tg!='INPUT'&&!S.sh){x.preventDefault();tp()}});
+
+/* --- запуск --- */
+const SV='<svg viewBox="0 0 24 24" aria-hidden="true">';
+$('fback').innerHTML=SV+'<path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+$('fback').addEventListener('click',()=>document.body.classList.add('nav-open'));
+$('fnotes').innerHTML=SV+'<path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg>';
+$('fnotes').addEventListener('click',()=>{if(window.__setMode)window.__setMode('notes')});
+$('fclose').innerHTML=SV+'<path d="M6 6l12 12M18 6L6 18"/></svg>';
+$('fmore').innerHTML=SV+'<path d="M5 12h.01M12 12h.01M19 12h.01"/></svg>';
+$('fgl').innerHTML=ic('bk',24);$('fgr').innerHTML=ic('fw',24);$('frl').innerHTML=ic('rl',24);$('fra').innerHTML=ic('home',24);$('frr').innerHTML=ic('rr',24);
+$('fali').innerHTML=ic('play',20);$('fcpa').innerHTML=ic('copy',20);$('fclose').innerHTML=ic('arr',24);$('fok').innerHTML=ic('ck',22);
+$('fb0').innerHTML=ic('st');$('fb3').innerHTML=ic('stop',22);$('fb1').innerHTML=ic('bk');$('fb2').innerHTML=ic('fw');
+window.__f2lShow=()=>{S.yaw=null;render();reveal()};
+slotSet(0);ready=1;
+/*DBG*/
+
 })();</script>
 
 <script>;(function(){
