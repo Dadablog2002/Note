@@ -1164,14 +1164,15 @@ body:not(.mobile) #f2l .fchip{display:none}
 #f2l .fl-t span{font-size:var(--fs);color:var(--muted);overflow-wrap:anywhere}
 #f2l .frot{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:2;display:flex;justify-content:center;gap:12px}
 #f2l .fnv{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:var(--white)}
-#f2l .fnv.l{left:10px}#f2l .fnv.r{right:10px}
+#f2l .fb.sq.fnv{width:40px;min-height:64px}
+#f2l .fnv.l{left:6px}#f2l .fnv.r{right:6px}
 #f2l .fnv.off{display:none}
 #f2l .fb.sm{min-height:34px;padding:0 10px;font-size:var(--fs)}
 #f2l .fb>svg:not(.i){width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 #f2l #fclose,#f2l #fmore{color:var(--ink)}
 #f2l #fmore svg{stroke-width:4.5}
 #f2l .fstage{position:relative;flex:1 1 0!important;min-height:160px;background:var(--white);border:2px solid var(--edge,var(--ink))}
-#f2l #fcube{position:absolute;inset:8px 0 64px;touch-action:none;cursor:grab}
+#f2l #fcube{position:absolute;inset:8px 52px 64px;touch-action:none;cursor:grab}
 #f2l #fcube:active{cursor:grabbing}
 #f2l #fcube svg{display:block;width:100%;height:100%}
 #f2l .fvar{flex:none;min-width:48px;min-height:46px;padding:0 9px}
@@ -2026,7 +2027,16 @@ body.mobile #fsh .fsheet{max-width:none;border-width:2px 0 0;box-shadow:none;pad
   }
   function openSettings(){
     function close(){closeOv(ov)}
-    function opt(text,on,fn){var cb=h('input',{type:'checkbox'});cb.checked=on;cb.addEventListener('change',function(){fn(cb.checked)});return h('label',{class:'opt'},[cb,h('span',{text:text})])}
+    var FS={
+  d:function(){return document.documentElement},
+  ok:function(){var d=this.d();return !!(d.requestFullscreen||d.webkitRequestFullscreen)},
+  el:function(){return document.fullscreenElement||document.webkitFullscreenElement||null},
+  on:function(){var d=this.d(),r=d.requestFullscreen?d.requestFullscreen({navigationUI:'hide'}):d.webkitRequestFullscreen();return Promise.resolve(r)},
+  off:function(){var r=document.exitFullscreen?document.exitFullscreen():document.webkitExitFullscreen&&document.webkitExitFullscreen();return Promise.resolve(r)}
+};
+/* браузер дозволяє повний екран лише після дотику/кліку — тому «запам'ятаний» режим вмикається першим же дотиком після відкриття */
+document.addEventListener('pointerdown',function fsOnce(){document.removeEventListener('pointerdown',fsOnce,true);try{if(settings&&settings.fs&&FS.ok()&&!FS.el())FS.on().catch(function(){})}catch(e){}},true);
+function opt(text,on,fn){var cb=h('input',{type:'checkbox'});cb.checked=on;cb.addEventListener('change',function(){fn(cb.checked)});return h('label',{class:'opt'},[cb,h('span',{text:text})])}
     var dbox=h('div'),tbox=h('div');
     function drawTypes(fid,fcls){
       dbox.textContent='';
@@ -2094,6 +2104,20 @@ body.mobile #fsh .fsheet{max-width:none;border-width:2px 0 0;box-shadow:none;pad
     drawSz();
     kids.push(h('h3',{text:'Розмір тексту'}),h('p',{class:'hint',style:'margin:0 0 8px',text:'Змінює розмір усього тексту в додатку на цьому пристрої. Окремо розмір виділеного тексту міняють кнопки A− / A+ над полем.'}),szBox);
     kids.push(h('h3',{text:'Час'}),opt('24-годинний формат',settings.h24,function(on){settings.h24=on;saveSettings();renderAll()}));
+    var fsBox=h('div');
+    function drawFs(){
+      fsBox.textContent='';
+      if(!FS.ok()){fsBox.appendChild(h('p',{class:'hint',style:'margin:0',text:'На iPhone та iPad браузер не вміє розгортати сайт на весь екран. Додай додаток на головний екран («Поділитися» → «На екран “Додому”») — він відкриватиметься без рядка браузера.'}));return}
+      fsBox.appendChild(opt('Повноекранний режим',!!FS.el(),function(on){
+        settings.fs=on;saveSettings();
+        (on?FS.on():FS.off()).catch(function(){toast('Браузер не дозволив повний екран');settings.fs=false;saveSettings();drawFs()});
+      }));
+      fsBox.appendChild(h('p',{class:'hint',style:'margin:6px 0 0',text:'Вихід — той самий перемикач або клавіша Esc. Режим пам’ятається: після перезапуску він увімкнеться першим дотиком.'}));
+    }
+    function onFs(){if(!FS.el()&&settings.fs&&document.visibilityState==='visible'){settings.fs=false;saveSettings()}if(fsBox.isConnected)drawFs()}
+    document.addEventListener('fullscreenchange',onFs);document.addEventListener('webkitfullscreenchange',onFs);
+    drawFs();
+    kids.push(h('h3',{text:'Екран'}),fsBox);
     kids.push(h('h3',{text:'Гарячі клавіші'}));
     [[MOD+'+N або Alt+N','Нова нотатка'],[MOD+'+F','Пошук по нотатках'],['Delete','Видалити відкриту нотатку (у Кошик)'],['Alt+↑ / Alt+↓','Пересунути нотатку в списку (клавіатура на рядку)'],['Права кнопка / довге натискання','Власне меню: вирізати, копіювати, вставити, виділити все; на блоках і нотатках — ще й дублювання'],[MOD+' + мишка','Виділити кілька фрагментів тексту. Далі '+MOD+'+C, '+MOD+'+X, Delete, «Ж» чи колір — для всіх одразу'],[MOD+'+A, потім Delete','У полі тегів: видалити всі теги']].forEach(function(r){
       kids.push(h('div',{class:'keyrow'},[h('kbd',{class:'kbd',text:r[0]}),h('span',{text:r[1]})]));
@@ -4451,7 +4475,7 @@ function r3(){const el=$('fcube');if(!el||!S.v)return;const V=camV(curYaw()),an=
  const gtar=an&&hit?.4:1;PL.g+=(gtar-PL.g)*(1-Math.exp(-dtg/130));if(Math.abs(gtar-PL.g)<.01)PL.g=gtar;
  const op=PL.g,stat=[];
  ST.forEach(s=>{if(V(s.n)[2]>0&&isSlot(s.p))stat.push(`<polygon points="${qd(s.p.map((v,j)=>v+s.n[j]*.5),s.n,.45).map(pt).join(' ')}" class="fo"${op<1?` style="opacity:${op.toFixed(2)}"`:''}/>`)});
- out.sort((a,b)=>a[0]-b[0]);el.innerHTML=`<svg viewBox="-2.9 -2.9 5.8 5.8">${out.map(x=>x[1]).join('')+stat.join('')}</svg>`;
+ out.sort((a,b)=>a[0]-b[0]);el.innerHTML=`<svg viewBox="-2.7 -2.7 5.4 5.4">${out.map(x=>x[1]).join('')+stat.join('')}</svg>`;
  if(PL.g<1&&!PL.raf&&!PL.tk)kick()}
 
 /* --- програвач алгоритму --- */
