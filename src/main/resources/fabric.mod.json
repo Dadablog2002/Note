@@ -1,9 +1,0 @@
-{
-  "schemaVersion": 1,
-  "id": "autoah",
-  "version": "1.0",
-  "name": "AutoAH",
-  "environment": "client",
-  "entrypoints": { "client": ["autoah.AutoAh"] },
-  "depends": { "fabricloader": "*", "fabric": "*", "minecraft": "1.16.5" }
-}
